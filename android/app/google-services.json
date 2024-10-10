@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "721702625231",
+    "project_id": "fir-mart-2670a",
+    "storage_bucket": "fir-mart-2670a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:721702625231:android:f770542ea361e840a6bcba",
+        "android_client_info": {
+          "package_name": "com.example.e_commerce"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCjUVMrtlp4OxkFMHIDe_crX7MQY_SYh5c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
