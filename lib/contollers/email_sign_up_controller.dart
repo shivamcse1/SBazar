@@ -47,26 +47,26 @@ class EmailSignUpController extends GetxController{
 
 
             UserModel userModel =UserModel(
-              uId:userCredential.user!.uid , 
-              username: userName, 
-              email: userEmail, 
-              phone: userPhone, 
+              userUid:userCredential.user!.uid , 
+              userName: userName, 
+              userEmail: userEmail, 
+              userPhone: userPhone, 
               userImg: '', 
               userDeviceToken: deviceTokenContoller.deviceToken.toString(), 
-              country: 'IN', 
+              userCountry: 'IN', 
               userAddress: '', 
-              street: '', 
+              userStreet: '', 
               isAdmin: false, 
               isActive: true, 
-              createdOn: DateTime.now(), 
-              city: userCity
+              createdAt: DateTime.now(), 
+              userCity: userCity
               );
 
             
             // store data of user in firestore
 
            await FirebaseFirestore.instance
-            .collection(DatabaseKeyConstant.userCollection)
+            .collection(DbKeyConstant.userCollection)
             .doc(userCredential.user!.uid)
             .set(userModel.toMap());
             

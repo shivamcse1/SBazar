@@ -32,7 +32,6 @@ class SplashScreenState extends State<SplashScreen> {
     Timer(const Duration(seconds: 3),(){
        getUserInfo();
     });
-
   }
 
   Future<void> getUserInfo() async{
@@ -52,7 +51,6 @@ class SplashScreenState extends State<SplashScreen> {
        Get.off(()=>const WelcomeScreen());
       }
   }
-   
 
   @override
   Widget build(BuildContext context) {

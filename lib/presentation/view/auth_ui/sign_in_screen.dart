@@ -145,18 +145,19 @@ class SignInScreenState extends State<SignInScreen> {
 
                       final userData = await checkUserDataController.getUserData(userCredential!.user!.uid);
                        if(userCredential != null){
-                          
+                           
                           if(userCredential.user!.emailVerified){
                              
                              if(userData[0]["isAdmin"]== true){
-
+                                    
                               Get.offAll(()=> const AdminHomeScreen());
                               SnackbarHelper.customSnackbar(
                               titleMsg: "Congratulations! Admin", msg: "Sign In Successfull!"
                               );
 
                              } else{
-
+                                    
+                    
                               Get.offAll( () =>const UserHomeScreen());
                               SnackbarHelper.customSnackbar(
                               titleMsg: "Congratulations! User", msg: "Sign In Successfull!"
@@ -164,6 +165,7 @@ class SignInScreenState extends State<SignInScreen> {
 
                              }
                             }else{
+                               print("jdskdskndsk");
                               SnackbarHelper.customSnackbar(
                               titleMsg: "Error occured", msg: "Please Verify Email Before Sign In"
                               );

@@ -1,69 +1,69 @@
 class UserModel {
-  final String uId;
-  final String username;
-  final String email;
-  final String phone;
+  final String userUid;
+  final String userName;
+  final String userEmail;
+  final String userPhone;
   final String userImg;
   final String userDeviceToken;
-  final String country;
+  final String userCountry;
   final String userAddress;
-  final String street;
+  final String userStreet;
   final bool isAdmin;
   final bool isActive;
-  final dynamic createdOn;
-  final String city;
+  final dynamic createdAt;
+  final String userCity;
 
   UserModel({
-    required this.uId,
-    required this.username,
-    required this.email,
-    required this.phone,
+    required this.userUid,
+    required this.userName,
+    required this.userEmail,
+    required this.userPhone,
     required this.userImg,
     required this.userDeviceToken,
-    required this.country,
+    required this.userCountry,
     required this.userAddress,
-    required this.street,
+    required this.userStreet,
     required this.isAdmin,
     required this.isActive,
-    required this.createdOn,
-    required this.city,
+    required this.createdAt,
+    required this.userCity,
   });
 
   // Serialize the UserModel instance to a JSON map
   Map<String, dynamic> toMap() {
     return {
-      'uId': uId,
-      'username': username,
-      'email': email,
-      'phone': phone,
+      'userUid': userUid,
+      'userName': userName,
+      'userEmail': userEmail,
+      'userPhone': userPhone,
       'userImg': userImg,
       'userDeviceToken': userDeviceToken,
-      'country': country,
+      'userCountry': userCountry,
       'userAddress': userAddress,
-      'street': street,
+      'userStreet': userStreet,
       'isAdmin': isAdmin,
       'isActive': isActive,
-      'createdOn': createdOn,
-      'city': city,
+      'createdAt': createdAt,
+      'userCity': userCity,
     };
   }
 
   // Create a UserModel instance from a JSON map
   factory UserModel.fromMap(Map<String, dynamic> json) {
     return UserModel(
-      uId: json['uId'],
-      username: json['username'],
-      email: json['email'],
-      phone: json['phone'],
+      userUid: json['userUid'],
+      userName: json['userName'],
+      userEmail: json['userEmail'],
+      userPhone: json['userPhone'],
       userImg: json['userImg'],
       userDeviceToken: json['userDeviceToken'],
-      country: json['country'],
+      userCountry: json['userCountry'],
       userAddress: json['userAddress'],
-      street: json['street'],
+      userStreet: json['userStreet'],
       isAdmin: json['isAdmin'],
       isActive: json['isActive'],
-      createdOn: json['createdOn'].toString(),
-      city: json['city'],
+      createdAt: json['createdAt'],
+      userCity: json['userCity'],
     );
   }
 }

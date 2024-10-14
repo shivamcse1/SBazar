@@ -55,25 +55,25 @@ Future<void> signInWithGoogleAccount () async{
         if(user!=null){
 
           UserModel userModel =UserModel(
-            uId: user.uid, 
-            username: user.displayName.toString(), 
-            email: user.email.toString(), 
-            phone: user.phoneNumber.toString(), 
+            userUid: user.uid, 
+            userName: user.displayName.toString(), 
+            userEmail: user.email.toString(), 
+            userPhone: user.phoneNumber.toString(), 
             userImg: user.photoURL.toString(), 
             userDeviceToken: deviceTokenContoller.deviceToken.toString(), 
-            country: '', 
+            userCountry: '', 
             userAddress: '', 
-            street: '', 
+            userStreet: '', 
             isAdmin: false, 
             isActive: true, 
-            createdOn: DateTime.now(), 
-            city:''
+            createdAt: DateTime.now(), 
+            userCity:''
             
             );
 
 
           await FirebaseFirestore.instance
-          .collection(DatabaseKeyConstant.userCollection)
+          .collection(DbKeyConstant.userCollection)
           .doc(user.uid)
           .set(userModel.toMap());
 

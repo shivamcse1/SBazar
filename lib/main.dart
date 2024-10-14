@@ -1,13 +1,8 @@
 import 'package:e_commerce/firebase_options.dart';
-import 'package:e_commerce/presentation/view/auth_ui/sign_in_screen.dart';
-import 'package:e_commerce/presentation/view/auth_ui/splash_screen.dart';
-import 'package:e_commerce/presentation/view/auth_ui/welcome_screen.dart';
+import 'package:e_commerce/presentation/view/user_panel/home_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-
-import 'presentation/view/auth_ui/sign_up_screen.dart';
 
 void main() async{
 
@@ -32,32 +27,32 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      // home: const SignUpScreen(),
-      initialRoute: '/',
-      builder: EasyLoading.init(),
-      getPages: [
-        GetPage(
-          name: '/', 
-          page: ()=> const SplashScreen()
-          ),
+      home: const UserHomeScreen(),
+      // initialRoute: '/',
+      // builder: EasyLoading.init(),
+      // getPages: [
+      //   GetPage(
+      //     name: '/', 
+      //     page: ()=> const SplashScreen()
+      //     ),
 
-        GetPage(
-           name: '/welcomeScreen',
-           page: ()=> const WelcomeScreen()
-          ),
+      //   GetPage(
+      //      name: '/welcomeScreen',
+      //      page: ()=> const WelcomeScreen()
+      //     ),
 
-        GetPage(
-          name: '/signUpScreen', 
-          page: ()=> const SignUpScreen()
-          ),
+      //   GetPage(
+      //     name: '/signUpScreen', 
+      //     page: ()=> const SignUpScreen()
+      //     ),
 
-        GetPage(
-          name: '/signInScreen', 
-          page: ()=> const SignInScreen()
-          ),
+      //   GetPage(
+      //     name: '/signInScreen', 
+      //     page: ()=> const SignInScreen()
+      //     ),
         
 
-      ],
+      // ],
     );
   }
 }
