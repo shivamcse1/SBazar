@@ -1,6 +1,6 @@
 // ignore_for_file: avoid_unnecessary_containers
 
-import 'package:e_commerce/contollers/email_sign_up_controller.dart';
+import 'package:e_commerce/controllers/email_sign_up_controller.dart';
 import 'package:e_commerce/core/constant/color_const.dart';
 import 'package:e_commerce/presentation/view/auth_ui/sign_in_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';

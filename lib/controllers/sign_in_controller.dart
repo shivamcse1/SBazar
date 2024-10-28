@@ -1,22 +1,51 @@
-
-// ignore_for_file: avoid_print, unused_local_variable
+// ignore_for_file: body_might_complete_normally_nullable
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:e_commerce/contollers/device_token_contoller.dart';
-import 'package:e_commerce/core/constant/database_key_const.dart';
 import 'package:e_commerce/core/error/exception/firebase_exception.dart';
-import 'package:e_commerce/data/model/user_model.dart';
-import 'package:e_commerce/presentation/view/user_panel/home_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-class GoogleSignInContoller extends GetxController{
- 
+import '../core/constant/database_key_const.dart';
+import '../data/model/user_model.dart';
+import '../presentation/view/user_panel/home/home_screen.dart';
+import 'device_token_contoller.dart';
 
-Future<void> signInWithGoogleAccount () async{
+class SignInController extends GetxController{
+final TextEditingController emailController = TextEditingController();
+final TextEditingController passwordController = TextEditingController();
+final RxBool isPasswordVisible = true.obs;
+
+ Future <UserCredential?> signInWithEmail(
+    {
+     required String userEmail,
+     required String userPassword,
+    }
+    ) 
+    async{
+             try{
+                 EasyLoading.show(status: "Please wait...");
+
+                 UserCredential userCredential =  await FirebaseAuth.instance.signInWithEmailAndPassword(
+                 email: userEmail, 
+                 password: userPassword);
+           
+                EasyLoading.dismiss();
+                return userCredential;
+
+             } on FirebaseException catch(ex){
+                EasyLoading.dismiss();
+             
+                // exception handler
+                FirebaseExceptionHelper.exceptionHandler(ex);   
+             }
+
+      }
+  
+ Future<void> signInWithGoogleAccount () async{
  final DeviceTokenContoller deviceTokenContoller = Get.put(DeviceTokenContoller());
  try{
       
@@ -92,4 +121,6 @@ Future<void> signInWithGoogleAccount () async{
  }
 
 }
+
+
 }

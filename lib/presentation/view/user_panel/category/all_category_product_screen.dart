@@ -1,29 +1,38 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commerce/core/constant/color_const.dart';
+import 'package:e_commerce/data/model/product_model.dart';
+import 'package:e_commerce/utils/Uihelper/ui_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../../core/constant/app_const.dart';
+import '../../../../core/constant/database_key_const.dart';
+import '../../../../core/constant/textstyle_const.dart';
+import '../details_page/details_screen.dart';
 
-import '../../../core/constant/app_const.dart';
-import '../../../core/constant/database_key_const.dart';
-import '../../../core/constant/textstyle_const.dart';
-import '../../../data/model/category_model.dart';
+class AllCategoryProductScreen extends StatefulWidget {
+  String categoryId ;
 
-class AllCategoryScreen extends StatefulWidget {
-  const AllCategoryScreen({super.key});
+  AllCategoryProductScreen({
+    super.key,
+    required this.categoryId
+    
+    });
 
   @override
-  State<AllCategoryScreen> createState() => AllCategoryScreenState();
+  State<AllCategoryProductScreen> createState() => AllCategoryProductScreenState();
 }
 
-class AllCategoryScreenState extends State<AllCategoryScreen> {
+class AllCategoryProductScreenState extends State<AllCategoryProductScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           iconTheme: IconThemeData(color: ColorConstant.whiteColor),
           backgroundColor: AppConstant.appPrimaryColor,
-          title: Text("All Category", style: TextStyle(color: AppConstant.whiteColor),),
+          title: Text("Product", style: TextStyle(color: AppConstant.whiteColor),),
         ),
 
         body:  Padding(
@@ -32,7 +41,8 @@ class AllCategoryScreenState extends State<AllCategoryScreen> {
             
               future: FirebaseFirestore
                       .instance
-                      .collection(DbKeyConstant.categoryCollection)
+                      .collection(DbKeyConstant.productCollection)
+                      .where('categoryId' , isEqualTo : widget.categoryId)
                       .get(), 
                 builder: (context , snapshot){
                 
@@ -52,9 +62,7 @@ class AllCategoryScreenState extends State<AllCategoryScreen> {
                  }
           
                  if(snapshot.data!.docs.isEmpty){
-                  return const Center(
-                    child: Text("No category found"),
-                  );
+                  return UiHelper.noProductFound();
                  }
           
               if(snapshot.data != null){
@@ -64,22 +72,35 @@ class AllCategoryScreenState extends State<AllCategoryScreen> {
                 itemCount: snapshot.data!.docs.length,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-                crossAxisSpacing: 10,
+                crossAxisSpacing: 15,
+                mainAxisSpacing: 10,
                 childAspectRatio: 1,
                 ), 
                 itemBuilder: (context,index){
-          
-                  CategoryModel categoryModel = CategoryModel(
-                    categoryId: snapshot.data!.docs[index][DbKeyConstant.categoryId], 
-                    categoryName:snapshot.data!.docs[index][DbKeyConstant.categoryName], 
-                    categoryImg: snapshot.data!.docs[index][DbKeyConstant.categoryImg], 
-                    categoryCreatedAt: snapshot.data!.docs[index][DbKeyConstant.createdAt], 
-                    ) ;
-                return Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(1.0),
+                 
+                 final productData = snapshot.data!.docs;
+                 ProductModel productModel = ProductModel(
+                  productId: productData[index]['productId'], 
+                  categoryId: productData[index]['categoryId'],
+                  productName: productData[index]['productName'], 
+                  categoryName: productData[index]['categoryName'], 
+                  salePrice: productData[index]['salePrice'], 
+                  fullPrice: productData[index]['fullPrice'], 
+                  productImgList: productData[index]['productImgList'], 
+                  deliveryTime: productData[index]['deliveryTime'], 
+                  isSale: productData[index]['isSale'], 
+                  productDescription: productData[index]['productDescription']
+                  );
+
+               return Padding(
+                  padding: const EdgeInsets.only(top: 5.0),
+                  child: InkWell(
+                    onTap: (){
+                      Get.to(()=> DetailsScreen(productModel: productModel,));
+                    
+                    },
+                    child: Container(
+                      // padding: const EdgeInsets.all(1.0),
                       decoration: BoxDecoration(
                         border: Border.all(
                           color: ColorConstant.pinkColor
@@ -95,9 +116,9 @@ class AllCategoryScreenState extends State<AllCategoryScreen> {
                         children: [
                     
                           ClipRRect(
-                            borderRadius: BorderRadius.circular(5.0),
-                            child: Image.network(categoryModel.categoryImg,
-                            height: Get.height/6.5,
+                            borderRadius: BorderRadius.circular(10.0),
+                            child: Image.network(productModel.productImgList[0],
+                            height: Get.height/6,
                             width: Get.width/2.0,
                             fit: BoxFit.cover,
                             ),
@@ -107,8 +128,8 @@ class AllCategoryScreenState extends State<AllCategoryScreen> {
                           SizedBox(
                             width: Get.width,
                             
-                            child: Text(categoryModel.categoryName,
-                            style: TextStyleConstant.bold14WhiteStyle.copyWith(
+                            child: Text(productModel.productName,
+                            style: TextStyleConstant.bold14Style.copyWith(
                               color: ColorConstant.whiteColor
                             ),
                             
@@ -117,8 +138,8 @@ class AllCategoryScreenState extends State<AllCategoryScreen> {
                           ],
                         ),
                       ),
-                    ],
-                  );
+                  ),
+                );
                }
               );
             

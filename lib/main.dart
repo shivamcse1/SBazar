@@ -1,5 +1,5 @@
 import 'package:e_commerce/firebase_options.dart';
-import 'package:e_commerce/presentation/view/user_panel/home_screen.dart';
+import 'package:e_commerce/presentation/view/user_panel/home/home_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

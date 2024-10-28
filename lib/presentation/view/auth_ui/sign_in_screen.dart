@@ -1,18 +1,18 @@
 // ignore_for_file: avoid_unnecessary_containers, unnecessary_null_comparison, unused_local_variable
 
-import 'package:e_commerce/contollers/sign_in_controller.dart';
+import 'package:e_commerce/controllers/sign_in_controller.dart';
 import 'package:e_commerce/core/constant/image_const.dart';
 import 'package:e_commerce/presentation/view/admin_panel/home_screen.dart';
 import 'package:e_commerce/presentation/view/auth_ui/forgot_password_screen.dart';
 import 'package:e_commerce/presentation/view/auth_ui/sign_up_screen.dart';
-import 'package:e_commerce/presentation/view/user_panel/home_screen.dart';
+import 'package:e_commerce/presentation/view/user_panel/home/home_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
-import '../../../contollers/check_user_data_controller.dart';
+import '../../../controllers/check_user_data_controller.dart';
 import '../../../core/constant/app_const.dart';
 import '../../../utils/Uihelper/custom_snakbar.dart';
 
@@ -138,7 +138,7 @@ class SignInScreenState extends State<SignInScreen> {
                       );
                     }
                     else{
-                       UserCredential? userCredential = await signInController.signInUser(
+                       UserCredential? userCredential = await signInController.signInWithEmail(
                        userEmail : email, 
                        userPassword: password
                        );

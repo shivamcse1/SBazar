@@ -5,9 +5,9 @@ import 'package:e_commerce/core/constant/color_const.dart';
 import 'package:e_commerce/core/constant/database_key_const.dart';
 import 'package:e_commerce/core/constant/textstyle_const.dart';
 import 'package:e_commerce/data/model/category_model.dart';
+import 'package:e_commerce/presentation/view/user_panel/category/all_category_product_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 class CustomCategoryItem extends StatelessWidget {
@@ -38,16 +38,17 @@ class CustomCategoryItem extends StatelessWidget {
        }
 
        if(snapshot.data!.docs.isEmpty){
-         return const Center(
-          child: Text("No category found"),
+         return Center(
+          child: Text("No category found",style: TextStyleConstant.normal18Style,),
          );
        }
 
        if(snapshot.data != null){
           return Container(
+            margin: const EdgeInsets.symmetric(vertical: 10.0),
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
             alignment: Alignment.centerLeft,
-            height: Get.height/5,
+            height: Get.height/6,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               shrinkWrap: true,
@@ -63,45 +64,51 @@ class CustomCategoryItem extends StatelessWidget {
               return Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Container(
-                    margin:const EdgeInsets.only(right: 10.0),
-                    padding: const EdgeInsets.all(1.0),
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: ColorConstant.pinkColor
-                      ),
-                      color: Colors.pink,
-                      borderRadius: BorderRadius.circular(10)
-                    ),
-                    height: Get.height/6,
-                    width: Get.width/4,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                  
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(5.0),
-                          child: Image.network(categoryModel.categoryImg,
-                          height: Get.height/8.0,
-                          width: Get.width/4.0,
-                          fit: BoxFit.cover,
-                          ),
+                  InkWell(
+                    onTap: (){
+                     
+                     Get.to(AllCategoryProductScreen(categoryId: categoryModel.categoryId));
+                    },
+                    child: Container(
+                      margin:const EdgeInsets.only(right: 10.0),
+                      padding: const EdgeInsets.all(1.0),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: ColorConstant.pinkColor
                         ),
-                        
-                        const SizedBox(height: 2.0,),
-                        Container(
-                          width: Get.width,
-                          
-                          child: Text(categoryModel.categoryName,
-                          style: TextStyleConstant.bold14WhiteStyle.copyWith(
-                            color: ColorConstant.whiteColor
+                        color: Colors.pink,
+                        borderRadius: BorderRadius.circular(10)
+                      ),
+                      height: Get.height/5,
+                      width: Get.width/4,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                    
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(10.0),
+                            child: Image.network(categoryModel.categoryImg,
+                            height: Get.height/8.0,
+                            width: Get.width/4.1,
+                            fit: BoxFit.cover,
+                            ),
                           ),
                           
-                          textAlign: TextAlign.center,
-                          ))
-                        ],
+                          const SizedBox(height: 2.0,),
+                          Container(
+                            width: Get.width,
+                            
+                            child: Text(categoryModel.categoryName,
+                            style: TextStyleConstant.bold14Style.copyWith(
+                              color: ColorConstant.whiteColor
+                            ),
+                            
+                            textAlign: TextAlign.center,
+                            ))
+                          ],
+                        ),
                       ),
-                    ),
+                  ),
                   ],
                 ); }
               ),

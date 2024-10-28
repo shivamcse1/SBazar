@@ -7,5 +7,6 @@ class ColorConstant{
   static Color whiteColor = const Color.fromARGB(255, 251, 245, 244);
   static Color pinkColor = const Color.fromRGBO(233, 30, 99, 1);
   static Color yellowColor = const Color.fromRGBO(255, 235, 59, 1);
+  static Color greyColor = const Color.fromRGBO(158, 158, 158, 1);
 
 }

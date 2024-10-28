@@ -9,9 +9,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
-import '../../../contollers/check_user_data_controller.dart';
+import '../../../controllers/check_user_data_controller.dart';
 import '../../../core/constant/app_const.dart';
-import '../user_panel/home_screen.dart';
+import '../user_panel/home/home_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});

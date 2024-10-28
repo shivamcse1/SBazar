@@ -5,11 +5,18 @@ class DbKeyConstant{
   static const String bannerCollection = "banner";
   static const String categoryCollection = "categories";
   static const String productCollection = "products";
+  static const String cartCollection = 'cart';
+  static const String cartProductCollection = 'cartProduct';
+  static const String orderCollection = 'orders';
+  static const String confirmedOrderCollection = 'confirmedOrders';
+
+
   static const String bannerImg = 'bannerImg';
 
   // common databaseKey
   static const String createdAt = 'createdAt';
   static const String updatedAt = 'updatedAt';
+  static const String rs = 'Rs.';
 
 
   // category dataBaseKey
@@ -27,6 +34,9 @@ class DbKeyConstant{
   static String deliveryTime = 'deliveryTime';
   static String fullPrice = 'fullPrice';
   static String salePrice = 'salePrice';
+  static String productQuantity = 'productQuantity';
+  static String productTotalPrice = 'productTotalPrice';
+
  
 
 
@@ -44,6 +54,13 @@ class DbKeyConstant{
   static String userCity = 'userCity';
   static String isAdmin = 'isAdmin';
   static String isActive = "isActive";
+
+  ///-------------------------------------///
+  static String customerPhone = 'customerPhone';
+  static String customerName = 'customerName';
+  static String customerAddress = 'customerAddress';
+  static String customerDeviceToken = 'customerDeviceToken';
+  static String orderStatus = 'orderStatus';
 
 
 

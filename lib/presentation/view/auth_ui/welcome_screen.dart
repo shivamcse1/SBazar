@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
-import '../../../contollers/google_sign_in_conroller.dart';
+import '../../../controllers/sign_in_controller.dart';
 import '../../../core/constant/app_const.dart';
 
 class WelcomeScreen extends StatefulWidget {
@@ -18,7 +18,7 @@ class WelcomeScreen extends StatefulWidget {
 
 class WelcomeScreenState extends State<WelcomeScreen> {
 
-final GoogleSignInContoller googleSignInContoller = Get.put(GoogleSignInContoller());
+final SignInController signInContoller = Get.put(SignInController());
 
   @override
   Widget build(BuildContext context) {
@@ -63,10 +63,10 @@ final GoogleSignInContoller googleSignInContoller = Get.put(GoogleSignInContolle
               child: TextButton.icon(
                 onPressed: () async{
                   
-                 await googleSignInContoller.signInWithGoogleAccount(); 
+                 await signInContoller.signInWithGoogleAccount(); 
                   
                 },
-               icon: Image.asset(ImageConstant.googleImg), 
+               icon: Image.asset(ImageConstant.googleIc), 
                label: Text("Sign in with google",
                style: TextStyle(color: AppConstant.whiteColor),
                ),

@@ -1,7 +1,7 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:e_commerce/contollers/banner_contoller.dart';
+import 'package:e_commerce/controllers/banner_contoller.dart';
 import 'package:e_commerce/core/constant/color_const.dart';
 import 'package:e_commerce/core/constant/image_const.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +19,7 @@ class CustomSlider extends StatelessWidget {
     return Column(
       children: [
         Obx(() => SizedBox(
-          height: 200.0,
+          height: Get.height/4,
           child: PageView.builder(
             // controller: pageController,
             itemCount: bannerController.bannerImgList.length,
@@ -66,8 +66,8 @@ class CustomSlider extends StatelessWidget {
               return AnimatedContainer(
                 margin: const EdgeInsets.symmetric(horizontal: 1),
                 duration: const Duration(milliseconds: 200),
-                height: bannerController.pageIndex.value == index ? 11 : 10,
-                width: bannerController.pageIndex.value == index ? 11 : 10,
+                height: bannerController.pageIndex.value == index ? 10 : 10,
+                width: bannerController.pageIndex.value == index ? 10 : 10,
                 decoration: BoxDecoration(
                   shape: bannerController.pageIndex.value == index ? BoxShape.rectangle : BoxShape.circle,
                   color: bannerController.pageIndex.value == index ? ColorConstant.primaryColor : Colors.grey,

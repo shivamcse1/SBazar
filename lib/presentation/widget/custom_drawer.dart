@@ -10,6 +10,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import '../../core/constant/textstyle_const.dart';
 import '../../utils/Uihelper/custom_snakbar.dart';
 import '../view/auth_ui/welcome_screen.dart';
+import '../view/user_panel/my_order/my_order_screen.dart';
 
 class CustomDrawer extends StatelessWidget {
 
@@ -109,7 +110,7 @@ class CustomDrawer extends StatelessWidget {
                 leading: Icon(Icons.home,color:ColorConstant.whiteColor,),
                 title:  Padding(
                   padding: const EdgeInsets.only(top: 5.0),
-                  child: Text("Home",style:TextStyleConstant.normal14WhiteStyle.copyWith(
+                  child: Text("Home",style:TextStyleConstant.normal14Style.copyWith(
                     color: ColorConstant.whiteColor 
                   ) ,),
                 ),
@@ -118,13 +119,13 @@ class CustomDrawer extends StatelessWidget {
 
               ListTile(
                 onTap: (){
-                  
+                  Get.to(()=>const MyOrderScreen());
                 },
                 contentPadding: EdgeInsets.zero,
                 leading: Icon(Icons.store,color:ColorConstant.whiteColor,),
                 title:  Padding(
                   padding: const EdgeInsets.only(top: 5.0),
-                  child: Text("Order",style:TextStyleConstant.normal14WhiteStyle.copyWith(
+                  child: Text("Order",style:TextStyleConstant.normal14Style.copyWith(
                     color: ColorConstant.whiteColor 
                   ) ,),
                 ),
@@ -139,7 +140,7 @@ class CustomDrawer extends StatelessWidget {
                 leading: Icon(Icons.account_circle,color:ColorConstant.whiteColor,),
                 title:  Padding(
                   padding: const EdgeInsets.only(top: 5.0),
-                  child: Text("Edit Profile",style:TextStyleConstant.normal14WhiteStyle.copyWith(
+                  child: Text("Edit Profile",style:TextStyleConstant.normal14Style.copyWith(
                     color: ColorConstant.whiteColor 
                   ) ,),
                 ),
@@ -153,7 +154,7 @@ class CustomDrawer extends StatelessWidget {
                 leading: Icon(Icons.add_location_alt,color:ColorConstant.whiteColor,),
                 title:  Padding(
                   padding: const EdgeInsets.only(top: 5.0),
-                  child: Text("Saved Addresses",style:TextStyleConstant.normal14WhiteStyle.copyWith(
+                  child: Text("Saved Addresses",style:TextStyleConstant.normal14Style.copyWith(
                     color: ColorConstant.whiteColor 
                   ) ,),
                 ),
@@ -168,7 +169,7 @@ class CustomDrawer extends StatelessWidget {
                 leading: Icon(Icons.share,color:ColorConstant.whiteColor,),
                 title:  Padding(
                   padding: const EdgeInsets.only(top: 5.0),
-                  child: Text("Share to Friends",style:TextStyleConstant.normal14WhiteStyle.copyWith(
+                  child: Text("Share to Friends",style:TextStyleConstant.normal14Style.copyWith(
                     color: ColorConstant.whiteColor 
                   ) ,),
                 ),
@@ -183,7 +184,7 @@ class CustomDrawer extends StatelessWidget {
                 leading: Icon(Icons.library_books,color:ColorConstant.whiteColor,),
                 title:  Padding(
                   padding: const EdgeInsets.only(top: 5.0),
-                  child: Text("Terms and Condition",style:TextStyleConstant.normal14WhiteStyle.copyWith(
+                  child: Text("Terms and Condition",style:TextStyleConstant.normal14Style.copyWith(
                     color: ColorConstant.whiteColor 
                   ),),
                 ),
@@ -196,11 +197,11 @@ class CustomDrawer extends StatelessWidget {
                 leading: Icon(Icons.android,color:ColorConstant.whiteColor,),
                 title:  Padding(
                   padding: const EdgeInsets.only(top: 5.0),
-                  child: Text("App Version",style:TextStyleConstant.normal14WhiteStyle.copyWith(
+                  child: Text("App Version",style:TextStyleConstant.normal14Style.copyWith(
                     color: ColorConstant.whiteColor 
                   ) ,),
                 ),
-                subtitle:  Text("1.0.0",style:TextStyleConstant.normal14WhiteStyle.copyWith(
+                subtitle:  Text("1.0.0",style:TextStyleConstant.normal14Style.copyWith(
                     color: ColorConstant.whiteColor 
                   ),),
               ),
@@ -227,7 +228,7 @@ class CustomDrawer extends StatelessWidget {
                 SnackbarHelper.customSnackbar(titleMsg: "Logout", msg: "User Logout Successfull");
 
               }, 
-              child:Text('Log Out',style:TextStyleConstant.bold14WhiteStyle.copyWith(
+              child:Text('Log Out',style:TextStyleConstant.bold14Style.copyWith(
                     color: ColorConstant.whiteColor 
                   )))
                

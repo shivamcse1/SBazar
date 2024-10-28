@@ -30,11 +30,11 @@ class CustomHeading extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children:  [
                
-               Text(categoryTitle,style: TextStyleConstant.bold18WhiteStyle.copyWith(
+               Text(categoryTitle,style: TextStyleConstant.bold18Style.copyWith(
                 color: Colors.black,
                ),),
       
-               Text(categorySubTitle,style: TextStyleConstant.bold14WhiteStyle.copyWith(
+               Text(categorySubTitle,style: TextStyleConstant.bold14Style.copyWith(
                 color: Colors.grey.shade500,
                ),)
             ],
@@ -54,7 +54,7 @@ class CustomHeading extends StatelessWidget {
               ),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text("${buttonText} >",style: TextStyleConstant.bold14WhiteStyle.copyWith(
+                child: Text("${buttonText} >",style: TextStyleConstant.bold14Style.copyWith(
                   color: ColorConstant.secondaryColor
                 ),),
               ),

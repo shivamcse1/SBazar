@@ -1,6 +1,6 @@
 // ignore_for_file: avoid_unnecessary_containers
 
-import 'package:e_commerce/contollers/forgot_password_controller.dart';
+import 'package:e_commerce/controllers/forgot_password_controller.dart';
 import 'package:e_commerce/core/constant/color_const.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
