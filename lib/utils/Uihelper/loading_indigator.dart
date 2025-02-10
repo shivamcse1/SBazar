@@ -3,7 +3,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 class LoadingIndigator{
 
-  void loadingIndigator (){
+ static void loadingIndigator (){
 
     EasyLoading.instance
   ..displayDuration = const Duration(milliseconds: 2000)

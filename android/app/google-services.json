@@ -2,17 +2,30 @@
   "project_info": {
     "project_number": "721702625231",
     "project_id": "fir-mart-2670a",
-    "storage_bucket": "fir-mart-2670a.appspot.com"
+    "storage_bucket": "fir-mart-2670a.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:721702625231:android:f770542ea361e840a6bcba",
+        "mobilesdk_app_id": "1:721702625231:android:b991ff529799e722a6bcba",
         "android_client_info": {
-          "package_name": "com.example.e_commerce"
+          "package_name": "com.example.s_bazar"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "721702625231-26giv2miq2e09kbor1mri8v9huq2f3p9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.s_bazar",
+            "certificate_hash": "cbb7165a113964c45dc25f9ec37f086159d25fb4"
+          }
+        },
+        {
+          "client_id": "721702625231-g1jjro2r6rt12mjgg26e2akoc1gn4pam.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyCjUVMrtlp4OxkFMHIDe_crX7MQY_SYh5c"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "721702625231-g1jjro2r6rt12mjgg26e2akoc1gn4pam.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "721702625231-iehof3vinnc0i71qmcfs8c5f1p22djk8.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.eCommerce"
+              }
+            }
+          ]
         }
       }
     }

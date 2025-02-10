@@ -10,7 +10,7 @@ import 'package:get/get.dart';
 
 import '../core/constant/database_key_const.dart';
 import '../data/model/order_model.dart';
-import '../presentation/view/user_panel/home/home_screen.dart';
+import '../presentation/view/user_panel/home/user_home_screen.dart';
 import '../utils/Uihelper/custom_snakbar.dart';
 
 class OrderController extends GetxController{
@@ -21,10 +21,10 @@ class OrderController extends GetxController{
   {
    
    required BuildContext context,
-   required String customerName,
-   required String customerPhone,
-   required String customerAddress,
-   required String customerDeviceToken,
+   required String userName,
+   required String userPhone,
+   required String userAddress,
+   required String userDeviceToken,
    
    }
   )  async{
@@ -62,12 +62,13 @@ class OrderController extends GetxController{
                             updatedAt: docData[DbKeyConstant.updatedAt], 
                             productQuantity: docData[DbKeyConstant.productQuantity], 
                             productTotalPrice: docData[DbKeyConstant.productTotalPrice],
-                            customerId: user.uid,
+                            userUid: user.uid,
                             orderStatus: false,
-                            customerName: customerName,
-                            customerPhone: customerPhone,
-                            customerAddress: customerAddress,
-                            customerDeviceToken: customerDeviceToken
+                            userName: userName,
+                            userPhone: userPhone,
+                            userAddress: userAddress,
+                            userDeviceToken: userDeviceToken,
+                            orderId: orderId,
                             
                           );
 
@@ -79,11 +80,11 @@ class OrderController extends GetxController{
                             .set(
                               {
 
-                                "uid" : user.uid,
-                                "customerName" : customerName,
-                                "customerPhone" : customerPhone,
-                                "customerAddress" : customerAddress,
-                                "customerDeviceToken" :customerDeviceToken,
+                                "userUid" : user.uid,
+                                "userName" : userName,
+                                "userPhone" : userPhone,
+                                "userAddress" : userAddress,
+                                "userDeviceToken" :userDeviceToken,
                                 "orderStatus" : false,
                                 "createdAt" : DateTime.now()
                               }
@@ -132,7 +133,7 @@ class OrderController extends GetxController{
    String generateOrderId(){
       DateTime now = DateTime.now();
       int randomNumber = Random().nextInt(10000);
-      String orderId = "ODI"+"${now.millisecondsSinceEpoch}"+"${randomNumber}";
+      String orderId = "OD"+"${now.millisecondsSinceEpoch}"+"${randomNumber}";
       return orderId;
       
     }

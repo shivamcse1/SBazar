@@ -1,7 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:e_commerce/core/constant/database_key_const.dart';
-import 'package:e_commerce/core/error/exception/firebase_exception.dart';
 import 'package:get/get.dart';
+
+import '../core/constant/database_key_const.dart';
+import '../core/error/exception/firebase_exception_handler.dart';
 
 class BannerController extends GetxController{
  RxList<String> bannerImgList = RxList<String>([]);

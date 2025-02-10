@@ -16,12 +16,13 @@ class OrderModel {
   final dynamic updatedAt;
   final int productQuantity;
   final double productTotalPrice;
-  final String customerId;
+  final String userUid;
   final bool orderStatus;
-  final String customerName;
-  final String customerPhone;
-  final String customerAddress;
-  final String customerDeviceToken;
+  final String userName;
+  final String userPhone;
+  final String userAddress;
+  final String userDeviceToken;
+  final String orderId ;
 
   OrderModel({
      required this.productId,
@@ -38,12 +39,13 @@ class OrderModel {
      required this.updatedAt,
      required this.productQuantity,
      required this.productTotalPrice,
-     required this.customerId, 
+     required this.userUid, 
      required this.orderStatus, 
-     required this.customerName, 
-     required this.customerPhone,
-     required this.customerAddress, 
-     required this.customerDeviceToken, 
+     required this.userName, 
+     required this.userPhone,
+     required this.userAddress, 
+     required this.userDeviceToken, 
+     this.orderId ='',
   });
 
   Map<String, dynamic> toMap() {
@@ -62,12 +64,13 @@ class OrderModel {
       'updatedAt': updatedAt,
       'productQuantity': productQuantity,
       'productTotalPrice': productTotalPrice,
-      'customerId':customerId,
+      'userUid':userUid,
       'orderStatus':orderStatus,
-      'customerName':customerName,
-      'customerPhone' : customerPhone,
-      'customerAddress' :customerAddress,
-      'customerDeviceToken' :customerDeviceToken
+      'userName':userName,
+      'userPhone' : userPhone,
+      'userAddress' :userAddress,
+      'userDeviceToken' :userDeviceToken,
+      'orderId' : orderId
     };
   }
 
@@ -87,12 +90,13 @@ class OrderModel {
       updatedAt: json['updatedAt'],
       productQuantity: json['productQuantity'],
       productTotalPrice :json['productTotalPrice'],
-      customerId : json['productTotalPrice'],
+      userUid : json['userUid'],
       orderStatus : json['orderStatus'],
-      customerName : json['customerName'],
-      customerPhone : json['customerPhone'],
-      customerAddress : json['customerAddress'],
-      customerDeviceToken : json['customerDeviceToken'],
+      userName : json['userName'],
+      userPhone : json['userPhone'],
+      userAddress : json['userAddress'],
+      userDeviceToken : json['userDeviceToken'],
+      orderId : json['orderId']
 
     );
   }

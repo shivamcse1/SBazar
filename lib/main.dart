@@ -1,17 +1,20 @@
-import 'package:e_commerce/firebase_options.dart';
-import 'package:e_commerce/presentation/view/user_panel/home/home_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 
-void main() async{
+import 'core/routes/app_routes.dart';
 
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  
+  try {
+    await Firebase.initializeApp();
+  } catch (e) {
+    print("Firebase Error: $e");
+  }
 
-    await Firebase.initializeApp(
-    options:DefaultFirebaseOptions.currentPlatform );
-    runApp(const MyApp());
- 
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -27,33 +30,9 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const UserHomeScreen(),
-      // initialRoute: '/',
-      // builder: EasyLoading.init(),
-      // getPages: [
-      //   GetPage(
-      //     name: '/', 
-      //     page: ()=> const SplashScreen()
-      //     ),
-
-      //   GetPage(
-      //      name: '/welcomeScreen',
-      //      page: ()=> const WelcomeScreen()
-      //     ),
-
-      //   GetPage(
-      //     name: '/signUpScreen', 
-      //     page: ()=> const SignUpScreen()
-      //     ),
-
-      //   GetPage(
-      //     name: '/signInScreen', 
-      //     page: ()=> const SignInScreen()
-      //     ),
-        
-
-      // ],
+      initialRoute: '/',
+      builder: EasyLoading.init(),
+      getPages: AppRoutes.pages,
     );
   }
 }
-

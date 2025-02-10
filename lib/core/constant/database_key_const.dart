@@ -5,6 +5,7 @@ class DbKeyConstant{
   static const String bannerCollection = "banner";
   static const String categoryCollection = "categories";
   static const String productCollection = "products";
+  static const String reviewCollection = "reviews";
   static const String cartCollection = 'cart';
   static const String cartProductCollection = 'cartProduct';
   static const String orderCollection = 'orders';
@@ -52,14 +53,10 @@ class DbKeyConstant{
   static String userAddress = 'userAddress';
   static String userStreet = 'userStreet';
   static String userCity = 'userCity';
+  static String userRating = 'userRating';
+  static String userReview  = 'userReview';
   static String isAdmin = 'isAdmin';
   static String isActive = "isActive";
-
-  ///-------------------------------------///
-  static String customerPhone = 'customerPhone';
-  static String customerName = 'customerName';
-  static String customerAddress = 'customerAddress';
-  static String customerDeviceToken = 'customerDeviceToken';
   static String orderStatus = 'orderStatus';
 
 
