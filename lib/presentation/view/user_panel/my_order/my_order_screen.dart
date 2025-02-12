@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:s_bazar/controllers/cart_controller.dart';
 import 'package:s_bazar/core/constant/database_key_const.dart';
 import 'package:s_bazar/core/constant/textstyle_const.dart';
-import 'package:s_bazar/presentation/view/user_panel/order_review/order_review_screen.dart';
+import 'package:s_bazar/presentation/view/user_panel/review/review_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -132,6 +132,8 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
                                     ),
                                     Row(
                                       mainAxisSize: MainAxisSize.min,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Container(
                                             height: h / 10,
@@ -215,66 +217,36 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
                                             ],
                                           ),
                                         ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: orderModel.orderStatus ? 10 : 15,
-                                    ),
-                                    orderModel.orderStatus != true
-                                        ? InkWell(
-                                            splashColor:
-                                                Colors.amberAccent.shade100,
-                                            onTap: () {
-                                              Get.to(() => OrderReviewScreen(
-                                                    orderModel: orderModel,
-                                                  ));
-                                            },
-                                            child: Container(
-                                              margin:
-                                                  const EdgeInsets.symmetric(
-                                                      vertical: 10),
-                                              padding:
-                                                  const EdgeInsets.symmetric(
+                                        orderModel.orderStatus == true
+                                            ? InkWell(
+                                                splashColor:
+                                                    Colors.amberAccent.shade100,
+                                                onTap: () {
+                                                  Get.to(() => ReviewScreen(
+                                                        orderModel: orderModel,
+                                                      ));
+                                                },
+                                                child: Container(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
                                                       vertical: 5.0,
                                                       horizontal: 10),
-                                              decoration: BoxDecoration(
-                                                color: Colors.grey.shade200,
-                                                shape: BoxShape.rectangle,
-                                                borderRadius:
-                                                    BorderRadius.circular(8),
-                                              ),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  const Text("Rate This"),
-                                                  RatingBar.builder(
-                                                      itemSize: 30,
-                                                      itemCount: 5,
-                                                      minRating: 1,
-                                                      allowHalfRating: true,
-                                                      glow: true,
-                                                      glowColor: Colors.pink,
-                                                      itemBuilder:
-                                                          (context, index) {
-                                                        return const Icon(
-                                                          Icons.star,
-                                                          color: Colors.amber,
-                                                        );
-                                                      },
-                                                      onRatingUpdate:
-                                                          (updateRating) {
-                                                        // setState(() {
-                                                        //   rating = updateRating;
-                                                        // });
-                                                        print(rating);
-                                                      }),
-                                                ],
-                                              ),
-                                            ),
-                                          )
-                                        : const SizedBox()
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.grey.shade200,
+                                                    shape: BoxShape.rectangle,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8),
+                                                  ),
+                                                  child: const Text("Review"),
+                                                ),
+                                              )
+                                            : const SizedBox()
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
                                   ],
                                 ),
                               );

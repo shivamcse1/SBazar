@@ -1,30 +1,25 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:s_bazar/core/constant/database_key_const.dart';
+import 'package:s_bazar/controllers/review_controller.dart';
 import 'package:s_bazar/core/constant/textstyle_const.dart';
 import 'package:s_bazar/data/model/order_model.dart';
-import 'package:s_bazar/data/model/review_model.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 
 import '../../../../core/constant/app_const.dart';
 import '../../../../core/constant/color_const.dart';
 
-class OrderReviewScreen extends StatefulWidget {
+class ReviewScreen extends StatefulWidget {
   final OrderModel? orderModel;
-  const OrderReviewScreen({super.key, this.orderModel});
+  const ReviewScreen({super.key, this.orderModel});
 
   @override
-  State<OrderReviewScreen> createState() {
-    return OrderReviewScreenState();
+  State<ReviewScreen> createState() {
+    return ReviewScreenState();
   }
 }
 
-class OrderReviewScreenState extends State<OrderReviewScreen> {
-  final TextEditingController feedbackController = TextEditingController();
-  double productRating = 0;
+class ReviewScreenState extends State<ReviewScreen> {
+  ReviewController reviewController = Get.put(ReviewController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,7 +63,7 @@ class OrderReviewScreenState extends State<OrderReviewScreen> {
                     );
                   },
                   onRatingUpdate: (updateRating) {
-                    productRating = updateRating;
+                    reviewController.productRating = updateRating;
                     setState(() {});
                   }),
             ),
@@ -85,7 +80,7 @@ class OrderReviewScreenState extends State<OrderReviewScreen> {
               height: 20,
             ),
             TextFormField(
-              controller: feedbackController,
+              controller: reviewController.feedbackController,
               keyboardType: TextInputType.multiline,
               maxLines: 10,
               decoration: const InputDecoration(
@@ -104,28 +99,8 @@ class OrderReviewScreenState extends State<OrderReviewScreen> {
                     borderRadius: BorderRadius.circular(10)),
               ),
               onPressed: () async {
-                EasyLoading.show(status: "Please wait..");
-                String feedback = feedbackController.text.trim();
-                User? user = FirebaseAuth.instance.currentUser;
-
-                ReviewModel reviewModel = ReviewModel(
-                    userName: widget.orderModel!.userName,
-                    userPhone: widget.orderModel!.userPhone,
-                    createdAt: DateTime.now().toString(),
-                    userRating: productRating.toString(),
-                    userReview: feedback,
-                    userUid: user!.uid,
-                    userDeviceToken: widget.orderModel!.userDeviceToken);
-
-                await FirebaseFirestore.instance
-                    .collection(DbKeyConstant.productCollection)
-                    .doc(widget.orderModel!.productId)
-                    .collection(DbKeyConstant.reviewCollection)
-                    .doc(user.uid)
-                    .set(reviewModel.toMap());
-
-                EasyLoading.dismiss();
-                Get.back();
+                await reviewController.submitReview(
+                    orderModel: widget.orderModel);
               },
               child: Text(
                 "Submit Review",

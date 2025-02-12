@@ -15,7 +15,7 @@ import '../../presentation/view/user_panel/category/all_category_screen.dart';
 import '../../presentation/view/user_panel/checkout/checkout_screen.dart';
 import '../../presentation/view/user_panel/details_screen/details_screen.dart';
 import '../../presentation/view/user_panel/home/user_home_screen.dart';
-import '../../presentation/view/user_panel/order_review/order_review_screen.dart';
+import '../../presentation/view/user_panel/review/review_screen.dart';
 
 class AppRoutes {
   static String splashScreen = '/';
@@ -54,7 +54,7 @@ class AppRoutes {
         page: () => const AllFlashSaleProductScreen()),
     GetPage(name: userHomeScreen, page: () => const UserHomeScreen()),
     GetPage(name: myOrderScreen, page: () => const MyOrderScreen()),
-    GetPage(name: orderReviewScreen, page: () => const OrderReviewScreen()),
+    GetPage(name: orderReviewScreen, page: () => const ReviewScreen()),
     GetPage(name: adminHomeScreen, page: () => const AdminHomeScreen()),
   ];
 }
