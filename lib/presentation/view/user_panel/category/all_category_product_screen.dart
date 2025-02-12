@@ -7,9 +7,11 @@ import 'package:s_bazar/utils/Uihelper/ui_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../../controllers/cart_controller.dart';
 import '../../../../core/constant/app_const.dart';
 import '../../../../core/constant/database_key_const.dart';
 import '../../../../core/constant/textstyle_const.dart';
+import '../../../widget/cart_icon_widget.dart';
 import '../details_screen/details_screen.dart';
 
 class AllCategoryProductScreen extends StatefulWidget {
@@ -23,6 +25,8 @@ class AllCategoryProductScreen extends StatefulWidget {
 }
 
 class AllCategoryProductScreenState extends State<AllCategoryProductScreen> {
+    CartController cartController = Get.put(CartController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,6 +37,9 @@ class AllCategoryProductScreenState extends State<AllCategoryProductScreen> {
           "Product",
           style: TextStyle(color: AppConstant.whiteColor),
         ),
+         actions: const [
+        CartIconWidget(),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.only(left: 10.0, right: 10.0),

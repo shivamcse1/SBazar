@@ -12,11 +12,17 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../core/constant/app_const.dart';
+import '../../../widget/cart_icon_widget.dart';
 import '../details_screen/details_screen.dart';
 
-class AllProductScreen extends StatelessWidget {
+class AllProductScreen extends StatefulWidget {
   const AllProductScreen({super.key});
 
+  @override
+  State<AllProductScreen> createState() => _AllProductScreenState();
+}
+
+class _AllProductScreenState extends State<AllProductScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,6 +33,9 @@ class AllProductScreen extends StatelessWidget {
             "All Product",
             style: TextStyle(color: AppConstant.whiteColor),
           ),
+          actions: const [
+            CartIconWidget(),
+          ],
         ),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),

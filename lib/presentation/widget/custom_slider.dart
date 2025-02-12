@@ -1,5 +1,6 @@
 // ignore_for_file: must_be_immutable
 
+import 'dart:async';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:s_bazar/controllers/banner_contoller.dart';
 import 'package:s_bazar/core/constant/color_const.dart';
@@ -8,11 +9,87 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter/cupertino.dart';
 
-class CustomSlider extends StatelessWidget {
-  CustomSlider({super.key});
+class CustomSlider extends StatefulWidget {
+ final List<String> imgList;
+ final double? imgHeight;
+ final double? imgWidth;
+ final double? radius;
+ final double? viewportFraction;
+ final bool isSliderPointVisible;
+ final bool autoScroll;
+ final EdgeInsetsGeometry? padding;
+ final Color? selcetedDotColor;
+ final Color? unselectedDotColor;
 
+  const CustomSlider({
+    super.key,
+    this.autoScroll = false,
+    this.selcetedDotColor,
+    this.unselectedDotColor,
+    this.viewportFraction,
+    this.padding,
+    this.isSliderPointVisible = true,
+    this.radius,
+    this.imgWidth,
+    this.imgHeight,
+    required this.imgList,
+  });
+
+  @override
+  State<CustomSlider> createState() => _CustomSliderState();
+}
+
+class _CustomSliderState extends State<CustomSlider> {
   BannerController bannerController = Get.put(BannerController());
-  // PageController pageController = PageController(viewportFraction: 0.8);
+
+  PageController pageController =
+      PageController(keepPage: false, viewportFraction: 1);
+  int currentPage = 0;
+  Timer? timer;
+
+  @override
+  void initState() {
+    super.initState();
+    autoScroll();
+  }
+
+  void autoScroll() {
+    timer?.cancel(); // pahle se koi timer ho use cancel kar dega
+    if (widget.autoScroll!) {
+      // timer me isiliye store karna pada jisse scroll ko cancel karne ka option ho
+      timer = Timer.periodic(const Duration(seconds: 5), (timer) {
+        if (currentPage < 4) {
+          currentPage++;
+        } else {
+          pageController.jumpToPage(0);
+          currentPage = 0;
+
+          timer.cancel();
+          Future.delayed(const Duration(seconds: 4), () {
+            currentPage = 1;
+            autoScroll();
+            pageController.animateToPage(
+              currentPage,
+              duration: const Duration(milliseconds: 500),
+              curve: Curves.easeInOut,
+            );
+          });
+          return;
+        }
+
+        pageController.animateToPage(currentPage,
+            duration: const Duration(milliseconds: 500),
+            curve: Curves.easeInOut);
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    timer?.cancel();
+    pageController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,8 +97,9 @@ class CustomSlider extends StatelessWidget {
       children: [
         Obx(() => SizedBox(
               height: Get.height / 4,
+              width: double.infinity,
               child: PageView.builder(
-                // controller: pageController,
+                controller: pageController,
                 itemCount: bannerController.bannerImgList.length,
                 itemBuilder: ((context, index) {
                   return Padding(
@@ -52,33 +130,39 @@ class CustomSlider extends StatelessWidget {
                 }),
                 onPageChanged: (value) {
                   bannerController.pageIndex.value = value;
+                  currentPage = value;
                 },
               ),
             )),
         const SizedBox(height: 5.0),
-        SizedBox(
-          height: 10.0,
-          child: Obx(() => Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: List.generate(bannerController.bannerImgList.length,
-                    (index) {
-                  return AnimatedContainer(
-                    margin: const EdgeInsets.symmetric(horizontal: 1),
-                    duration: const Duration(milliseconds: 200),
-                    height: bannerController.pageIndex.value == index ? 10 : 10,
-                    width: bannerController.pageIndex.value == index ? 10 : 10,
-                    decoration: BoxDecoration(
-                      shape: bannerController.pageIndex.value == index
-                          ? BoxShape.rectangle
-                          : BoxShape.circle,
-                      color: bannerController.pageIndex.value == index
-                          ? ColorConstant.primaryColor
-                          : Colors.grey,
-                    ),
-                  );
-                }),
-              )),
-        ),
+        widget.isSliderPointVisible == null || widget.isSliderPointVisible == true
+            ? SizedBox(
+                height: 10.0,
+                child: Obx(() => Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: List.generate(
+                          bannerController.bannerImgList.length, (index) {
+                        return AnimatedContainer(
+                          margin: const EdgeInsets.symmetric(horizontal: 1),
+                          duration: const Duration(milliseconds: 200),
+                          height: bannerController.pageIndex.value == index
+                              ? 10
+                              : 10,
+                          width: bannerController.pageIndex.value == index
+                              ? 10
+                              : 10,
+                          decoration: BoxDecoration(
+                            shape: bannerController.pageIndex.value == index
+                                ? BoxShape.rectangle
+                                : BoxShape.circle,
+                            color: bannerController.pageIndex.value == index
+                                ? ColorConstant.primaryColor
+                                : Colors.grey,
+                          ),
+                        );
+                      }),
+                    )))
+            : const SizedBox.shrink()
       ],
     );
   }

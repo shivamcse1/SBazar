@@ -1,8 +1,8 @@
 // ignore_for_file: avoid_unnecessary_containers
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:s_bazar/core/constant/color_const.dart';
-import 'package:s_bazar/core/constant/database_key_const.dart';
 import 'package:s_bazar/core/constant/image_const.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -49,12 +49,34 @@ class CustomDrawer extends StatelessWidget {
                           horizontal: 10.0, vertical: 10.0),
                       width: 80.0,
                       height: 80.0,
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                            fit: BoxFit.cover,
-                            image: AssetImage(userImg),
-                          )),
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        // image: DecorationImage(
+                        //   fit: BoxFit.cover,
+                        //   image: AssetImage(userImg),
+                        // ),
+                      ),
+                      child: ClipRRect(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10)),
+                        child: CachedNetworkImage(
+                          imageUrl: userImg,
+                          fit: BoxFit.cover,
+                          // Placeholder while the image is loading
+                          placeholder: (context, imgUrl) {
+                            return Container(
+                              color: Colors.white,
+                              child: const Center(
+                                child: CupertinoActivityIndicator(),
+                              ),
+                            );
+                          },
+
+                          errorWidget: (context, url, error) {
+                            return Image.asset(ImageConstant.profileAvatarImg);
+                          },
+                        ),
+                      ),
                     ),
                     Positioned(
                       right: 2,
@@ -105,13 +127,10 @@ class CustomDrawer extends StatelessWidget {
                       Icons.home,
                       color: ColorConstant.whiteColor,
                     ),
-                    title: Padding(
-                      padding: const EdgeInsets.only(top: 5.0),
-                      child: Text(
-                        "Home",
-                        style: TextStyleConstant.normal14Style
-                            .copyWith(color: ColorConstant.whiteColor),
-                      ),
+                    title: Text(
+                      "Home",
+                      style: TextStyleConstant.normal14Style
+                          .copyWith(color: ColorConstant.whiteColor),
                     ),
                     trailing: Icon(
                       Icons.arrow_forward_rounded,
@@ -126,13 +145,28 @@ class CustomDrawer extends StatelessWidget {
                       Icons.store,
                       color: ColorConstant.whiteColor,
                     ),
-                    title: Padding(
-                      padding: const EdgeInsets.only(top: 5.0),
-                      child: Text(
-                        "My Order",
-                        style: TextStyleConstant.normal14Style
-                            .copyWith(color: ColorConstant.whiteColor),
-                      ),
+                    title: Text(
+                      "My Order",
+                      style: TextStyleConstant.normal14Style
+                          .copyWith(color: ColorConstant.whiteColor),
+                    ),
+                    trailing: Icon(
+                      Icons.arrow_forward_rounded,
+                      color: ColorConstant.whiteColor,
+                    )),
+                ListTile(
+                    onTap: () {
+                      // Get.to(());
+                    },
+                    contentPadding: EdgeInsets.zero,
+                    leading: Icon(
+                      Icons.favorite_border,
+                      color: ColorConstant.whiteColor,
+                    ),
+                    title: Text(
+                      "Wishlist",
+                      style: TextStyleConstant.normal14Style
+                          .copyWith(color: ColorConstant.whiteColor),
                     ),
                     trailing: Icon(
                       Icons.arrow_forward_rounded,
@@ -145,13 +179,10 @@ class CustomDrawer extends StatelessWidget {
                       Icons.account_circle,
                       color: ColorConstant.whiteColor,
                     ),
-                    title: Padding(
-                      padding: const EdgeInsets.only(top: 5.0),
-                      child: Text(
-                        "Edit Profile",
-                        style: TextStyleConstant.normal14Style
-                            .copyWith(color: ColorConstant.whiteColor),
-                      ),
+                    title: Text(
+                      "Edit Profile",
+                      style: TextStyleConstant.normal14Style
+                          .copyWith(color: ColorConstant.whiteColor),
                     ),
                     trailing: Icon(
                       Icons.arrow_forward_rounded,
@@ -164,13 +195,10 @@ class CustomDrawer extends StatelessWidget {
                       Icons.add_location_alt,
                       color: ColorConstant.whiteColor,
                     ),
-                    title: Padding(
-                      padding: const EdgeInsets.only(top: 5.0),
-                      child: Text(
-                        "Saved Addresses",
-                        style: TextStyleConstant.normal14Style
-                            .copyWith(color: ColorConstant.whiteColor),
-                      ),
+                    title: Text(
+                      "Saved Addresses",
+                      style: TextStyleConstant.normal14Style
+                          .copyWith(color: ColorConstant.whiteColor),
                     ),
                     trailing: Icon(
                       Icons.arrow_forward_rounded,
@@ -183,13 +211,10 @@ class CustomDrawer extends StatelessWidget {
                       Icons.share,
                       color: ColorConstant.whiteColor,
                     ),
-                    title: Padding(
-                      padding: const EdgeInsets.only(top: 5.0),
-                      child: Text(
-                        "Share to Friends",
-                        style: TextStyleConstant.normal14Style
-                            .copyWith(color: ColorConstant.whiteColor),
-                      ),
+                    title: Text(
+                      "Share to Friends",
+                      style: TextStyleConstant.normal14Style
+                          .copyWith(color: ColorConstant.whiteColor),
                     ),
                     trailing: Icon(
                       Icons.arrow_forward_rounded,
@@ -202,13 +227,10 @@ class CustomDrawer extends StatelessWidget {
                       Icons.library_books,
                       color: ColorConstant.whiteColor,
                     ),
-                    title: Padding(
-                      padding: const EdgeInsets.only(top: 5.0),
-                      child: Text(
-                        "Terms and Condition",
-                        style: TextStyleConstant.normal14Style
-                            .copyWith(color: ColorConstant.whiteColor),
-                      ),
+                    title: Text(
+                      "Terms and Condition",
+                      style: TextStyleConstant.normal14Style
+                          .copyWith(color: ColorConstant.whiteColor),
                     ),
                     trailing: Icon(
                       Icons.arrow_forward_rounded,

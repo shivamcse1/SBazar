@@ -18,8 +18,9 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
+import '../../../../controllers/cart_controller.dart';
 import '../../../../core/constant/color_const.dart';
-import '../cart/cart_screen.dart';
+import '../../../widget/cart_icon_widget.dart';
 
 class DetailsScreen extends StatefulWidget {
   ProductModel? productModel;
@@ -31,6 +32,7 @@ class DetailsScreen extends StatefulWidget {
 
 class DetailsScreenState extends State<DetailsScreen> {
   final BannerController bannerController = Get.put(BannerController());
+
   double h = Get.height;
   double w = Get.width;
   User? user = FirebaseAuth.instance.currentUser;
@@ -45,19 +47,8 @@ class DetailsScreenState extends State<DetailsScreen> {
           "Details Screen",
           style: TextStyle(color: AppConstant.whiteColor),
         ),
-        actions: [
-          Stack(
-            children: [
-              IconButton(
-                  onPressed: () {
-                    Get.to(() => const CartScreen());
-                  },
-                  icon: const Icon(
-                    Icons.shopping_cart,
-                    color: Colors.white,
-                  )),
-            ],
-          )
+        actions: const [
+          CartIconWidget(),
         ],
       ),
       body: SingleChildScrollView(
@@ -450,6 +441,8 @@ class DetailsScreenState extends State<DetailsScreen> {
 
   Future<void> checkProductExistence(
       {required uId, int quantityIncrement = 1}) async {
+    CartController cartController = Get.put(CartController());
+
     // it is use so we can not write again again code
     DocumentReference documentReference = FirebaseFirestore.instance
         .collection(DbKeyConstant.cartCollection)
@@ -502,5 +495,14 @@ class DetailsScreenState extends State<DetailsScreen> {
       await documentReference.set(cartmodel.toMap());
       print("first time added");
     }
+
+    // for total cart product quantity calc
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection(DbKeyConstant.cartCollection)
+        .doc(uId)
+        .collection(DbKeyConstant.cartProductCollection)
+        .get();
+
+    cartController.totalCartItem.value = querySnapshot.docs.length;
   }
 }

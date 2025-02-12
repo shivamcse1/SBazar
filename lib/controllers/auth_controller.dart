@@ -17,6 +17,7 @@ import '../presentation/view/user_panel/home/user_home_screen.dart';
 import 'device_token_contoller.dart';
 
 class AuthController extends GetxController {
+  
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();

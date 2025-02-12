@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
-import '../../../controllers/check_user_data_controller.dart';
+import '../../../controllers/get_user_data_controller.dart';
 import '../../../core/constant/app_const.dart';
 import '../user_panel/home/user_home_screen.dart';
 
@@ -35,13 +35,14 @@ class SplashScreenState extends State<SplashScreen> {
   }
 
   Future<void> getUserInfo() async {
-    final CheckUserDataController checkUserDataController =
-        Get.put(CheckUserDataController());
+    final GetUserDataController getUserDataController =
+        Get.put(GetUserDataController());
     if (user != null) {
-      var userData = await checkUserDataController.getUserData(user!.uid);
+      var userData = await getUserDataController.getUserData(user!.uid);
       if (userData[0]['isAdmin'] == true) {
         Get.offAll(() => const AdminHomeScreen());
       } else {
+        print("home");
         Get.offAll(() => const UserHomeScreen());
       }
     } else {

@@ -83,9 +83,6 @@ class _CartScreenState extends State<CartScreen> {
                         return ListView.builder(
                             itemCount: docData.length,
                             itemBuilder: (context, index) {
-                              cartController.cartItem.value = docData.length;
-
-                              print("hhhh${cartController.cartItem.value}");
 
                               CartModel cartModel = CartModel(
                                   productId: docData[index]

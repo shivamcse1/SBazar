@@ -5,10 +5,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../controllers/cart_controller.dart';
 import '../../../../core/constant/app_const.dart';
 import '../../../../core/constant/database_key_const.dart';
 import '../../../../core/constant/textstyle_const.dart';
 import '../../../../data/model/category_model.dart';
+import '../../../widget/cart_icon_widget.dart';
 
 class AllCategoryScreen extends StatefulWidget {
   const AllCategoryScreen({super.key});
@@ -18,6 +20,8 @@ class AllCategoryScreen extends StatefulWidget {
 }
 
 class AllCategoryScreenState extends State<AllCategoryScreen> {
+  CartController cartController = Get.put(CartController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,6 +32,9 @@ class AllCategoryScreenState extends State<AllCategoryScreen> {
           "All Category",
           style: TextStyle(color: AppConstant.whiteColor),
         ),
+        actions: const [
+          CartIconWidget(),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.only(left: 10.0, right: 10.0),

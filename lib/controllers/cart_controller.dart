@@ -9,7 +9,7 @@ import '../data/model/cart_model.dart';
 
 class CartController extends GetxController {
   RxDouble totalProductPrice = 0.0.obs;
-  RxInt cartItem = 0.obs;
+  RxInt totalCartItem = 0.obs;
 
   Future<void> incrementCartProductQuantity({
     required CartModel cartModel,
@@ -50,6 +50,15 @@ class CartController extends GetxController {
       });
     } else {
       await docref.delete();
+
+      // total number of item calc
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+          .collection(DbKeyConstant.cartCollection)
+          .doc(user.uid)
+          .collection(DbKeyConstant.cartProductCollection)
+          .get();
+
+      totalCartItem.value = querySnapshot.docs.length;
     }
   }
 
@@ -63,6 +72,15 @@ class CartController extends GetxController {
         .collection(DbKeyConstant.cartProductCollection)
         .doc(cartModel.productId)
         .delete();
+
+    // total number of item calc
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection(DbKeyConstant.cartCollection)
+        .doc(user.uid)
+        .collection(DbKeyConstant.cartProductCollection)
+        .get();
+
+    totalCartItem.value = querySnapshot.docs.length;
   }
 
   Future<void> calculateTotalProductPrice({required User? user}) async {

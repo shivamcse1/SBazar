@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
-import '../../../controllers/check_user_data_controller.dart';
+import '../../../controllers/get_user_data_controller.dart';
 import '../../../core/constant/app_const.dart';
 import '../../../utils/Uihelper/custom_snakbar.dart';
 
@@ -24,8 +24,8 @@ class SignInScreen extends StatefulWidget {
 
 class SignInScreenState extends State<SignInScreen> {
   final AuthController authController = Get.put(AuthController());
-  final CheckUserDataController checkUserDataController =
-      Get.put(CheckUserDataController());
+  final GetUserDataController checkUserDataController =
+      Get.put(GetUserDataController());
 
   @override
   Widget build(BuildContext context) {

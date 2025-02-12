@@ -2,6 +2,7 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:s_bazar/controllers/cart_controller.dart';
 import 'package:s_bazar/core/constant/color_const.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,8 @@ import '../../../../core/constant/app_const.dart';
 import '../../../../core/constant/database_key_const.dart';
 import '../../../../core/constant/textstyle_const.dart';
 import '../../../../data/model/product_model.dart';
+import '../../../widget/cart_icon_widget.dart';
+import '../cart/cart_screen.dart';
 import '../details_screen/details_screen.dart';
 
 class AllFlashSaleProductScreen extends StatefulWidget {
@@ -22,6 +25,7 @@ class AllFlashSaleProductScreen extends StatefulWidget {
 }
 
 class AllFlashSaleProductScreenState extends State<AllFlashSaleProductScreen> {
+  CartController cartController = Get.put(CartController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,6 +36,9 @@ class AllFlashSaleProductScreenState extends State<AllFlashSaleProductScreen> {
           "Flash Sale Products",
           style: TextStyle(color: AppConstant.whiteColor),
         ),
+        actions: const [
+          CartIconWidget(),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.only(left: 10.0, right: 10.0),

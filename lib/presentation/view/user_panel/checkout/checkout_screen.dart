@@ -49,12 +49,12 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
               height: 5.0,
             ),
             Expanded(
-              child: StreamBuilder(
-                  stream: FirebaseFirestore.instance
+              child: FutureBuilder(
+                  future: FirebaseFirestore.instance
                       .collection(DbKeyConstant.cartCollection)
                       .doc(user!.uid)
                       .collection(DbKeyConstant.cartProductCollection)
-                      .snapshots(),
+                      .get(),
                   builder: (context, snapshot) {
                     cartController.calculateTotalProductPrice(user: user);
 
@@ -112,133 +112,88 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                   productTotalPrice: docData[index]
                                       [DbKeyConstant.productTotalPrice]);
 
-                              return Slidable(
-                                  startActionPane: ActionPane(
-                                      extentRatio: .48,
-                                      motion: const StretchMotion(),
-                                      children: [
-                                        SlidableAction(
-                                          onPressed: (context) {},
-                                          icon: Icons.share,
-                                          backgroundColor: Colors.lightBlue,
-                                          foregroundColor:
-                                              ColorConstant.whiteColor,
-                                          label: "Share",
-                                        ),
-                                        SlidableAction(
-                                          onPressed: (context) async {
-                                            await cartController
-                                                .deleteCartProduct(
-                                                    cartModel: cartModel,
-                                                    user: user);
-                                          },
-                                          icon: Icons.delete,
-                                          backgroundColor:
-                                              ColorConstant.primaryColor,
-                                          foregroundColor:
-                                              ColorConstant.whiteColor,
-                                          label: "Delete",
-                                        ),
-                                      ]),
-                                  child: Container(
-                                    margin: const EdgeInsets.symmetric(
-                                        vertical: 3.0, horizontal: 8.0),
-                                    height: 100,
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 10),
-                                    decoration: BoxDecoration(
-                                        color: ColorConstant.whiteColor,
-                                        borderRadius:
-                                            BorderRadius.circular(10)),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Container(
-                                            height: h / 10,
-                                            width: w / 5,
-                                            padding: const EdgeInsets.all(1),
-                                            decoration: BoxDecoration(
-                                                color: ColorConstant.greyColor
-                                                    .withOpacity(.3),
-                                                borderRadius:
-                                                    BorderRadius.circular(10)),
-                                            child: ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              child: CachedNetworkImage(
-                                                fit: BoxFit.fill,
-                                                imageUrl:
-                                                    cartModel.productImgList[0],
+                              return Container(
+                                margin: const EdgeInsets.symmetric(
+                                    vertical: 3.0, horizontal: 8.0),
+                                height: 100,
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 10),
+                                decoration: BoxDecoration(
+                                    color: ColorConstant.whiteColor,
+                                    borderRadius: BorderRadius.circular(10)),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Container(
+                                        height: h / 10,
+                                        width: w / 5,
+                                        padding: const EdgeInsets.all(1),
+                                        decoration: BoxDecoration(
+                                            color: ColorConstant.greyColor
+                                                .withOpacity(.3),
+                                            borderRadius:
+                                                BorderRadius.circular(10)),
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          child: CachedNetworkImage(
+                                            fit: BoxFit.fill,
+                                            imageUrl:
+                                                cartModel.productImgList[0],
 
-                                                // it execute until image not load
-                                                placeholder: (context, imgUrl) {
-                                                  return const Center(
-                                                    child:
-                                                        CupertinoActivityIndicator(),
-                                                  );
-                                                },
+                                            // it execute until image not load
+                                            placeholder: (context, imgUrl) {
+                                              return const Center(
+                                                child:
+                                                    CupertinoActivityIndicator(),
+                                              );
+                                            },
 
-                                                // it execute when any error occured loaidng in image
-                                                errorWidget:
-                                                    (context, url, error) {
-                                                  return Image.asset(
-                                                      ImageConstant.previewImg);
-                                                },
-                                              ),
-                                            )),
-                                        const SizedBox(
-                                          width: 15,
-                                        ),
-                                        Expanded(
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                cartModel.productName,
-                                                style: TextStyleConstant
-                                                    .bold14Style,
-                                              ),
-                                              Text(
-                                                DbKeyConstant.rs +
-                                                    cartModel.productTotalPrice
-                                                        .toString(),
-                                                style: TextStyleConstant
-                                                    .bold14Style,
-                                              ),
-                                              Text(
-                                                "Qty : " +
-                                                    cartModel.productQuantity
-                                                        .toString(),
-                                                style: TextStyleConstant
-                                                    .bold14Style,
-                                              ),
-                                            ],
+                                            // it execute when any error occured loaidng in image
+                                            errorWidget: (context, url, error) {
+                                              return Image.asset(
+                                                  ImageConstant.previewImg);
+                                            },
                                           ),
-                                        ),
-                                        const SizedBox(
-                                          width: 5,
-                                        ),
-                                        CustomQuantityButton(
-                                          value: cartModel.productQuantity,
-                                          plusOntap: () async {
-                                            await cartController
-                                                .incrementCartProductQuantity(
-                                                    cartModel: cartModel,
-                                                    user: user);
-                                          },
-                                          minusOntap: () async {
-                                            await cartController
-                                                .decrementCartProductQuantity(
-                                                    cartModel: cartModel,
-                                                    user: user);
-                                          },
-                                        )
-                                      ],
+                                        )),
+                                    const SizedBox(
+                                      width: 15,
                                     ),
-                                  ));
+                                    Expanded(
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            cartModel.productName,
+                                            style:
+                                                TextStyleConstant.bold14Style,
+                                          ),
+                                          Text(
+                                            DbKeyConstant.rs +
+                                                cartModel.productTotalPrice
+                                                    .toString(),
+                                            style:
+                                                TextStyleConstant.bold14Style,
+                                          ),
+                                          Text(
+                                            "Qty : " +
+                                                cartModel.productQuantity
+                                                    .toString(),
+                                            style:
+                                                TextStyleConstant.bold14Style,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: 5,
+                                    ),
+                                  ],
+                                ),
+                              );
                             });
                       } else {
                         EasyLoading.dismiss();

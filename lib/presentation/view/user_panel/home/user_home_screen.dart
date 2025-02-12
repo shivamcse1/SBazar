@@ -1,12 +1,17 @@
+// ignore_for_file: prefer_typing_uninitialized_variables
+
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:s_bazar/controllers/cart_controller.dart';
+import 'package:s_bazar/controllers/get_user_data_controller.dart';
 import 'package:s_bazar/presentation/view/user_panel/category/all_category_screen.dart';
 import 'package:s_bazar/presentation/view/user_panel/all_flash_sale/all_flash_sale_product_screen.dart';
 import 'package:s_bazar/presentation/view/user_panel/all_product/all_product_screen.dart';
-import 'package:s_bazar/presentation/view/user_panel/cart/cart_screen.dart';
 import 'package:s_bazar/presentation/widget/custom_drawer.dart';
 import 'package:s_bazar/presentation/widget/custom_heading.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../../core/constant/app_const.dart';
+import '../../../widget/cart_icon_widget.dart';
 import '../../../widget/custom_all_product.dart';
 import '../../../widget/custom_category_item.dart';
 import '../../../widget/custom_flash_sale.dart';
@@ -20,6 +25,16 @@ class UserHomeScreen extends StatefulWidget {
 }
 
 class UserHomeScreenState extends State<UserHomeScreen> {
+  GetUserDataController getUserDataController =
+      Get.put(GetUserDataController());
+  var userData;
+  User? user = FirebaseAuth.instance.currentUser;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,19 +46,8 @@ class UserHomeScreenState extends State<UserHomeScreen> {
           style: TextStyle(color: AppConstant.whiteColor),
         ),
         centerTitle: true,
-        actions: [
-          Stack(
-            children: [
-              IconButton(
-                  onPressed: () {
-                    Get.to(() => const CartScreen());
-                  },
-                  icon: const Icon(
-                    Icons.shopping_cart,
-                    color: Colors.white,
-                  )),
-            ],
-          )
+        actions: const [
+          CartIconWidget(),
         ],
       ),
       drawer: const CustomDrawer(),
@@ -51,7 +55,10 @@ class UserHomeScreenState extends State<UserHomeScreen> {
         // physics: const BouncingScrollPhysics(),
         child: Column(
           children: [
-            CustomSlider(),
+            const CustomSlider(
+              imgList: [],
+              autoScroll: true,
+            ),
             CustomHeading(
               onTap: () {
                 Get.to(() => const AllCategoryScreen());
