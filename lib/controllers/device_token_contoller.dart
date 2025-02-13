@@ -1,9 +1,9 @@
 // ignore_for_file: body_might_complete_normally_nullable
 
-import 'package:s_bazar/utils/Uihelper/custom_snakbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:s_bazar/utils/Uihelper/ui_helper.dart';
 
 class DeviceTokenContoller extends GetxController {
   String deviceToken = '';
@@ -23,12 +23,12 @@ class DeviceTokenContoller extends GetxController {
         update();
         return deviceToken;
       } else {
-        SnackbarHelper.customSnackbar(
+        UiHelper.customSnackbar(
             titleMsg: "Error Ocuured", msg: "Device Token Null");
         throw Exception("Error occured");
       }
     } on FirebaseException catch (ex) {
-      SnackbarHelper.customSnackbar(titleMsg: "Error Ocuured", msg: "$ex");
+      UiHelper.customSnackbar(titleMsg: "Error Ocuured", msg: "$ex");
       throw Exception("Error occured : $ex");
     }
   }

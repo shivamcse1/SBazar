@@ -2,16 +2,15 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:s_bazar/controllers/cart_controller.dart';
+import 'package:s_bazar/controllers/payment_controller.dart';
 import 'package:s_bazar/core/constant/database_key_const.dart';
 import 'package:s_bazar/core/constant/image_const.dart';
 import 'package:s_bazar/core/constant/textstyle_const.dart';
 import 'package:s_bazar/data/model/cart_model.dart';
-import 'package:s_bazar/presentation/widget/custom_qunatity_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 
 import '../../../../core/constant/app_const.dart';
@@ -30,6 +29,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
   double h = Get.height;
   double w = Get.width;
   final CartController cartController = Get.put(CartController());
+  final PaymentController paymentController = Get.put(PaymentController());
 
   @override
   Widget build(BuildContext context) {
@@ -225,7 +225,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                           ),
                           Obx(
                             () => Text(DbKeyConstant.rs +
-                                "${cartController.totalProductPrice}"),
+                                "${cartController.totalProductPrice.value}"),
                           )
                         ],
                       ),
@@ -237,8 +237,32 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                             fixedSize: Size(w / 2, h / 18),
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(15))),
-                        onPressed: () {
-                          BottomSheetHelper.addressBottomSheet(context);
+                        onPressed: () async {
+                          BottomSheetHelper.addressBottomSheet(context)
+                              .then((result) async {
+                            if (result != null) {
+                              await paymentController.getPayment(userData: {
+                                DbKeyConstant.productTotalPrice:
+                                    ((cartController.totalProductPrice.value) *
+                                            100)
+                                        .toInt(),
+                                DbKeyConstant.context:
+                                    result[DbKeyConstant.context],
+                                DbKeyConstant.userName:
+                                    result[DbKeyConstant.userName],
+                                DbKeyConstant.userEmail:
+                                    result[DbKeyConstant.userEmail],
+                                DbKeyConstant.userPhone:
+                                    result[DbKeyConstant.userPhone],
+                                DbKeyConstant.userAddress:
+                                    result[DbKeyConstant.userAddress],
+                                DbKeyConstant.userDeviceToken:
+                                    result[DbKeyConstant.userDeviceToken],
+                              });
+                            } else {
+                              print("please provide details");
+                            }
+                          });
                         },
                         child: Text(
                           "Place Order",

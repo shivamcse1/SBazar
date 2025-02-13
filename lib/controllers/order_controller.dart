@@ -5,17 +5,16 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:s_bazar/core/error/exception/firebase_exception_handler.dart';
 
 import '../core/constant/database_key_const.dart';
 import '../data/model/order_model.dart';
-import '../presentation/view/user_panel/home/user_home_screen.dart';
-import '../utils/Uihelper/custom_snakbar.dart';
+import '../utils/Uihelper/ui_helper.dart';
 
 class OrderController extends GetxController {
   // placeing order method
-  void placeOrder({
+  Future<void> placeOrder({
     required BuildContext context,
     required String userName,
     required String userPhone,
@@ -23,7 +22,6 @@ class OrderController extends GetxController {
     required String userDeviceToken,
   }) async {
     User? user = FirebaseAuth.instance.currentUser;
-    EasyLoading.show(status: "Please wait..");
 
     if (user != null) {
       try {
@@ -97,17 +95,18 @@ class OrderController extends GetxController {
           });
         }
 
-        SnackbarHelper.customSnackbar(
-            titleMsg: "Order Confirmed!",
-            msg: "Thank you for shopping! Have a nice day");
-        EasyLoading.dismiss();
-        Get.offAll(() => const UserHomeScreen());
-      } catch (ex) {
-        EasyLoading.dismiss();
+        // UiHelper.customSnackbar(
+        //     titleMsg: "Order Confirmed!",
+        //     msg: "Thank you for shopping! Have a nice day");
+     
+        // Get.offAll(() => const UserHomeScreen());
+      } on FirebaseException catch (ex) {
+        
+        FirebaseExceptionHelper.exceptionHandler(ex);
         print("error Ocurred:$ex");
       }
     }
-    EasyLoading.dismiss();
+ 
   }
 
   // generate order id
@@ -118,5 +117,4 @@ class OrderController extends GetxController {
     return orderId;
   }
 
-  //
 }

@@ -1,6 +1,8 @@
 class DbKeyConstant{
 
  // collection name
+
+  static const String razorpayKey = "rzp_test_wVNWAiD1uQ14Ru";
   static const String userCollection = "users";
   static const String bannerCollection = "banner";
   static const String categoryCollection = "categories";
@@ -13,6 +15,7 @@ class DbKeyConstant{
 
 
   static const String bannerImg = 'bannerImg';
+  static const String context = 'context';
 
   // common databaseKey
   static const String createdAt = 'createdAt';

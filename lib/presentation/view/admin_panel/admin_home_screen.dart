@@ -1,9 +1,9 @@
 import 'package:s_bazar/presentation/view/auth_ui/welcome_screen.dart';
-import 'package:s_bazar/utils/Uihelper/custom_snakbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:s_bazar/utils/Uihelper/ui_helper.dart';
 
 import '../../../core/constant/app_const.dart';
 
@@ -36,7 +36,7 @@ class AdminHomeScreenState extends State<AdminHomeScreen> {
               await GoogleSignIn().signOut();
 
               Get.offAll(() => const WelcomeScreen());
-              SnackbarHelper.customSnackbar(
+              UiHelper.customSnackbar(
                   titleMsg: "Logout", msg: "User Logout Successfull");
             },
             icon: const Icon(

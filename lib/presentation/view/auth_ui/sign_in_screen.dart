@@ -10,10 +10,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+import 'package:s_bazar/utils/Uihelper/ui_helper.dart';
 
 import '../../../controllers/get_user_data_controller.dart';
 import '../../../core/constant/app_const.dart';
-import '../../../utils/Uihelper/custom_snakbar.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -133,7 +133,7 @@ class SignInScreenState extends State<SignInScreen> {
                           authController.passwordController.value.text.trim();
 
                       if (email.isEmpty || password.isEmpty) {
-                        SnackbarHelper.customSnackbar(
+                        UiHelper.customSnackbar(
                             titleMsg: "Error Occured",
                             msg: "Please Enter All Details");
                       } else {
@@ -148,18 +148,18 @@ class SignInScreenState extends State<SignInScreen> {
                           if (userCredential.user!.emailVerified) {
                             if (userData[0]["isAdmin"] == true) {
                               Get.offAll(() => const AdminHomeScreen());
-                              SnackbarHelper.customSnackbar(
+                              UiHelper.customSnackbar(
                                   titleMsg: "Congratulations! Admin",
                                   msg: "Sign In Successfull!");
                             } else {
                               Get.offAll(() => const UserHomeScreen());
-                              SnackbarHelper.customSnackbar(
+                              UiHelper.customSnackbar(
                                   titleMsg: "Congratulations! User",
                                   msg: "Sign In Successfull!");
                             }
                           } else {
                             print("jdskdskndsk");
-                            SnackbarHelper.customSnackbar(
+                            UiHelper.customSnackbar(
                                 titleMsg: "Error occured",
                                 msg: "Please Verify Email Before Sign In");
                           }

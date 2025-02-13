@@ -9,7 +9,7 @@ import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import '../../core/constant/textstyle_const.dart';
-import '../../utils/Uihelper/custom_snakbar.dart';
+import '../../utils/Uihelper/ui_helper.dart';
 import '../view/auth_ui/welcome_screen.dart';
 import '../view/user_panel/my_order/my_order_screen.dart';
 
@@ -280,7 +280,7 @@ class CustomDrawer extends StatelessWidget {
                       await FirebaseAuth.instance.signOut();
 
                       Get.offAll(() => const WelcomeScreen());
-                      SnackbarHelper.customSnackbar(
+                      UiHelper.customSnackbar(
                           titleMsg: "Logout", msg: "User Logout Successfull");
                     },
                     child: Text('Log Out',
