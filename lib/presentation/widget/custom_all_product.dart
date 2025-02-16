@@ -6,10 +6,11 @@ import 'package:s_bazar/core/constant/color_const.dart';
 import 'package:s_bazar/core/constant/database_key_const.dart';
 import 'package:s_bazar/core/constant/textstyle_const.dart';
 import 'package:s_bazar/data/model/product_model.dart';
-import 'package:s_bazar/presentation/view/user_panel/details_screen/details_screen.dart';
+import 'package:s_bazar/presentation/view/user_panel/details/details_screen.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'package:get/get.dart';
+import 'package:s_bazar/presentation/widget/product_shimmer.dart';
 
 class CustomAllProduct extends StatelessWidget {
   const CustomAllProduct({super.key});
@@ -19,18 +20,15 @@ class CustomAllProduct extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       child: FutureBuilder(
-          future: FirebaseFirestore.instance
-              .collection(DbKeyConstant.productCollection)
-              .where('isSale', isEqualTo: false)
-              .get(),
+          future: Future.delayed(
+              const Duration(seconds: 2),
+              () => FirebaseFirestore.instance
+                  .collection(DbKeyConstant.productCollection)
+                  .where('isSale', isEqualTo: false)
+                  .get()),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return SizedBox(
-                height: Get.height / 5,
-                child: const Center(
-                  child: CupertinoActivityIndicator(),
-                ),
-              );
+              return allProductShimmer();
             }
 
             if (snapshot.hasError) {
@@ -130,5 +128,21 @@ class CustomAllProduct extends StatelessWidget {
             return Container();
           }),
     );
+  }
+
+  Widget allProductShimmer() {
+    return GridView.builder(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: 5,
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: 15,
+          mainAxisSpacing: 10,
+          childAspectRatio: .9,
+        ),
+        itemBuilder: (context, index) {
+          return const ProductShimmer();
+        });
   }
 }

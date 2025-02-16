@@ -17,6 +17,7 @@ import 'package:get/get.dart';
 
 import '../../../../core/constant/app_const.dart';
 import '../../../../core/constant/color_const.dart';
+import '../../../widget/custom_shimmer_container.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
@@ -54,18 +55,16 @@ class _CartScreenState extends State<CartScreen> {
                       .collection(DbKeyConstant.cartCollection)
                       .doc(user!.uid)
                       .collection(DbKeyConstant.cartProductCollection)
-                      .snapshots(),
+                      .snapshots()
+                      .asyncMap((event) async {
+                    await Future.delayed(const Duration(milliseconds: 500));
+                    return event;
+                  }),
                   builder: (context, snapshot) {
                     cartController.calculateTotalProductPrice(user: user);
 
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      EasyLoading.show(status: "Please wait..");
-                      return SizedBox(
-                        height: Get.height / 5,
-                        child: const Center(
-                          child: CupertinoActivityIndicator(),
-                        ),
-                      );
+                      return cartShimmer();
                     }
 
                     if (snapshot.hasError) {
@@ -83,7 +82,6 @@ class _CartScreenState extends State<CartScreen> {
                         return ListView.builder(
                             itemCount: docData.length,
                             itemBuilder: (context, index) {
-
                               CartModel cartModel = CartModel(
                                   productId: docData[index]
                                       [DbKeyConstant.productId],
@@ -256,49 +254,142 @@ class _CartScreenState extends State<CartScreen> {
             Container(
               height: 60,
               color: Colors.blue.shade100,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                child: Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Total amount",
-                            style: TextStyleConstant.bold14Style,
-                          ),
-                          Obx(
-                            () => Text(
-                              DbKeyConstant.rs +
-                                  "${cartController.totalProductPrice}",
-                              style: TextStyleConstant.bold14Style,
-                            ),
+              child: Obx(
+                () => Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    child: cartController.totalProductPrice.value != 0.0
+                        ? Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(top: 8.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Total amount",
+                                      style: TextStyleConstant.bold14Style,
+                                    ),
+                                    Text(
+                                      DbKeyConstant.rs +
+                                          "${cartController.totalProductPrice}",
+                                      style: TextStyleConstant.bold14Style,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const Spacer(),
+                              ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                      backgroundColor:
+                                          ColorConstant.primaryColor,
+                                      fixedSize: Size(w / 2, h / 18),
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(15))),
+                                  onPressed: () {
+                                    Get.to(() => const CheckOutScreen());
+                                  },
+                                  child: Text(
+                                    "Checkout",
+                                    style: TextStyleConstant.bold16Style
+                                        .copyWith(
+                                            color: ColorConstant.whiteColor),
+                                  ))
+                            ],
                           )
-                        ],
-                      ),
-                    ),
-                    const Spacer(),
-                    ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: ColorConstant.primaryColor,
-                            fixedSize: Size(w / 2, h / 18),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15))),
-                        onPressed: () {
-                          Get.to(() => const CheckOutScreen());
-                        },
-                        child: Text(
-                          "Checkout",
-                          style: TextStyleConstant.bold16Style
-                              .copyWith(color: ColorConstant.whiteColor),
-                        ))
-                  ],
-                ),
+                        : bottomButtonShimmer()),
               ),
             ),
           ]),
         ));
+  }
+
+  Widget cartShimmer() {
+    return ListView.builder(
+        itemCount: 8,
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemBuilder: (context, index) {
+          return const Padding(
+            padding: EdgeInsets.all(10),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                CustomShimmerContainer(
+                  height: 80,
+                  width: 90,
+                  radius: 12,
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      CustomShimmerContainer(
+                        height: 10,
+                        width: 200,
+                        radius: 12,
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      CustomShimmerContainer(
+                        height: 10,
+                        width: 130,
+                        radius: 12,
+                      ),
+                      SizedBox(height: 10),
+                      CustomShimmerContainer(
+                        height: 10,
+                        width: 80,
+                        radius: 12,
+                      ),
+                      SizedBox(height: 10),
+                      CustomShimmerContainer(
+                        height: 10,
+                        width: 100,
+                        radius: 12,
+                      ),
+                    ],
+                  ),
+                ),
+                CustomShimmerContainer(
+                  height: 30,
+                  width: 70,
+                ),
+              ],
+            ),
+          );
+        });
+  }
+
+  Widget bottomButtonShimmer() {
+    return const Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Column(
+          children: [
+            CustomShimmerContainer(
+              height: 15,
+              width: 100,
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            CustomShimmerContainer(
+              height: 15,
+              width: 80,
+            ),
+          ],
+        ),
+        CustomShimmerContainer(
+          height: 40,
+          width: 150,
+          radius: 15,
+        ),
+      ],
+    );
   }
 }

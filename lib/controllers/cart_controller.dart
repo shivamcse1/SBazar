@@ -98,12 +98,20 @@ class CartController extends GetxController {
         sum = sum + docData[DbKeyConstant.productTotalPrice];
       }
     }
-    totalProductPrice.value = sum;
+    Future.delayed(const Duration(seconds: 2), () {
+      totalProductPrice.value = sum;
+    });
   }
 
   @override
   void onInit() {
     calculateTotalProductPrice(user: FirebaseAuth.instance.currentUser);
     super.onInit();
+  }
+
+  @override
+  void onClose() {
+    CartController().dispose();
+    super.onClose();
   }
 }

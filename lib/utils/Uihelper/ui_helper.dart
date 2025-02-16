@@ -1,3 +1,7 @@
+// ignore_for_file: unnecessary_brace_in_string_interps, prefer_interpolation_to_compose_strings, prefer_adjacent_string_concatenation
+
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -8,6 +12,7 @@ import '../../core/constant/app_const.dart';
 import '../../core/constant/image_const.dart';
 
 class UiHelper {
+
   static Widget noProductFound({
     String heading = "No Product Found",
     String subHeading =
@@ -50,21 +55,21 @@ class UiHelper {
 
   static void customToast({
     required String msg,
-    ToastGravity? toastPosition,
+    ToastGravity? toastGravity,
     Color? textColor,
     Color? bgColor,
   }) {
     Fluttertoast.showToast(
         msg: msg,
         toastLength: Toast.LENGTH_SHORT,
-        gravity: toastPosition ?? ToastGravity.CENTER,
+        gravity: toastGravity ?? ToastGravity.CENTER,
         timeInSecForIosWeb: 1,
         backgroundColor:bgColor ?? ColorConstant.primaryColor,
         textColor: textColor ?? ColorConstant.whiteColor,
         fontSize: 16.0);
   }
 
-  static void loadingIndigator() {
+  void loadingIndigator() {
     EasyLoading.instance
       ..displayDuration = const Duration(milliseconds: 2000)
       ..indicatorType = EasyLoadingIndicatorType.fadingCircle
@@ -86,5 +91,17 @@ class UiHelper {
     if (!currentFocus.hasPrimaryFocus) {
       currentFocus.unfocus();
     }
+  }
+
+   // generate unique id
+  static String generateUniqueId({
+    String? idType
+  }) {
+    DateTime now = DateTime.now();
+    int randomNumber = Random().nextInt(10000);
+    String orderId = idType == null 
+                      ? "OD" + "${now.millisecondsSinceEpoch}" + "${randomNumber}"
+                      : idType + "${now.millisecondsSinceEpoch}" + "${randomNumber}";
+    return orderId;
   }
 }

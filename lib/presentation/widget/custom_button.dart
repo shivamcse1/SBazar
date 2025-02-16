@@ -19,17 +19,15 @@ class CustomElevatedButton extends StatelessWidget {
       required this.buttonText,
       required this.onTap,
       this.height = 54,
-      this.width = 343,
+      this.width = double.infinity,
       this.radius,
       this.buttonColor,
       this.buttonTextStyle,
       this.isTextFieldEmpty = true,
       this.margin,
-      this.isLoading = false, 
-      this.borderWidth, 
-      this.borderColor
-      
-      });
+      this.isLoading = false,
+      this.borderWidth,
+      this.borderColor});
 
   @override
   Widget build(BuildContext context) {
@@ -44,9 +42,9 @@ class CustomElevatedButton extends StatelessWidget {
                   : Colors.red,
               shape: RoundedRectangleBorder(
                   side: BorderSide(
-                    width: borderWidth ?? 1,
-                    color: borderColor ?? Colors.red),
-                  borderRadius: BorderRadius.circular(radius ?? 16))),
+                      width: borderWidth ?? 1,
+                      color: borderColor ?? Colors.red),
+                  borderRadius: BorderRadius.circular(radius ?? 10))),
           onPressed: onTap,
           child: (isLoading != null && isLoading != false)
               ? Visibility(
@@ -110,7 +108,7 @@ class CustomQuantityButton extends StatelessWidget {
         decoration: BoxDecoration(
             color: buttonColor,
             border: Border.all(color: Colors.green),
-            borderRadius: BorderRadius.circular(radius ?? 8)),
+            borderRadius: BorderRadius.circular(radius ?? 10)),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

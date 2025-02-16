@@ -8,18 +8,19 @@ import 'package:s_bazar/core/constant/image_const.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:s_bazar/presentation/widget/custom_shimmer_container.dart';
 
 class CustomSlider extends StatefulWidget {
- final List<String> imgList;
- final double? imgHeight;
- final double? imgWidth;
- final double? radius;
- final double? viewportFraction;
- final bool isSliderPointVisible;
- final bool autoScroll;
- final EdgeInsetsGeometry? padding;
- final Color? selcetedDotColor;
- final Color? unselectedDotColor;
+  final List<String> imgList;
+  final double? imgHeight;
+  final double? imgWidth;
+  final double? radius;
+  final double? viewportFraction;
+  final bool isSliderPointVisible;
+  final bool autoScroll;
+  final EdgeInsetsGeometry? padding;
+  final Color? selcetedDotColor;
+  final Color? unselectedDotColor;
 
   const CustomSlider({
     super.key,
@@ -95,47 +96,51 @@ class _CustomSliderState extends State<CustomSlider> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Obx(() => SizedBox(
-              height: Get.height / 4,
-              width: double.infinity,
-              child: PageView.builder(
-                controller: pageController,
-                itemCount: bannerController.bannerImgList.length,
-                itemBuilder: ((context, index) {
-                  return Padding(
-                    padding:
-                        const EdgeInsets.only(left: 5.0, top: 5.0, right: 10.0),
-                    child: ClipRRect(
-                      borderRadius: const BorderRadius.all(Radius.circular(10)),
-                      child: CachedNetworkImage(
-                        imageUrl: bannerController.bannerImgList[index],
-                        fit: BoxFit.cover,
+        Obx(() => bannerController.bannerImgList.isEmpty
+            ? bannerShimmer()
+            : SizedBox(
+                height: Get.height / 4,
+                width: double.infinity,
+                child: PageView.builder(
+                  controller: pageController,
+                  itemCount: bannerController.bannerImgList.length,
+                  itemBuilder: ((context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.only(
+                          left: 5.0, top: 5.0, right: 10.0),
+                      child: ClipRRect(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10)),
+                        child: CachedNetworkImage(
+                          imageUrl: bannerController.bannerImgList[index],
+                          fit: BoxFit.cover,
 
-                        // Placeholder while the image is loading
-                        placeholder: (context, imgUrl) {
-                          return Container(
-                            color: Colors.white,
-                            child: const Center(
-                              child: CupertinoActivityIndicator(),
-                            ),
-                          );
-                        },
+                          // Placeholder while the image is loading
+                          placeholder: (context, imgUrl) {
+                            return Container(
+                              color: Colors.white,
+                              child: const Center(
+                                child: CupertinoActivityIndicator(),
+                              ),
+                            );
+                          },
 
-                        errorWidget: (context, url, error) {
-                          return Image.asset(ImageConstant.previewImg);
-                        },
+                          errorWidget: (context, url, error) {
+                            return Image.asset(ImageConstant.previewImg);
+                          },
+                        ),
                       ),
-                    ),
-                  );
-                }),
-                onPageChanged: (value) {
-                  bannerController.pageIndex.value = value;
-                  currentPage = value;
-                },
-              ),
-            )),
+                    );
+                  }),
+                  onPageChanged: (value) {
+                    bannerController.pageIndex.value = value;
+                    currentPage = value;
+                  },
+                ),
+              )),
         const SizedBox(height: 5.0),
-        widget.isSliderPointVisible == null || widget.isSliderPointVisible == true
+        widget.isSliderPointVisible == null ||
+                widget.isSliderPointVisible == true
             ? SizedBox(
                 height: 10.0,
                 child: Obx(() => Row(
@@ -163,6 +168,45 @@ class _CustomSliderState extends State<CustomSlider> {
                       }),
                     )))
             : const SizedBox.shrink()
+      ],
+    );
+  }
+
+  Widget bannerShimmer() {
+    return Column(
+      children: [
+        SizedBox(
+          height: Get.height / 4,
+          child: PageView.builder(
+            controller: pageController,
+            itemCount: 5,
+            itemBuilder: ((context, index) {
+              return Padding(
+                padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
+                child: CustomShimmerContainer(
+                  height: Get.height / 4,
+                  width: double.infinity,
+                ),
+              );
+            }),
+          ),
+        ),
+        const SizedBox(
+          height: 5,
+        ),
+        SizedBox(
+          height: 10,
+          width: 70,
+          child: Row(
+            children: List.generate(
+                5,
+                (index) => const CustomShimmerContainer(
+                      height: 10,
+                      width: 10,
+                      margin: EdgeInsets.symmetric(horizontal: 1),
+                    )),
+          ),
+        )
       ],
     );
   }

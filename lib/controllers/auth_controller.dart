@@ -17,7 +17,6 @@ import '../presentation/view/user_panel/home/user_home_screen.dart';
 import 'device_token_contoller.dart';
 
 class AuthController extends GetxController {
-  
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
@@ -27,7 +26,7 @@ class AuthController extends GetxController {
   final FirebaseAuth auth = FirebaseAuth.instance;
   final RxBool isPasswordVisible = true.obs;
 
-  Future<UserCredential?> signInWithEmail({
+  Future<UserCredential?> signInWithEmailAndPassword({
     required String userEmail,
     required String userPassword,
   }) async {

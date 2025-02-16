@@ -3,18 +3,18 @@ import 'package:s_bazar/presentation/view/auth_ui/sign_in_screen.dart';
 import 'package:s_bazar/presentation/view/auth_ui/sign_up_screen.dart';
 import 'package:s_bazar/presentation/view/auth_ui/splash_screen.dart';
 import 'package:s_bazar/presentation/view/auth_ui/welcome_screen.dart';
-import 'package:s_bazar/presentation/view/user_panel/all_product/all_product_screen.dart';
 import 'package:s_bazar/presentation/view/user_panel/cart/cart_screen.dart';
 import 'package:s_bazar/presentation/view/user_panel/category/all_category_product_screen.dart';
-import 'package:s_bazar/presentation/view/user_panel/my_order/my_order_screen.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
 
 import '../../presentation/view/admin_panel/admin_home_screen.dart';
-import '../../presentation/view/user_panel/all_flash_sale/all_flash_sale_product_screen.dart';
+import '../../presentation/view/user_panel/flash_sale/all_flash_sale_product_screen.dart';
 import '../../presentation/view/user_panel/category/all_category_screen.dart';
 import '../../presentation/view/user_panel/checkout/checkout_screen.dart';
-import '../../presentation/view/user_panel/details_screen/details_screen.dart';
+import '../../presentation/view/user_panel/details/details_screen.dart';
 import '../../presentation/view/user_panel/home/user_home_screen.dart';
+import '../../presentation/view/user_panel/order/order_screen.dart';
+import '../../presentation/view/user_panel/product/all_product_screen.dart';
 import '../../presentation/view/user_panel/review/review_screen.dart';
 
 class AppRoutes {
@@ -53,7 +53,7 @@ class AppRoutes {
         name: allFlashSaleProductScreen,
         page: () => const AllFlashSaleProductScreen()),
     GetPage(name: userHomeScreen, page: () => const UserHomeScreen()),
-    GetPage(name: myOrderScreen, page: () => const MyOrderScreen()),
+    GetPage(name: myOrderScreen, page: () => const OrderScreen()),
     GetPage(name: orderReviewScreen, page: () => const ReviewScreen()),
     GetPage(name: adminHomeScreen, page: () => const AdminHomeScreen()),
   ];

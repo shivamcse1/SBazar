@@ -11,7 +11,8 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 
-import '../view/user_panel/details_screen/details_screen.dart';
+import '../view/user_panel/details/details_screen.dart';
+import 'product_shimmer.dart';
 
 class CustomFlashSale extends StatelessWidget {
   const CustomFlashSale({super.key});
@@ -19,18 +20,16 @@ class CustomFlashSale extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: FirebaseFirestore.instance
-            .collection(DbKeyConstant.productCollection)
-            .where('isSale', isEqualTo: true)
-            .get(),
+        future: Future.delayed(
+          const Duration(seconds: 2),
+          () => FirebaseFirestore.instance
+              .collection(DbKeyConstant.productCollection)
+              .where('isSale', isEqualTo: true)
+              .get(),
+        ),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Container(
-              height: Get.height / 5,
-              child: const Center(
-                child: CupertinoActivityIndicator(),
-              ),
-            );
+            return flashSaleItemShimmer();
           }
 
           if (snapshot.hasError) {
@@ -141,5 +140,24 @@ class CustomFlashSale extends StatelessWidget {
 
           return Container();
         });
+  }
+
+  Widget flashSaleItemShimmer() {
+    return SizedBox(
+      height: 160,
+      child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          shrinkWrap: true,
+          itemCount: 5,
+          itemBuilder: (context, index) {
+            return const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 5.0),
+              child: ProductShimmer(
+                height: 160,
+                width: 120,
+              ),
+            );
+          }),
+    );
   }
 }

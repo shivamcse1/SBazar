@@ -36,7 +36,7 @@ class OrderController extends GetxController {
         for (var singleDoc in documentList) {
           Map<String, dynamic> docData =
               singleDoc.data() as Map<String, dynamic>;
-          String orderId = generateOrderId();
+          String orderId = UiHelper.generateUniqueId();
 
           print("Ram${documentList.length}");
           OrderModel orderModel = OrderModel(
@@ -109,12 +109,6 @@ class OrderController extends GetxController {
  
   }
 
-  // generate order id
-  String generateOrderId() {
-    DateTime now = DateTime.now();
-    int randomNumber = Random().nextInt(10000);
-    String orderId = "OD" + "${now.millisecondsSinceEpoch}" + "${randomNumber}";
-    return orderId;
-  }
+ 
 
 }

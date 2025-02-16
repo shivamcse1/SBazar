@@ -10,20 +10,21 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:s_bazar/presentation/widget/custom_shimmer_container.dart';
 
 import '../../../../core/constant/app_const.dart';
 import '../../../../core/constant/color_const.dart';
 import '../../../../core/constant/image_const.dart';
 import '../../../../data/model/order_model.dart';
 
-class MyOrderScreen extends StatefulWidget {
-  const MyOrderScreen({super.key});
+class OrderScreen extends StatefulWidget {
+  const OrderScreen({super.key});
 
   @override
-  State<MyOrderScreen> createState() => _MyOrderScreenState();
+  State<OrderScreen> createState() => _OrderScreenState();
 }
 
-class _MyOrderScreenState extends State<MyOrderScreen> {
+class _OrderScreenState extends State<OrderScreen> {
   User? user = FirebaseAuth.instance.currentUser;
   double h = Get.height;
   double w = Get.width;
@@ -37,7 +38,7 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
           iconTheme: IconThemeData(color: ColorConstant.whiteColor),
           backgroundColor: AppConstant.appPrimaryColor,
           title: Text(
-            "My Order",
+            "Order",
             style: TextStyle(color: AppConstant.whiteColor),
           ),
         ),
@@ -49,20 +50,17 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
             ),
             Expanded(
               child: FutureBuilder(
-                  future: FirebaseFirestore.instance
-                      .collection(DbKeyConstant.orderCollection)
-                      .doc(user!.uid)
-                      .collection(DbKeyConstant.confirmedOrderCollection)
-                      .get(),
+                  future: Future.delayed(
+                    const Duration(seconds: 2),
+                    () => FirebaseFirestore.instance
+                        .collection(DbKeyConstant.orderCollection)
+                        .doc(user!.uid)
+                        .collection(DbKeyConstant.confirmedOrderCollection)
+                        .get(),
+                  ),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      EasyLoading.show(status: "Please wait..");
-                      return SizedBox(
-                        height: Get.height / 5,
-                        child: const Center(
-                          child: CupertinoActivityIndicator(),
-                        ),
-                      );
+                      return orderShimmer();
                     }
 
                     if (snapshot.hasError) {
@@ -265,4 +263,75 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
           ]),
         ));
   }
+
+  Widget orderShimmer() {
+    return ListView.builder(
+        itemCount: 8,
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemBuilder: (context, index) {
+          return const Padding(
+            padding: EdgeInsets.all(10),
+            child: Column(
+              children: [
+                CustomShimmerContainer(
+                  height: 8,
+                  width: 80,
+                  radius: 12,
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CustomShimmerContainer(
+                      height: 90,
+                      width: 90,
+                      radius: 12,
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          CustomShimmerContainer(
+                            height: 10,
+                            width: 200,
+                            radius: 12,
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          CustomShimmerContainer(
+                            height: 10,
+                            width: 130,
+                            radius: 12,
+                          ),
+                          SizedBox(height: 10),
+                          CustomShimmerContainer(
+                            height: 10,
+                            width: 80,
+                            radius: 12,
+                          ),
+                          SizedBox(height: 10),
+                          CustomShimmerContainer(
+                            height: 10,
+                            width: 100,
+                            radius: 12,
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                )
+              ],
+            ),
+          );
+        });
+  }
+
+
 }

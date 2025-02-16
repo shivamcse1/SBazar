@@ -10,23 +10,25 @@ class ProductModel {
   final List productImgList;
   final String deliveryTime;
   final bool isSale;
+  final bool? isWishlist;
   final String productDescription;
   final dynamic createdAt;
   final dynamic updatedAt;
 
   ProductModel({
-     required this.productId,
-     required this.categoryId,
-     required this.productName,
-     required this.categoryName,
-     required this.salePrice,
-     required this.fullPrice,
-     required this.productImgList,
-     required this.deliveryTime,
-     required this.isSale,
-     required this.productDescription,
-     this.createdAt,
-     this.updatedAt,
+    required this.productId,
+    required this.categoryId,
+    required this.productName,
+    required this.categoryName,
+    required this.salePrice,
+    required this.fullPrice,
+    required this.productImgList,
+    required this.deliveryTime,
+    required this.isSale,
+    required this.productDescription,
+    this.isWishlist,
+    this.createdAt,
+    this.updatedAt,
   });
 
   Map<String, dynamic> toMap() {
@@ -40,6 +42,7 @@ class ProductModel {
       'productImgList': productImgList,
       'deliveryTime': deliveryTime,
       'isSale': isSale,
+      'isWishlist': isWishlist,
       'productDescription': productDescription,
       'createdAt': createdAt,
       'updatedAt': updatedAt,
@@ -57,6 +60,7 @@ class ProductModel {
       productImgList: json['productImgList'],
       deliveryTime: json['deliveryTime'],
       isSale: json['isSale'],
+      isWishlist: json['isWishlist'],
       productDescription: json['productDescription'],
       createdAt: json['createdAt'],
       updatedAt: json['updatedAt'],

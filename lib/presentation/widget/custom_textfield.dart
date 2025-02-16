@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-
 class CustomTextField extends StatelessWidget {
   final bool? focus;
   final bool? readOnly;
   final TextAlign? contentAlign;
-  final double? height;
+  // final double? height;
   final double? width;
   final String? labelText;
   final String? hintText;
@@ -26,11 +25,12 @@ class CustomTextField extends StatelessWidget {
   // final EdgeInsetsGeometry? contentPadding;
   final int? maxDigitLength;
   final Function(String)? onChanged;
+  final String? Function(String?)? validator;
 
   const CustomTextField(
       {super.key,
-      this.height = 56,
-      this.width = 343,
+      // this.height = 63,
+      this.width = double.infinity,
       this.labelText,
       this.prefix,
       this.suffix,
@@ -45,6 +45,7 @@ class CustomTextField extends StatelessWidget {
       this.focus,
       this.maxDigitLength,
       this.onChanged,
+      this.validator,
       this.contentStyle,
       // this.contentPadding,
       this.readOnly,
@@ -58,9 +59,11 @@ class CustomTextField extends StatelessWidget {
     return Container(
       margin: margin,
       padding: padding,
-      height: height!,
-      width: width!,
-      child: TextField(
+      height: 63,
+      width: width,
+      child: TextFormField(
+        validator: validator,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
         textAlignVertical: TextAlignVertical.center,
         textAlign: contentAlign ?? TextAlign.start,
         readOnly: readOnly ?? false,
@@ -73,24 +76,34 @@ class CustomTextField extends StatelessWidget {
         decoration: InputDecoration(
           hintStyle: hintStyle,
           hintText: hintText,
+          errorStyle: const TextStyle(height: .1),
           contentPadding:
-              EdgeInsets.symmetric(vertical: height! / 4, horizontal: 10),
+              const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
           filled: true,
           fillColor: backGroundColor ?? Colors.white,
           suffixIcon: suffix,
           prefixIcon: prefix,
           labelText: labelText,
-          labelStyle:
-              labelStyle ?? const TextStyle(fontSize: 12),
+          labelStyle: labelStyle ?? const TextStyle(fontSize: 14),
           isDense: false,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10.0),
+            borderSide: const BorderSide(color: Colors.grey),
+          ),
           enabledBorder: OutlineInputBorder(
-              borderSide:
-                  BorderSide(color: enableBorderColor ?? Colors.transparent),
-              borderRadius: BorderRadius.circular(radius ?? 16)),
+              borderSide: BorderSide(color: enableBorderColor ?? Colors.grey),
+              borderRadius: BorderRadius.circular(radius ?? 10.0)),
           focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(radius ?? 16),
-              borderSide:
-                  BorderSide(color: focusBorderColor ?? Colors.transparent)),
+              borderRadius: BorderRadius.circular(radius ?? 10.0),
+              borderSide: BorderSide(color: focusBorderColor ?? Colors.grey)),
+          errorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(radius ?? 10.0),
+            borderSide: const BorderSide(color: Colors.red),
+          ),
+          focusedErrorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(radius ?? 10.0),
+            borderSide: const BorderSide(color: Colors.red),
+          ),
         ),
       ),
     );

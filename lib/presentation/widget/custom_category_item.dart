@@ -10,23 +10,23 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import 'product_shimmer.dart';
+
 class CustomCategoryItem extends StatelessWidget {
   const CustomCategoryItem({super.key});
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: FirebaseFirestore.instance
-            .collection(DbKeyConstant.categoryCollection)
-            .get(),
+        future: Future.delayed(
+          const Duration(seconds: 2),
+          () => FirebaseFirestore.instance
+              .collection(DbKeyConstant.categoryCollection)
+              .get(),
+        ),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Container(
-              height: Get.height / 5,
-              child: const Center(
-                child: CupertinoActivityIndicator(),
-              ),
-            );
+            return categoryItemShimmer();
           }
 
           if (snapshot.hasError) {
@@ -119,5 +119,24 @@ class CustomCategoryItem extends StatelessWidget {
 
           return Container();
         });
+  }
+
+  Widget categoryItemShimmer() {
+    return SizedBox(
+      height: 160,
+      child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          shrinkWrap: true,
+          itemCount: 5,
+          itemBuilder: (context, index) {
+            return const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 5.0),
+              child: ProductShimmer(
+                height: 160,
+                width: 120,
+              ),
+            );
+          }),
+    );
   }
 }

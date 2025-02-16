@@ -61,7 +61,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       EasyLoading.show(status: "Please wait..");
                       return SizedBox(
-                        height: Get.height / 5,
+                        height: Get.height ,
                         child: const Center(
                           child: CupertinoActivityIndicator(),
                         ),

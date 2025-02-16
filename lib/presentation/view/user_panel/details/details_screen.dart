@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:s_bazar/controllers/banner_contoller.dart';
+import 'package:s_bazar/controllers/wishlist_controller.dart';
 import 'package:s_bazar/core/constant/app_const.dart';
 import 'package:s_bazar/core/constant/database_key_const.dart';
 import 'package:s_bazar/core/constant/image_const.dart';
@@ -36,6 +37,7 @@ class DetailsScreen extends StatefulWidget {
 class DetailsScreenState extends State<DetailsScreen> {
   final BannerController bannerController = Get.put(BannerController());
   final ReviewController reviewController = Get.put(ReviewController());
+  final WishlistController wishlistController = Get.put(WishlistController());
 
   double h = Get.height;
   double w = Get.width;
@@ -45,7 +47,9 @@ class DetailsScreenState extends State<DetailsScreen> {
   @override
   void initState() {
     super.initState();
+
     reviewController.calculateRating(productModel: widget.productModel);
+    wishlistController.checkProduct(productModel: widget.productModel!);
   }
 
   @override
@@ -173,9 +177,21 @@ class DetailsScreenState extends State<DetailsScreen> {
                           widget.productModel!.productName,
                           style: TextStyleConstant.bold16Style,
                         ),
-                        Icon(
-                          Icons.favorite,
-                          color: ColorConstant.greyColor,
+                        Obx(
+                          () => InkWell(
+                            onTap: () async {
+                              await wishlistController.addProductInWishlist(
+                                  model: widget.productModel!);
+                              await wishlistController.checkProduct(
+                                  productModel: widget.productModel!);
+                            },
+                            child: Icon(
+                              Icons.favorite,
+                              color: wishlistController.isFavProduct.value
+                                  ? Colors.red
+                                  : ColorConstant.greyColor,
+                            ),
+                          ),
                         )
                       ],
                     ),

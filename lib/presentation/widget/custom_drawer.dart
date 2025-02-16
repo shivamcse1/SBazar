@@ -7,11 +7,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-
 import '../../core/constant/textstyle_const.dart';
 import '../../utils/Uihelper/ui_helper.dart';
 import '../view/auth_ui/welcome_screen.dart';
-import '../view/user_panel/my_order/my_order_screen.dart';
+import '../view/user_panel/address/address_screen.dart';
+import '../view/user_panel/order/order_screen.dart';
+import '../view/user_panel/wishlist/wishlist_product_screen.dart';
 
 class CustomDrawer extends StatelessWidget {
   final String userEmail;
@@ -138,7 +139,7 @@ class CustomDrawer extends StatelessWidget {
                     )),
                 ListTile(
                     onTap: () {
-                      Get.to(() => const MyOrderScreen());
+                      Get.to(() => const OrderScreen());
                     },
                     contentPadding: EdgeInsets.zero,
                     leading: Icon(
@@ -156,7 +157,7 @@ class CustomDrawer extends StatelessWidget {
                     )),
                 ListTile(
                     onTap: () {
-                      // Get.to(());
+                      Get.to(() => const WishlistScreen());
                     },
                     contentPadding: EdgeInsets.zero,
                     leading: Icon(
@@ -189,14 +190,16 @@ class CustomDrawer extends StatelessWidget {
                       color: ColorConstant.whiteColor,
                     )),
                 ListTile(
-                    onTap: () {},
+                    onTap: () {
+                      Get.to(() => const AddressScreen());
+                    },
                     contentPadding: EdgeInsets.zero,
                     leading: Icon(
                       Icons.add_location_alt,
                       color: ColorConstant.whiteColor,
                     ),
                     title: Text(
-                      "Saved Addresses",
+                      "My Addresses",
                       style: TextStyleConstant.normal14Style
                           .copyWith(color: ColorConstant.whiteColor),
                     ),

@@ -7,7 +7,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final TextStyle? titleStyle;
   final double? appBarheight;
   final Color? appBarColor;
+  final Color? backIconColor;
   final bool isTitleCentered;
+  final bool appBarcolorTransparency;
   final bool isBackBtnVisible;
   final Widget? leading;
   final Widget? titleWidget;
@@ -17,9 +19,11 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     super.key,
     this.title = '',
     this.actions,
+    this.appBarcolorTransparency = false,
     this.titleStyle,
     this.appBarheight,
     this.appBarColor,
+    this.backIconColor,
     this.isTitleCentered = false,
     this.onBackBtn,
     this.leading,
@@ -31,27 +35,19 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-        forceMaterialTransparency: true,
+        forceMaterialTransparency: appBarcolorTransparency,
         toolbarHeight: appBarheight,
         leading: isBackBtnVisible
             ? GestureDetector(
-                onTap: onBackBtn,
+                onTap: onBackBtn ??
+                    () {
+                      Navigator.pop(context);
+                    },
                 child: Align(
                     alignment: Alignment.center,
-                    child: Container(
-                      margin: leadingPadding ?? EdgeInsets.zero,
-                      padding: EdgeInsets.zero,
-                      height: 30.3,
-                      width: 30.3,
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.red,
-                      ),
-                      child: const Icon(
-                        Icons.arrow_back,
-                        color: Colors.red,
-                        size: 16.0, // Icon size fits the container
-                      ),
+                    child: Icon(
+                      Icons.arrow_back,
+                      color: backIconColor ?? Colors.black,
                     )))
             : leading,
         centerTitle: isTitleCentered,
@@ -65,5 +61,5 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => Size(double.maxFinite, appBarheight ?? 40);
+  Size get preferredSize => Size(double.maxFinite, appBarheight ?? 56);
 }

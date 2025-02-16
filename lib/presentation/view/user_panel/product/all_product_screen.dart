@@ -6,14 +6,14 @@ import 'package:s_bazar/core/constant/color_const.dart';
 import 'package:s_bazar/core/constant/database_key_const.dart';
 import 'package:s_bazar/core/constant/textstyle_const.dart';
 import 'package:s_bazar/data/model/product_model.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 
 import '../../../../core/constant/app_const.dart';
 import '../../../widget/cart_icon_widget.dart';
-import '../details_screen/details_screen.dart';
+import '../../../widget/product_shimmer.dart';
+import '../details/details_screen.dart';
 
 class AllProductScreen extends StatefulWidget {
   const AllProductScreen({super.key});
@@ -40,18 +40,16 @@ class _AllProductScreenState extends State<AllProductScreen> {
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
           child: FutureBuilder(
-              future: FirebaseFirestore.instance
-                  .collection(DbKeyConstant.productCollection)
-                  .where('isSale', isEqualTo: false)
-                  .get(),
+              future: Future.delayed(
+                const Duration(seconds: 2),
+                () => FirebaseFirestore.instance
+                    .collection(DbKeyConstant.productCollection)
+                    .where('isSale', isEqualTo: false)
+                    .get(),
+              ),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return SizedBox(
-                    height: Get.height / 5,
-                    child: const Center(
-                      child: CupertinoActivityIndicator(),
-                    ),
-                  );
+                  return allProductShimmer();
                 }
 
                 if (snapshot.hasError) {
@@ -155,5 +153,21 @@ class _AllProductScreenState extends State<AllProductScreen> {
                 return Container();
               }),
         ));
+  }
+
+  Widget allProductShimmer() {
+    return GridView.builder(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: 8,
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: 15,
+          mainAxisSpacing: 12,
+          childAspectRatio: .95,
+        ),
+        itemBuilder: (context, index) {
+          return const ProductShimmer();
+        });
   }
 }

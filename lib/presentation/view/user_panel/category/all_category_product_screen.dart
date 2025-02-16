@@ -12,7 +12,8 @@ import '../../../../core/constant/app_const.dart';
 import '../../../../core/constant/database_key_const.dart';
 import '../../../../core/constant/textstyle_const.dart';
 import '../../../widget/cart_icon_widget.dart';
-import '../details_screen/details_screen.dart';
+import '../../../widget/product_shimmer.dart';
+import '../details/details_screen.dart';
 
 class AllCategoryProductScreen extends StatefulWidget {
   String? categoryId;
@@ -25,7 +26,7 @@ class AllCategoryProductScreen extends StatefulWidget {
 }
 
 class AllCategoryProductScreenState extends State<AllCategoryProductScreen> {
-    CartController cartController = Get.put(CartController());
+  CartController cartController = Get.put(CartController());
 
   @override
   Widget build(BuildContext context) {
@@ -37,25 +38,23 @@ class AllCategoryProductScreenState extends State<AllCategoryProductScreen> {
           "Product",
           style: TextStyle(color: AppConstant.whiteColor),
         ),
-         actions: const [
-        CartIconWidget(),
+        actions: const [
+          CartIconWidget(),
         ],
       ),
       body: Padding(
         padding: const EdgeInsets.only(left: 10.0, right: 10.0),
         child: FutureBuilder(
-            future: FirebaseFirestore.instance
-                .collection(DbKeyConstant.productCollection)
-                .where('categoryId', isEqualTo: widget.categoryId)
-                .get(),
+            future: Future.delayed(
+              const Duration(seconds: 2),
+              () => FirebaseFirestore.instance
+                  .collection(DbKeyConstant.productCollection)
+                  .where('categoryId', isEqualTo: widget.categoryId)
+                  .get(),
+            ),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return SizedBox(
-                  height: Get.height / 5,
-                  child: const Center(
-                    child: CupertinoActivityIndicator(),
-                  ),
-                );
+                return allCategoryProductShimmer();
               }
 
               if (snapshot.hasError) {
@@ -148,5 +147,21 @@ class AllCategoryProductScreenState extends State<AllCategoryProductScreen> {
             }),
       ),
     );
+  }
+
+  Widget allCategoryProductShimmer() {
+    return GridView.builder(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: 8,
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: 15,
+          mainAxisSpacing: 12,
+          childAspectRatio: .95,
+        ),
+        itemBuilder: (context, index) {
+          return const ProductShimmer();
+        });
   }
 }

@@ -138,7 +138,7 @@ class SignInScreenState extends State<SignInScreen> {
                             msg: "Please Enter All Details");
                       } else {
                         UserCredential? userCredential =
-                            await authController.signInWithEmail(
+                            await authController.signInWithEmailAndPassword(
                                 userEmail: email, userPassword: password);
 
                         if (userCredential != null) {
