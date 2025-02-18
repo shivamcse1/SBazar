@@ -45,7 +45,7 @@ class AllFlashSaleProductScreenState extends State<AllFlashSaleProductScreen> {
         padding: const EdgeInsets.only(left: 10.0, right: 10.0),
         child: FutureBuilder(
             future: Future.delayed(
-                const Duration(seconds: 2),
+                const Duration(seconds: 1),
                 () => FirebaseFirestore.instance
                     .collection(DbKeyConstant.productCollection)
                     .where('isSale', isEqualTo: true)

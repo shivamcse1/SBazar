@@ -3,9 +3,12 @@ import 'package:s_bazar/presentation/view/auth_ui/sign_in_screen.dart';
 import 'package:s_bazar/presentation/view/auth_ui/sign_up_screen.dart';
 import 'package:s_bazar/presentation/view/auth_ui/splash_screen.dart';
 import 'package:s_bazar/presentation/view/auth_ui/welcome_screen.dart';
+import 'package:s_bazar/presentation/view/user_panel/address/add_new_address_screen.dart';
+import 'package:s_bazar/presentation/view/user_panel/address/address_screen.dart';
 import 'package:s_bazar/presentation/view/user_panel/cart/cart_screen.dart';
 import 'package:s_bazar/presentation/view/user_panel/category/all_category_product_screen.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
+import 'package:s_bazar/presentation/view/user_panel/wishlist/wishlist_screen.dart';
 
 import '../../presentation/view/admin_panel/admin_home_screen.dart';
 import '../../presentation/view/user_panel/flash_sale/all_flash_sale_product_screen.dart';
@@ -18,6 +21,7 @@ import '../../presentation/view/user_panel/product/all_product_screen.dart';
 import '../../presentation/view/user_panel/review/review_screen.dart';
 
 class AppRoutes {
+  // screen
   static String splashScreen = '/';
   static String welcomeScreen = '/welcomeScreen';
   static String signInScreen = '/signInScreen';
@@ -32,8 +36,13 @@ class AppRoutes {
   static String allFlashSaleProductScreen = '/allFlashSaleProductScreen';
   static String userHomeScreen = '/userHomeScreen';
   static String adminHomeScreen = '/adminHomeScreen';
-  static String myOrderScreen = '/myOrderScreen';
-  static String orderReviewScreen = '/orderReviewScreen';
+  static String orderScreen = '/orderScreen';
+  static String reviewScreen = '/reviewScreen';
+  static String addressScreen = '/addressScreen';
+  static String addNewAddressScreen = '/addNewAddressScreen';
+  static String wishlistScreen = '/wishlistScreen';
+
+  // pages
 
   static List<GetPage<dynamic>>? pages = [
     GetPage(name: splashScreen, page: () => const SplashScreen()),
@@ -53,8 +62,11 @@ class AppRoutes {
         name: allFlashSaleProductScreen,
         page: () => const AllFlashSaleProductScreen()),
     GetPage(name: userHomeScreen, page: () => const UserHomeScreen()),
-    GetPage(name: myOrderScreen, page: () => const OrderScreen()),
-    GetPage(name: orderReviewScreen, page: () => const ReviewScreen()),
+    GetPage(name: orderScreen, page: () => const OrderScreen()),
+    GetPage(name: reviewScreen, page: () => const ReviewScreen()),
     GetPage(name: adminHomeScreen, page: () => const AdminHomeScreen()),
+    GetPage(name: addNewAddressScreen, page: () => const AddNewAddressScreen()),
+    GetPage(name: addressScreen, page: () => const AddressScreen()),
+    GetPage(name: wishlistScreen, page: () => const WishlistScreen()),
   ];
 }

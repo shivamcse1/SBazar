@@ -37,7 +37,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
         forceMaterialTransparency: appBarcolorTransparency,
         toolbarHeight: appBarheight,
-        leading: isBackBtnVisible
+        leading: isBackBtnVisible == true
             ? GestureDetector(
                 onTap: onBackBtn ??
                     () {
@@ -49,7 +49,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                       Icons.arrow_back,
                       color: backIconColor ?? Colors.black,
                     )))
-            : leading,
+            : leading ?? const SizedBox(),
         centerTitle: isTitleCentered,
         title: titleWidget ??
             Text(

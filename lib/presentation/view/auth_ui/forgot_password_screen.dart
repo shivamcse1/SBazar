@@ -45,7 +45,7 @@ class ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                           color: AppConstant.appSecondaryColor,
                           height: Get.height / 2.5,
                           width: Get.width,
-                          child: Lottie.asset(ImageConstant.loginImg),
+                          child: Lottie.asset(ImageConstant.splashImg),
                         ),
                       ],
                     ),

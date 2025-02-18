@@ -1,8 +1,8 @@
-// ignore_for_file: must_be_immutable
+// ignore_for_file: must_be_immutable, unnecessary_null_comparison
 
 import 'dart:async';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:s_bazar/controllers/banner_contoller.dart';
+import 'package:s_bazar/controllers/home_controller.dart';
 import 'package:s_bazar/core/constant/color_const.dart';
 import 'package:s_bazar/core/constant/image_const.dart';
 import 'package:flutter/material.dart';
@@ -41,8 +41,7 @@ class CustomSlider extends StatefulWidget {
 }
 
 class _CustomSliderState extends State<CustomSlider> {
-  BannerController bannerController = Get.put(BannerController());
-
+  final HomeController homeController = Get.put(HomeController());
   PageController pageController =
       PageController(keepPage: false, viewportFraction: 1);
   int currentPage = 0;
@@ -56,7 +55,7 @@ class _CustomSliderState extends State<CustomSlider> {
 
   void autoScroll() {
     timer?.cancel(); // pahle se koi timer ho use cancel kar dega
-    if (widget.autoScroll!) {
+    if (widget.autoScroll) {
       // timer me isiliye store karna pada jisse scroll ko cancel karne ka option ho
       timer = Timer.periodic(const Duration(seconds: 5), (timer) {
         if (currentPage < 4) {
@@ -94,81 +93,79 @@ class _CustomSliderState extends State<CustomSlider> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Obx(() => bannerController.bannerImgList.isEmpty
-            ? bannerShimmer()
-            : SizedBox(
-                height: Get.height / 4,
-                width: double.infinity,
-                child: PageView.builder(
-                  controller: pageController,
-                  itemCount: bannerController.bannerImgList.length,
-                  itemBuilder: ((context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.only(
-                          left: 5.0, top: 5.0, right: 10.0),
-                      child: ClipRRect(
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(10)),
-                        child: CachedNetworkImage(
-                          imageUrl: bannerController.bannerImgList[index],
-                          fit: BoxFit.cover,
+    return Obx(
+      () => Column(
+        children: [
+          widget.imgList.isEmpty
+              ? bannerShimmer()
+              : SizedBox(
+                  height: Get.height / 4,
+                  width: double.infinity,
+                  child: PageView.builder(
+                    controller: pageController,
+                    itemCount: widget.imgList.length,
+                    itemBuilder: ((context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.only(
+                            left: 5.0, top: 5.0, right: 10.0),
+                        child: ClipRRect(
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(10)),
+                          child: CachedNetworkImage(
+                            imageUrl: widget.imgList[index],
+                            fit: BoxFit.cover,
 
-                          // Placeholder while the image is loading
-                          placeholder: (context, imgUrl) {
-                            return Container(
-                              color: Colors.white,
-                              child: const Center(
-                                child: CupertinoActivityIndicator(),
-                              ),
-                            );
-                          },
+                            // Placeholder while the image is loading
+                            placeholder: (context, imgUrl) {
+                              return Container(
+                                color: Colors.white,
+                                child: const Center(
+                                  child: CupertinoActivityIndicator(),
+                                ),
+                              );
+                            },
 
-                          errorWidget: (context, url, error) {
-                            return Image.asset(ImageConstant.previewImg);
-                          },
-                        ),
-                      ),
-                    );
-                  }),
-                  onPageChanged: (value) {
-                    bannerController.pageIndex.value = value;
-                    currentPage = value;
-                  },
-                ),
-              )),
-        const SizedBox(height: 5.0),
-        widget.isSliderPointVisible == null ||
-                widget.isSliderPointVisible == true
-            ? SizedBox(
-                height: 10.0,
-                child: Obx(() => Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: List.generate(
-                          bannerController.bannerImgList.length, (index) {
-                        return AnimatedContainer(
-                          margin: const EdgeInsets.symmetric(horizontal: 1),
-                          duration: const Duration(milliseconds: 200),
-                          height: bannerController.pageIndex.value == index
-                              ? 10
-                              : 10,
-                          width: bannerController.pageIndex.value == index
-                              ? 10
-                              : 10,
-                          decoration: BoxDecoration(
-                            shape: bannerController.pageIndex.value == index
-                                ? BoxShape.rectangle
-                                : BoxShape.circle,
-                            color: bannerController.pageIndex.value == index
-                                ? ColorConstant.primaryColor
-                                : Colors.grey,
+                            errorWidget: (context, url, error) {
+                              return Image.asset(ImageConstant.previewImg);
+                            },
                           ),
-                        );
-                      }),
-                    )))
-            : const SizedBox.shrink()
-      ],
+                        ),
+                      );
+                    }),
+                    onPageChanged: (value) {
+                      homeController.pageIndex.value = value;
+                      currentPage = value;
+                    },
+                  ),
+                ),
+          const SizedBox(height: 5.0),
+          widget.isSliderPointVisible == true
+              ? SizedBox(
+                  height: 10.0,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: List.generate(widget.imgList.length, (index) {
+                      return AnimatedContainer(
+                        margin: const EdgeInsets.symmetric(horizontal: 1),
+                        duration: const Duration(milliseconds: 200),
+                        height:
+                            homeController.pageIndex.value == index ? 10 : 10,
+                        width:
+                            homeController.pageIndex.value == index ? 10 : 10,
+                        decoration: BoxDecoration(
+                          shape: homeController.pageIndex.value == index
+                              ? BoxShape.rectangle
+                              : BoxShape.circle,
+                          color: homeController.pageIndex.value == index
+                              ? ColorConstant.primaryColor
+                              : Colors.grey,
+                        ),
+                      );
+                    }),
+                  ))
+              : const SizedBox.shrink()
+        ],
+      ),
     );
   }
 

@@ -4,8 +4,10 @@ import 'package:flutter/services.dart';
 class CustomTextField extends StatelessWidget {
   final bool? focus;
   final bool? readOnly;
+  final bool obscureText;
+  final String obscuringCharacter;
   final TextAlign? contentAlign;
-  // final double? height;
+  final double? height;
   final double? width;
   final String? labelText;
   final String? hintText;
@@ -27,42 +29,51 @@ class CustomTextField extends StatelessWidget {
   final Function(String)? onChanged;
   final String? Function(String?)? validator;
 
-  const CustomTextField(
-      {super.key,
-      // this.height = 63,
-      this.width = double.infinity,
-      this.labelText,
-      this.prefix,
-      this.suffix,
-      this.radius,
-      this.enableBorderColor,
-      this.focusBorderColor,
-      this.labelStyle,
-      this.controller,
-      this.keyboardType,
-      this.margin,
-      this.padding,
-      this.focus,
-      this.maxDigitLength,
-      this.onChanged,
-      this.validator,
-      this.contentStyle,
-      // this.contentPadding,
-      this.readOnly,
-      this.contentAlign,
-      this.backGroundColor,
-      this.hintText,
-      this.hintStyle});
+  const CustomTextField({
+    super.key,
+    this.height = 63,
+    this.width = double.infinity,
+    this.labelText,
+    this.prefix,
+    this.suffix,
+    this.radius = 10,
+    this.enableBorderColor,
+    this.focusBorderColor,
+    this.obscureText = false,
+    this.obscuringCharacter = "*",
+    this.labelStyle,
+    this.controller,
+    this.keyboardType,
+    this.margin,
+    this.padding,
+    this.focus,
+    this.maxDigitLength,
+    this.onChanged,
+    this.validator,
+    this.contentStyle,
+    // this.contentPadding,
+    this.readOnly,
+    this.contentAlign,
+    this.backGroundColor,
+    this.hintText,
+    this.hintStyle,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: margin,
       padding: padding,
-      height: 63,
+      height: height,
       width: width,
+      decoration: BoxDecoration(
+        color: Colors.amber,
+        borderRadius: BorderRadius.circular(radius!),
+      ),
       child: TextFormField(
         validator: validator,
+        obscureText: obscureText,
+        obscuringCharacter: obscuringCharacter,
         autovalidateMode: AutovalidateMode.onUserInteraction,
         textAlignVertical: TextAlignVertical.center,
         textAlign: contentAlign ?? TextAlign.start,
@@ -74,11 +85,11 @@ class CustomTextField extends StatelessWidget {
         keyboardType: keyboardType,
         controller: controller,
         decoration: InputDecoration(
-          hintStyle: hintStyle,
+          hintStyle: hintStyle ?? const TextStyle(color: Colors.grey),
           hintText: hintText,
           errorStyle: const TextStyle(height: .1),
-          contentPadding:
-              const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+          contentPadding: EdgeInsets.symmetric(
+              vertical: (height! - 20) / 2 - 2, horizontal: 10),
           filled: true,
           fillColor: backGroundColor ?? Colors.white,
           suffixIcon: suffix,
@@ -92,16 +103,16 @@ class CustomTextField extends StatelessWidget {
           ),
           enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(color: enableBorderColor ?? Colors.grey),
-              borderRadius: BorderRadius.circular(radius ?? 10.0)),
+              borderRadius: BorderRadius.circular(radius!)),
           focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(radius ?? 10.0),
+              borderRadius: BorderRadius.circular(radius!),
               borderSide: BorderSide(color: focusBorderColor ?? Colors.grey)),
           errorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(radius ?? 10.0),
+            borderRadius: BorderRadius.circular(radius!),
             borderSide: const BorderSide(color: Colors.red),
           ),
           focusedErrorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(radius ?? 10.0),
+            borderRadius: BorderRadius.circular(radius!),
             borderSide: const BorderSide(color: Colors.red),
           ),
         ),

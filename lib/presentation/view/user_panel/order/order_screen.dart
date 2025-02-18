@@ -51,7 +51,7 @@ class _OrderScreenState extends State<OrderScreen> {
             Expanded(
               child: FutureBuilder(
                   future: Future.delayed(
-                    const Duration(seconds: 2),
+                    const Duration(milliseconds: 500),
                     () => FirebaseFirestore.instance
                         .collection(DbKeyConstant.orderCollection)
                         .doc(user!.uid)
@@ -332,6 +332,4 @@ class _OrderScreenState extends State<OrderScreen> {
           );
         });
   }
-
-
 }

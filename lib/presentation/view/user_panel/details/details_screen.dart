@@ -2,8 +2,8 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:s_bazar/controllers/banner_contoller.dart';
+
+import 'package:s_bazar/controllers/home_controller.dart';
 import 'package:s_bazar/controllers/wishlist_controller.dart';
 import 'package:s_bazar/core/constant/app_const.dart';
 import 'package:s_bazar/core/constant/database_key_const.dart';
@@ -11,7 +11,7 @@ import 'package:s_bazar/core/constant/image_const.dart';
 import 'package:s_bazar/core/constant/textstyle_const.dart';
 import 'package:s_bazar/data/model/cart_model.dart';
 import 'package:s_bazar/data/model/product_model.dart';
-import 'package:s_bazar/data/model/review_model.dart';
+
 import 'package:s_bazar/utils/review_helper.dart';
 import 'package:s_bazar/utils/share_helper.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -35,9 +35,10 @@ class DetailsScreen extends StatefulWidget {
 }
 
 class DetailsScreenState extends State<DetailsScreen> {
-  final BannerController bannerController = Get.put(BannerController());
+  final HomeController homeController = Get.put(HomeController());
   final ReviewController reviewController = Get.put(ReviewController());
   final WishlistController wishlistController = Get.put(WishlistController());
+  final CartController cartController = Get.put(CartController());
 
   double h = Get.height;
   double w = Get.width;
@@ -73,7 +74,7 @@ class DetailsScreenState extends State<DetailsScreen> {
               height: h / 4,
               child: PageView.builder(
                   onPageChanged: (value) {
-                    bannerController.pageIndex.value = value;
+                    homeController.pageIndex.value = value;
                   },
                   itemCount: widget.productModel!.productImgList.length,
                   itemBuilder: (context, index) {
@@ -107,16 +108,14 @@ class DetailsScreenState extends State<DetailsScreen> {
                   widget.productModel!.productImgList.length, (index) {
                 return Obx(() => AnimatedContainer(
                       duration: const Duration(milliseconds: 200),
-                      height:
-                          bannerController.pageIndex.value == index ? 10 : 10,
-                      width:
-                          bannerController.pageIndex.value == index ? 12 : 10,
+                      height: homeController.pageIndex.value == index ? 10 : 10,
+                      width: homeController.pageIndex.value == index ? 12 : 10,
                       margin: const EdgeInsets.all(2),
                       decoration: BoxDecoration(
-                          shape: bannerController.pageIndex.value == index
+                          shape: homeController.pageIndex.value == index
                               ? BoxShape.rectangle
                               : BoxShape.circle,
-                          color: bannerController.pageIndex.value == index
+                          color: homeController.pageIndex.value == index
                               ? ColorConstant.primaryColor
                               : ColorConstant.greyColor),
                     ));
@@ -261,7 +260,9 @@ class DetailsScreenState extends State<DetailsScreen> {
                                 backgroundColor: ColorConstant.primaryColor,
                                 minimumSize: const Size(150, 40)),
                             onPressed: () async {
-                              await checkProductExistence(uId: user!.uid);
+                              await cartController.addToCart(
+                                  uId: user!.uid,
+                                  productModel: widget.productModel!);
 
                               Fluttertoast.showToast(
                                   msg: "Add to cart successfully");
@@ -281,73 +282,6 @@ class DetailsScreenState extends State<DetailsScreen> {
         ),
       ),
     );
-  }
-
-  Future<void> checkProductExistence(
-      {required uId, int quantityIncrement = 1}) async {
-    CartController cartController = Get.put(CartController());
-
-    // it is use so we can not write again again code
-    DocumentReference documentReference = FirebaseFirestore.instance
-        .collection(DbKeyConstant.cartCollection)
-        .doc(uId)
-        .collection(DbKeyConstant.cartProductCollection)
-        .doc(widget.productModel!.productId);
-
-    DocumentSnapshot docSnapshot = await documentReference.get();
-
-    if (docSnapshot.exists) {
-      // find out quantity and price
-      int currentQuantity = docSnapshot[DbKeyConstant.productQuantity];
-      int updatedQuantity = currentQuantity + quantityIncrement;
-      double totalPrice = double.parse(widget.productModel!.isSale
-              ? widget.productModel!.salePrice
-              : widget.productModel!.fullPrice) *
-          updatedQuantity;
-
-      //product exist so only update qunatity and price
-      await documentReference.update({
-        "productQuantity": updatedQuantity,
-        "productTotalPrice": totalPrice
-      });
-
-      print("Already added");
-    } else {
-      // it is use for accessing subCollection
-      FirebaseFirestore.instance
-          .collection(DbKeyConstant.cartCollection)
-          .doc(uId)
-          .set({'uId': uId, 'createdAt': DateTime.now()});
-
-      final data = widget.productModel!;
-      CartModel cartmodel = CartModel(
-          productId: data.productId,
-          categoryId: data.categoryId,
-          productName: data.productName,
-          categoryName: data.categoryName,
-          salePrice: data.salePrice,
-          fullPrice: data.fullPrice,
-          productImgList: data.productImgList,
-          deliveryTime: data.deliveryTime,
-          isSale: data.isSale,
-          productDescription: data.productDescription,
-          createdAt: DateTime.now(),
-          updatedAt: DateTime.now(),
-          productQuantity: quantityIncrement,
-          productTotalPrice: double.parse(data.fullPrice));
-
-      await documentReference.set(cartmodel.toMap());
-      print("first time added");
-    }
-
-    // for total cart product quantity calc
-    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-        .collection(DbKeyConstant.cartCollection)
-        .doc(uId)
-        .collection(DbKeyConstant.cartProductCollection)
-        .get();
-
-    cartController.totalCartItem.value = querySnapshot.docs.length;
   }
 
   Widget ratingWidget() {

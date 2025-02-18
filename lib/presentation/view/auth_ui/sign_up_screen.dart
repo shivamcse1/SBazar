@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 
 import '../../../controllers/auth_controller.dart';
 import '../../../core/constant/app_const.dart';
+import '../../widget/custom_textfield.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -35,11 +36,12 @@ class SignUpScreenState extends State<SignUpScreen> {
             ),
             body: SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
-              child: Container(
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
                 child: Column(
                   children: [
                     SizedBox(
-                      height: Get.height / 25,
+                      height: Get.height / 40,
                     ),
                     Container(
                       alignment: Alignment.center,
@@ -54,104 +56,86 @@ class SignUpScreenState extends State<SignUpScreen> {
                     SizedBox(
                       height: Get.height / 25,
                     ),
-                    Container(
-                      margin: const EdgeInsets.only(left: 10, right: 10),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 10),
-                      child: TextFormField(
-                        controller: authController.emailController,
-                        cursorColor: AppConstant.appSecondaryColor,
+                    CustomTextField(
+                      keyboardType: TextInputType.name,
+                      controller: authController.nameController,
+                      height: 50,
+                      hintText: "Name",
+                      prefix: const Icon(Icons.person),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    CustomTextField(
+                      keyboardType: TextInputType.phone,
+                      controller: authController.phoneController,
+                      height: 50,
+                      hintText: "Phone",
+                      prefix: const Icon(Icons.phone_android),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    CustomTextField(
+                      controller: authController.emailController,
+                      keyboardType: TextInputType.emailAddress,
+                      height: 50,
+                      hintText: "Email",
+                      prefix: const Icon(Icons.email),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    CustomTextField(
+                      controller: authController.streetController,
+                      keyboardType: TextInputType.streetAddress,
+                      height: 50,
+                      hintText: "House number, Colony, Street .etc",
+                      prefix: const Icon(Icons.home),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    CustomTextField(
+                      controller: authController.cityController,
+                      keyboardType: TextInputType.name,
+                      height: 50,
+                      hintText: "City",
+                      prefix: const Icon(Icons.location_pin),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    CustomTextField(
+                      controller: authController.stateController,
+                      keyboardType: TextInputType.name,
+                      height: 50,
+                      hintText: "State",
+                      prefix: const Icon(Icons.maps_home_work),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Obx(
+                      () => CustomTextField(
+                        controller: authController.passwordController,
+                        obscureText: authController.isPasswordVisible.value,
                         keyboardType: TextInputType.emailAddress,
-                        decoration: InputDecoration(
-                            prefixIcon: const Icon(Icons.email),
-                            hintText: "Email",
-                            contentPadding:
-                                const EdgeInsets.only(top: 2.0, left: 8.0),
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0))),
+                        height: 50,
+                        hintText: "Password",
+                        prefix: const Icon(Icons.password),
+                        suffix: IconButton(
+                          onPressed: () {
+                            authController.isPasswordVisible.toggle();
+                          },
+                          icon: Icon(authController.isPasswordVisible.value
+                              ? Icons.visibility_off
+                              : Icons.visibility),
+                        ),
                       ),
                     ),
-                    Container(
-                      margin: const EdgeInsets.only(left: 10, right: 10),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 10),
-                      child: TextFormField(
-                        controller: authController.userNameController,
-                        cursorColor: AppConstant.appSecondaryColor,
-                        keyboardType: TextInputType.name,
-                        decoration: InputDecoration(
-                            prefixIcon: const Icon(Icons.person),
-                            hintText: "UserName",
-                            contentPadding:
-                                const EdgeInsets.only(top: 2.0, left: 8.0),
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0))),
-                      ),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(left: 10, right: 10),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 10),
-                      child: TextFormField(
-                        controller: authController.phoneController,
-                        cursorColor: AppConstant.appSecondaryColor,
-                        keyboardType: TextInputType.phone,
-                        decoration: InputDecoration(
-                            prefixIcon: const Icon(Icons.phone),
-                            hintText: "Phone",
-                            contentPadding:
-                                const EdgeInsets.only(top: 2.0, left: 8.0),
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0))),
-                      ),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(left: 10, right: 10),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 10),
-                      child: TextFormField(
-                        controller: authController.cityController,
-                        cursorColor: AppConstant.appSecondaryColor,
-                        keyboardType: TextInputType.streetAddress,
-                        decoration: InputDecoration(
-                            prefixIcon: const Icon(Icons.location_pin),
-                            hintText: "City",
-                            contentPadding:
-                                const EdgeInsets.only(top: 2.0, left: 8.0),
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0))),
-                      ),
-                    ),
-                    Container(
-                        margin: const EdgeInsets.only(left: 10, right: 10),
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 10),
-                        child: Obx(
-                          () => TextFormField(
-                            obscureText: authController.isPasswordVisible.value,
-                            controller: authController.passwordController,
-                            cursorColor: AppConstant.appSecondaryColor,
-                            keyboardType: TextInputType.emailAddress,
-                            decoration: InputDecoration(
-                                prefixIcon: const Icon(Icons.password),
-                                suffixIcon: IconButton(
-                                  onPressed: () {
-                                    authController.isPasswordVisible.toggle();
-                                  },
-                                  icon: Icon(
-                                      authController.isPasswordVisible.value
-                                          ? Icons.visibility_off
-                                          : Icons.visibility),
-                                ),
-                                hintText: "Password",
-                                contentPadding:
-                                    const EdgeInsets.only(top: 2.0, left: 8.0),
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10.0))),
-                          ),
-                        )),
                     SizedBox(
-                      height: Get.height / 20,
+                      height: Get.height / 15,
                     ),
                     Container(
                       height: Get.height / 18,
@@ -162,7 +146,7 @@ class SignUpScreenState extends State<SignUpScreen> {
                       child: TextButton(
                         onPressed: () async {
                           String userName =
-                              authController.userNameController.text.trim();
+                              authController.nameController.text.trim();
                           String userPhone =
                               authController.phoneController.text.trim();
                           String userEmail =
@@ -171,15 +155,21 @@ class SignUpScreenState extends State<SignUpScreen> {
                               authController.passwordController.text.trim();
                           String userCity =
                               authController.cityController.text.trim();
+                          String userState =
+                              authController.stateController.text.trim();
+                          String userStreet =
+                              authController.streetController.text.trim();
                           String userDeviceToken = '';
 
                           if (userName.isEmpty ||
                               userEmail.isEmpty ||
                               userPassword.isEmpty ||
                               userCity.isEmpty ||
-                              userPhone.isEmpty) {
-                            Get.snackbar(
-                                "Error Occured", 'Please Enter All Details!',
+                              userPhone.isEmpty ||
+                              userStreet.isEmpty ||
+                              userState.isEmpty) {
+                            Get.snackbar("Something Missing",
+                                'Please Enter All Details!',
                                 backgroundColor: AppConstant.appSecondaryColor,
                                 colorText: AppConstant.whiteColor,
                                 snackPosition: SnackPosition.BOTTOM);
@@ -191,7 +181,9 @@ class SignUpScreenState extends State<SignUpScreen> {
                                     userPhone: userPhone,
                                     userPassword: userPassword,
                                     userCity: userCity,
-                                    userDeviceToken: userDeviceToken);
+                                    userDeviceToken: userDeviceToken,
+                                    userState: userState,
+                                    userStreet: userStreet);
 
                             if (userCredential != null) {
                               Get.snackbar(

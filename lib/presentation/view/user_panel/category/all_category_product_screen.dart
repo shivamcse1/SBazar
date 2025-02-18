@@ -46,7 +46,7 @@ class AllCategoryProductScreenState extends State<AllCategoryProductScreen> {
         padding: const EdgeInsets.only(left: 10.0, right: 10.0),
         child: FutureBuilder(
             future: Future.delayed(
-              const Duration(seconds: 2),
+              const Duration(seconds: 1),
               () => FirebaseFirestore.instance
                   .collection(DbKeyConstant.productCollection)
                   .where('categoryId', isEqualTo: widget.categoryId)

@@ -8,10 +8,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+import 'package:s_bazar/presentation/view/user_panel/bottom_nav_bar/bottom_nav_bar.dart';
 
 import '../../../controllers/get_user_data_controller.dart';
 import '../../../core/constant/app_const.dart';
-import '../user_panel/home/user_home_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -42,8 +42,7 @@ class SplashScreenState extends State<SplashScreen> {
       if (userData[0]['isAdmin'] == true) {
         Get.offAll(() => const AdminHomeScreen());
       } else {
-        print("home");
-        Get.offAll(() => const UserHomeScreen());
+        Get.offAll(() => const BottomNavBar());
       }
     } else {
       Get.off(() => const WelcomeScreen());
@@ -65,7 +64,7 @@ class SplashScreenState extends State<SplashScreen> {
               child: Container(
                 alignment: Alignment.center,
                 width: Get.width,
-                child: Lottie.asset(ImageConstant.loginImg,
+                child: Lottie.asset(ImageConstant.splashImg,
                     width: 300, height: 300),
               ),
             ),

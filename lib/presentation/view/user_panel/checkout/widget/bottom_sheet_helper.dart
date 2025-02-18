@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_print, use_build_context_synchronously
 
+import 'package:s_bazar/controllers/auth_controller.dart';
 import 'package:s_bazar/core/constant/color_const.dart';
 import 'package:s_bazar/core/constant/database_key_const.dart';
 import 'package:s_bazar/core/constant/textstyle_const.dart';
@@ -7,16 +8,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:s_bazar/utils/Uihelper/ui_helper.dart';
 
-import '../../../../../controllers/device_token_contoller.dart';
-
 class BottomSheetHelper {
   static Future addressBottomSheet(BuildContext context) {
     final TextEditingController nameController = TextEditingController();
     final TextEditingController phoneController = TextEditingController();
     final TextEditingController addressController = TextEditingController();
     final TextEditingController emailController = TextEditingController();
-    final DeviceTokenContoller deviceTokenContoller =
-        Get.put(DeviceTokenContoller());
+    final AuthController authController = Get.put(AuthController());
 
     return showModalBottomSheet(
         isDismissible: false,
@@ -79,7 +77,7 @@ class BottomSheetHelper {
                             height: 20,
                           ),
                           TextFormField(
-                            keyboardType: TextInputType.phone,
+                            keyboardType: TextInputType.emailAddress,
                             controller: emailController,
                             decoration: const InputDecoration(
                               label: Text("Email"),
@@ -117,9 +115,6 @@ class BottomSheetHelper {
                                       addressController.text.toString().trim();
                                   String email =
                                       emailController.text.toString().trim();
-                                  String deviceToken =
-                                      await deviceTokenContoller
-                                          .getCustomerDeviceToken();
 
                                   Get.back(result: {
                                     DbKeyConstant.context: context,
@@ -127,7 +122,8 @@ class BottomSheetHelper {
                                     DbKeyConstant.userEmail: email,
                                     DbKeyConstant.userPhone: phone,
                                     DbKeyConstant.userAddress: address,
-                                    DbKeyConstant.userDeviceToken: deviceToken,
+                                    DbKeyConstant.userDeviceToken:
+                                        authController.deviceToken.value,
                                   });
                                 } else {
                                   UiHelper.customSnackbar(

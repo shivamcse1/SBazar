@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:s_bazar/controllers/order_controller.dart';
 import 'package:s_bazar/core/constant/database_key_const.dart';
-import 'package:s_bazar/presentation/view/user_panel/home/user_home_screen.dart';
+import 'package:s_bazar/presentation/view/user_panel/bottom_nav_bar/bottom_nav_bar.dart';
 import 'package:s_bazar/utils/Uihelper/ui_helper.dart';
 
 class PaymentController extends GetxController {
@@ -65,7 +65,7 @@ class PaymentController extends GetxController {
       titleMsg: "Payment Successful",
       msg: "Order Successful Placed",
     );
-    Get.offAll(() => const UserHomeScreen());
+    Get.offAll(() => const BottomNavBar());
   }
 
   void _handlePaymentError(PaymentFailureResponse response) {

@@ -28,6 +28,12 @@ class _WishlistScreenState extends State<WishlistScreen> {
   }
 
   @override
+  void dispose() {
+    WishlistController().dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(

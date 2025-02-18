@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:s_bazar/core/constant/database_key_const.dart';
 import 'package:s_bazar/core/error/exception/firebase_exception_handler.dart';
@@ -20,7 +19,7 @@ class WishlistController extends GetxController {
           .where(DbKeyConstant.isWishlist, isEqualTo: true)
           .get();
 
-      Future.delayed(const Duration(seconds: 2), () {
+      Future.delayed(const Duration(milliseconds: 500), () {
         productWishList.value = querySnapshot.docs.map((doc) {
           return doc.data() as Map<String, dynamic>;
         }).toList();

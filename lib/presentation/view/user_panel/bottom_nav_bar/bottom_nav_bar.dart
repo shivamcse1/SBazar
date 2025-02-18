@@ -1,9 +1,13 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:s_bazar/core/constant/app_const.dart';
+
 import 'package:s_bazar/core/constant/color_const.dart';
-import 'package:s_bazar/core/constant/image_const.dart';
+
+import 'package:s_bazar/presentation/view/user_panel/cart/cart_screen.dart';
+import 'package:s_bazar/presentation/view/user_panel/category/all_category_screen.dart';
 import 'package:s_bazar/presentation/view/user_panel/home/user_home_screen.dart';
+import 'package:s_bazar/presentation/widget/cart_icon_widget.dart';
+
+import '../account/account_screen.dart';
 
 class BottomNavBar extends StatefulWidget {
   const BottomNavBar({super.key});
@@ -15,10 +19,17 @@ class BottomNavBar extends StatefulWidget {
 class _BottomNavBarState extends State<BottomNavBar> {
   int currentIndex = 0;
 
+  List<Widget> bodyList = const [
+    UserHomeScreen(),
+    AllCategoryScreen(),
+    CartScreen(),
+    AccountScreen(),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: UserHomeScreen(),
+        body: bodyList[currentIndex],
         bottomNavigationBar: NavigationBar(
           backgroundColor: Colors.transparent,
           selectedIndex: currentIndex,
@@ -27,7 +38,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
               currentIndex = value;
             });
           },
-          height: 65,
+          height: 60,
           destinations: [
             NavigationDestination(
                 icon: Icon(
@@ -48,13 +59,9 @@ class _BottomNavBarState extends State<BottomNavBar> {
                 ),
                 label: "Category"),
             NavigationDestination(
-                icon: Icon(
-                  currentIndex == 2
-                      ? Icons.shopping_cart
-                      : Icons.shopping_cart_outlined,
-                  color: currentIndex == 2
-                      ? ColorConstant.pinkColor
-                      : Colors.black,
+                icon: CartIconWidget(
+                  index: currentIndex,
+                  isbottomNavBar: true,
                 ),
                 label: "Cart"),
             NavigationDestination(

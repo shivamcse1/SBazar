@@ -39,7 +39,7 @@ class AllCategoryScreenState extends State<AllCategoryScreen> {
         padding: const EdgeInsets.only(left: 10.0, right: 10.0),
         child: FutureBuilder(
             future: Future.delayed(
-                const Duration(seconds: 2),
+                const Duration(milliseconds: 500),
                 () => FirebaseFirestore.instance
                     .collection(DbKeyConstant.categoryCollection)
                     .get()),

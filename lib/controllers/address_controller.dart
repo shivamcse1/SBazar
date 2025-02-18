@@ -70,9 +70,9 @@ class AddressController extends GetxController {
       userAddressList = querySnapshot.docs.map((doc) {
         return doc.data() as Map<String, dynamic>;
       }).toList();
+      EasyLoading.dismiss();
       update();
       totalAddress.value = userAddressList.length;
-      EasyLoading.dismiss();
     } on FirebaseException catch (ex) {
       EasyLoading.dismiss();
       update();

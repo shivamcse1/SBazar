@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_interpolation_to_compose_strings, avoid_print
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:s_bazar/controllers/cart_controller.dart';
 import 'package:s_bazar/core/constant/database_key_const.dart';
 import 'package:s_bazar/core/constant/image_const.dart';
@@ -14,6 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
+import 'package:s_bazar/utils/Uihelper/ui_helper.dart';
 
 import '../../../../core/constant/app_const.dart';
 import '../../../../core/constant/color_const.dart';
@@ -31,6 +33,12 @@ class _CartScreenState extends State<CartScreen> {
   double h = Get.height;
   double w = Get.width;
   final CartController cartController = Get.put(CartController());
+
+  @override
+  void initState() {
+    cartController.calculateTotalProductPrice(user: user);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -242,7 +250,7 @@ class _CartScreenState extends State<CartScreen> {
                       } else {
                         EasyLoading.dismiss();
 
-                        return const Center(child: Text("No data Found"));
+                        return Center(child: UiHelper.noProductFound());
                       }
                     } else {
                       EasyLoading.dismiss();
@@ -251,11 +259,11 @@ class _CartScreenState extends State<CartScreen> {
                     }
                   }),
             ),
-            Container(
-              height: 60,
-              color: Colors.blue.shade100,
-              child: Obx(
-                () => Padding(
+            Obx(
+              () => Container(
+                height: cartController.totalProductPrice.value == 0.0 ? 0 : 60,
+                color: Colors.blue.shade100,
+                child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10.0),
                     child: cartController.totalProductPrice.value != 0.0
                         ? Row(
@@ -297,7 +305,9 @@ class _CartScreenState extends State<CartScreen> {
                                   ))
                             ],
                           )
-                        : bottomButtonShimmer()),
+                        : cartController.totalProductPrice.value == 0.0
+                            ? const SizedBox.shrink()
+                            : bottomButtonShimmer()),
               ),
             ),
           ]),

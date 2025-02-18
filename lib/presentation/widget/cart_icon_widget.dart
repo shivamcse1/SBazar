@@ -1,12 +1,17 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 import '../../controllers/cart_controller.dart';
+import '../../core/constant/color_const.dart';
 import '../view/user_panel/cart/cart_screen.dart';
 
 class CartIconWidget extends StatefulWidget {
-  const CartIconWidget({super.key});
+  final int index;
+  final bool isbottomNavBar;
+  const CartIconWidget(
+      {super.key, this.index = -1, this.isbottomNavBar = false});
 
   @override
   State<CartIconWidget> createState() => CartIconWidgetState();
@@ -20,21 +25,34 @@ class CartIconWidgetState extends State<CartIconWidget> {
     return Obx(
       () => Stack(
         children: [
-          IconButton(
-            onPressed: () {
-              Get.to(
-                () => const CartScreen(),
-              );
-            },
-            icon: const Icon(
-              Icons.shopping_cart,
-              color: Colors.white,
-            ),
-          ),
+          GestureDetector(
+              onTap: widget.isbottomNavBar != true
+                  ? () {
+                      Get.to(
+                        () => const CartScreen(),
+                      );
+                    }
+                  : null,
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                child: Icon(
+                  widget.isbottomNavBar != true
+                      ? Icons.shopping_cart
+                      : widget.index == 2
+                          ? Icons.shopping_cart
+                          : Icons.shopping_cart_outlined,
+                  color: widget.isbottomNavBar != true
+                      ? Colors.white
+                      : widget.index == 2
+                          ? ColorConstant.pinkColor
+                          : Colors.black,
+                ),
+              )),
           cartController.totalCartItem.value > 0
               ? Positioned(
-                  top: 7,
-                  right: 7,
+                  top: 1,
+                  right: 5,
                   child: Container(
                     height: 15,
                     width: 15,

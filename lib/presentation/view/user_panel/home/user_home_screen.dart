@@ -1,14 +1,16 @@
-// ignore_for_file: prefer_typing_uninitialized_variables
+// ignore_for_file: prefer_typing_uninitialized_variables, invalid_use_of_protected_member
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
+
+import 'package:s_bazar/controllers/cart_controller.dart';
 import 'package:s_bazar/controllers/get_user_data_controller.dart';
+import 'package:s_bazar/controllers/home_controller.dart';
 import 'package:s_bazar/presentation/view/user_panel/category/all_category_screen.dart';
 import 'package:s_bazar/presentation/view/user_panel/flash_sale/all_flash_sale_product_screen.dart';
-import 'package:s_bazar/presentation/widget/custom_drawer.dart';
 import 'package:s_bazar/presentation/widget/custom_heading.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:s_bazar/presentation/widget/custom_shimmer_container.dart';
 import '../../../../core/constant/app_const.dart';
 import '../../../widget/cart_icon_widget.dart';
 import '../../../widget/custom_all_product.dart';
@@ -25,8 +27,10 @@ class UserHomeScreen extends StatefulWidget {
 }
 
 class UserHomeScreenState extends State<UserHomeScreen> {
- final GetUserDataController getUserDataController =
+  final GetUserDataController getUserDataController =
       Get.put(GetUserDataController());
+  final HomeController homeController = Get.put(HomeController());
+  final CartController cartController = Get.put(CartController());
 
   var userData;
   User? user = FirebaseAuth.instance.currentUser;
@@ -34,6 +38,11 @@ class UserHomeScreenState extends State<UserHomeScreen> {
   @override
   void initState() {
     super.initState();
+    cartController.calculateTotalCartItem();
+    homeController.fetchBannerImage();
+    homeController.fetchCategory();
+    homeController.fetchFlashSaleProduct();
+    homeController.fetchAllProduct();
   }
 
   @override
@@ -51,49 +60,52 @@ class UserHomeScreenState extends State<UserHomeScreen> {
           CartIconWidget(),
         ],
       ),
-      drawer: const CustomDrawer(),
       body: SingleChildScrollView(
         // physics: const BouncingScrollPhysics(),
-        child: Column(
-          children: [
-            const CustomSlider(
-              imgList: [],
-              autoScroll: true,
-            ),
-            CustomHeading(
-              onTap: () {
-                Get.to(() => const AllCategoryScreen());
-              },
-              categoryTitle: "Categories",
-              categorySubTitle: "According to your budget",
-            ),
-            const CustomCategoryItem(),
-            CustomHeading(
-              onTap: () {
-                Get.to(() => const AllFlashSaleProductScreen());
-              },
-              categoryTitle: "Flash Sale",
-              categorySubTitle: "According to your budget",
-            ),
-            const CustomFlashSale(),
-            
-            
-            CustomHeading(
-              onTap: () {
-                Get.to(() => const AllProductScreen());
-              },
-              categoryTitle: "All Product",
-              categorySubTitle: "According to your budget",
-            ),
-            const CustomAllProduct(),
-            const SizedBox(
-              height: 10,
-            )
-          ],
+        child: Obx(
+          () => Column(
+            children: [
+              CustomSlider(
+                imgList: homeController.bannerImgList,
+                autoScroll: true,
+              ),
+              CustomHeading(
+                onTap: () {
+                  Get.to(() => const AllCategoryScreen());
+                },
+                categoryTitle: "Categories",
+                categorySubTitle: "According to your budget",
+              ),
+              CustomCategoryItem(
+                categoryList: homeController.categoryList.value,
+              ),
+              CustomHeading(
+                onTap: () {
+                  Get.to(() => const AllFlashSaleProductScreen());
+                },
+                categoryTitle: "Flash Sale",
+                categorySubTitle: "According to your budget",
+              ),
+              CustomFlashSale(
+                flashSaleProductList: homeController.flashSaleList.value,
+              ),
+              CustomHeading(
+                onTap: () {
+                  Get.to(() => const AllProductScreen());
+                },
+                categoryTitle: "All Product",
+                categorySubTitle: "According to your budget",
+              ),
+              CustomAllProduct(
+                allProductList: homeController.allProductList.value,
+              ),
+              const SizedBox(
+                height: 10,
+              )
+            ],
+          ),
         ),
       ),
     );
   }
-
- 
 }

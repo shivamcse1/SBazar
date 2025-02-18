@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:s_bazar/controllers/address_controller.dart';
 import 'package:s_bazar/core/constant/database_key_const.dart';
@@ -23,6 +24,12 @@ class _AddressScreenState extends State<AddressScreen> {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   User? user = FirebaseAuth.instance.currentUser;
   final AddressController addressController = Get.put(AddressController());
+
+  @override
+  void dispose() {
+    EasyLoading.dismiss();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,6 +60,7 @@ class _AddressScreenState extends State<AddressScreen> {
               children: [
                 InkWell(
                   onTap: () {
+                    EasyLoading.dismiss();
                     Get.to(() => const AddNewAddressScreen());
                   },
                   child: Material(
@@ -202,7 +210,7 @@ class _AddressScreenState extends State<AddressScreen> {
                                         height: 8,
                                       ),
                                       Text(
-                                        addressModel.userPhone,
+                                        "Ph: ${addressModel.userPhone}",
                                         style: const TextStyle(
                                           fontSize: 16,
                                         ),

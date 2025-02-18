@@ -2,29 +2,39 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:s_bazar/presentation/view/user_panel/bottom_nav_bar/bottom_nav_bar.dart';
+import 'package:s_bazar/utils/Uihelper/ui_helper.dart';
 
 import '../core/constant/app_const.dart';
 import '../core/constant/database_key_const.dart';
 import '../core/error/exception/firebase_exception_handler.dart';
 import '../data/model/user_model.dart';
 import '../presentation/view/auth_ui/sign_in_screen.dart';
-import '../presentation/view/user_panel/home/user_home_screen.dart';
-import 'device_token_contoller.dart';
 
 class AuthController extends GetxController {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController cityController = TextEditingController();
-  final TextEditingController userNameController = TextEditingController();
+  final TextEditingController stateController = TextEditingController();
+  final TextEditingController streetController = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
 
+  RxString deviceToken = ''.obs;
   final FirebaseAuth auth = FirebaseAuth.instance;
   final RxBool isPasswordVisible = true.obs;
+
+  @override
+  void onInit() {
+    getCustomerDeviceToken();
+    super.onInit();
+  }
 
   Future<UserCredential?> signInWithEmailAndPassword({
     required String userEmail,
@@ -46,8 +56,6 @@ class AuthController extends GetxController {
   }
 
   Future<void> signInWithGoogleAccount() async {
-    final DeviceTokenContoller deviceTokenContoller =
-        Get.put(DeviceTokenContoller());
     try {
       EasyLoading.show(
         status: "Please wait...",
@@ -82,19 +90,20 @@ class AuthController extends GetxController {
 
       if (user != null) {
         UserModel userModel = UserModel(
-            userUid: user.uid,
-            userName: user.displayName.toString(),
-            userEmail: user.email.toString(),
-            userPhone: user.phoneNumber.toString(),
-            userImg: user.photoURL.toString(),
-            userDeviceToken: deviceTokenContoller.deviceToken.toString(),
-            userCountry: '',
-            userAddress: '',
-            userStreet: '',
-            isAdmin: false,
-            isActive: true,
-            createdAt: DateTime.now(),
-            userCity: '');
+          userUid: user.uid,
+          userName: user.displayName.toString(),
+          userEmail: user.email.toString(),
+          userPhone: user.phoneNumber.toString(),
+          userImg: user.photoURL.toString(),
+          userDeviceToken: deviceToken.value,
+          userCountry: '',
+          userStreet: '',
+          isAdmin: false,
+          isActive: true,
+          createdAt: DateTime.now(),
+          userCity: '',
+          userState: "",
+        );
 
         await FirebaseFirestore.instance
             .collection(DbKeyConstant.userCollection)
@@ -103,7 +112,7 @@ class AuthController extends GetxController {
 
         EasyLoading.dismiss();
         Fluttertoast.showToast(msg: "Login SuccessFull");
-        Get.offAll(() => const UserHomeScreen());
+        Get.offAll(() => const BottomNavBar());
       }
     } on FirebaseException catch (ex) {
       print("avaja");
@@ -118,10 +127,10 @@ class AuthController extends GetxController {
     required String userPhone,
     required String userPassword,
     required String userCity,
+    required String userStreet,
+    required String userState,
     required String userDeviceToken,
   }) async {
-    final DeviceTokenContoller deviceTokenContoller =
-        Get.put(DeviceTokenContoller());
     try {
       EasyLoading.show(status: 'Please wait...');
       // sign up or create user In using email
@@ -133,19 +142,20 @@ class AuthController extends GetxController {
       await userCredential.user!.sendEmailVerification();
 
       UserModel userModel = UserModel(
-          userUid: userCredential.user!.uid,
-          userName: userName,
-          userEmail: userEmail,
-          userPhone: userPhone,
-          userImg: '',
-          userDeviceToken: deviceTokenContoller.deviceToken.toString(),
-          userCountry: 'IN',
-          userAddress: '',
-          userStreet: '',
-          isAdmin: false,
-          isActive: true,
-          createdAt: DateTime.now(),
-          userCity: userCity);
+        userUid: userCredential.user!.uid,
+        userName: userName,
+        userEmail: userEmail,
+        userPhone: userPhone,
+        userImg: '',
+        userDeviceToken: deviceToken.value,
+        userCountry: 'IN',
+        userStreet: userStreet,
+        isAdmin: false,
+        isActive: true,
+        createdAt: DateTime.now(),
+        userCity: userCity,
+        userState: userState,
+      );
 
       // store data of user in firestore
 
@@ -178,5 +188,32 @@ class AuthController extends GetxController {
       EasyLoading.dismiss();
       FirebaseExceptionHelper.exceptionHandler(ex);
     }
+  }
+
+  Future<String> getCustomerDeviceToken() async {
+    try {
+      String? token = await FirebaseMessaging.instance.getToken();
+      if (token != null) {
+        deviceToken.value = token;
+
+        return deviceToken.value;
+      } else {
+        UiHelper.customSnackbar(
+            titleMsg: "Error Ocuured", msg: "Device Token Null");
+        throw Exception("Error occured");
+      }
+    } on FirebaseException catch (ex) {
+      FirebaseExceptionHelper.exceptionHandler(ex);
+      throw Exception("Error occured : $ex");
+    }
+  }
+
+  void assignDataToController({required UserModel userModel}) {
+    nameController.text = userModel.userName;
+    phoneController.text = userModel.userPhone;
+    emailController.text = userModel.userEmail;
+    streetController.text = userModel.userStreet;
+    cityController.text = userModel.userCity;
+    stateController.text = userModel.userState;
   }
 }

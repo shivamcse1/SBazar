@@ -38,7 +38,7 @@ class WelcomeScreenState extends State<WelcomeScreen> {
               color: AppConstant.appSecondaryColor,
               height: Get.height / 2.5,
               width: Get.width,
-              child: Lottie.asset(ImageConstant.loginImg),
+              child: Lottie.asset(ImageConstant.splashImg),
             ),
             Container(
               margin: const EdgeInsets.only(top: 20.0),

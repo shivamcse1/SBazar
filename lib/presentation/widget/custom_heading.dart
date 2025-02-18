@@ -1,11 +1,10 @@
 // ignore_for_file: avoid_unnecessary_containers, prefer_const_constructors, unnecessary_brace_in_string_interps
 
 import 'package:get/get.dart';
+import 'package:s_bazar/controllers/home_controller.dart';
 import 'package:s_bazar/core/constant/color_const.dart';
 import 'package:s_bazar/core/constant/textstyle_const.dart';
 import 'package:flutter/material.dart';
-
-import '../../controllers/banner_contoller.dart';
 import 'custom_shimmer_container.dart';
 
 class CustomHeading extends StatelessWidget {
@@ -23,8 +22,8 @@ class CustomHeading extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
-    final BannerController bannerController = Get.put(BannerController());
-    return Obx(() => bannerController.bannerImgList.isNotEmpty
+    final HomeController homeController = Get.put(HomeController());
+    return Obx(() => homeController.bannerImgList.isNotEmpty
         ? Container(
             padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
             child: Row(

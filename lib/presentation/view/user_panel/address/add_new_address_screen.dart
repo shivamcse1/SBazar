@@ -61,44 +61,41 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
               CustomTextField(
                 keyboardType: TextInputType.name,
                 controller: addressController.nameController,
-                prefix: Icon(
+                prefix: const Icon(
                   Icons.person,
-                  color: ColorConstant.greyColor,
                 ),
                 hintText: "Full Name (Required)*",
                 focusBorderColor: ColorConstant.greyColor,
                 enableBorderColor: ColorConstant.greyColor,
               ),
               const SizedBox(
-                height: 5,
+                height: 20,
               ),
               CustomTextField(
                 keyboardType: TextInputType.phone,
                 controller: addressController.phoneController,
                 prefix: const Icon(
                   Icons.phone_android,
-                  color: Colors.grey,
                 ),
                 hintText: "Phone Number (Required)*",
                 focusBorderColor: ColorConstant.greyColor,
                 enableBorderColor: ColorConstant.greyColor,
               ),
               const SizedBox(
-                height: 5,
+                height: 20,
               ),
               CustomTextField(
                 keyboardType: TextInputType.streetAddress,
                 controller: addressController.streetController,
                 prefix: const Icon(
                   Icons.home,
-                  color: Colors.grey,
                 ),
                 hintText: "Area,Colony,Street (Required)*",
                 focusBorderColor: ColorConstant.greyColor,
                 enableBorderColor: ColorConstant.greyColor,
               ),
               const SizedBox(
-                height: 5,
+                height: 20,
               ),
               Row(
                 children: [
@@ -108,7 +105,6 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
                       controller: addressController.pincodeController,
                       prefix: const Icon(
                         Icons.location_searching,
-                        color: Colors.grey,
                       ),
                       hintText: "Pincode (Required)*",
                       focusBorderColor: ColorConstant.greyColor,
@@ -122,9 +118,8 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
                     child: CustomTextField(
                       keyboardType: TextInputType.name,
                       controller: addressController.stateController,
-                      prefix: Icon(
+                      prefix: const Icon(
                         Icons.maps_home_work,
-                        color: ColorConstant.greyColor,
                       ),
                       hintText: "State (Required)*",
                       focusBorderColor: ColorConstant.greyColor,
@@ -134,35 +129,33 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
                 ],
               ),
               const SizedBox(
-                height: 5,
+                height: 20,
               ),
               CustomTextField(
                 keyboardType: TextInputType.name,
                 controller: addressController.cityController,
                 prefix: const Icon(
                   Icons.location_city,
-                  color: Colors.grey,
                 ),
                 hintText: "City (Required)*",
                 focusBorderColor: ColorConstant.greyColor,
                 enableBorderColor: ColorConstant.greyColor,
               ),
               const SizedBox(
-                height: 5,
+                height: 20,
               ),
               CustomTextField(
                 keyboardType: TextInputType.name,
                 controller: addressController.nearbyShopController,
                 prefix: const Icon(
                   Icons.store_mall_directory,
-                  color: Colors.grey,
                 ),
                 hintText: "Nearby Famous Shop/LandMark (Optional)",
                 focusBorderColor: ColorConstant.greyColor,
                 enableBorderColor: ColorConstant.greyColor,
               ),
               const SizedBox(
-                height: 15,
+                height: 50,
               ),
               CustomElevatedButton(
                 buttonText: "Save Address",
