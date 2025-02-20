@@ -1,11 +1,13 @@
 // ignore_for_file: unused_element, unnecessary_overrides, avoid_print
 
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:s_bazar/controllers/auth_controller.dart';
 import 'package:s_bazar/controllers/order_controller.dart';
 import 'package:s_bazar/core/constant/database_key_const.dart';
 import 'package:s_bazar/presentation/view/user_panel/bottom_nav_bar/bottom_nav_bar.dart';
+import 'package:s_bazar/presentation/view/user_panel/order/order_success_screen.dart';
 import 'package:s_bazar/utils/Uihelper/ui_helper.dart';
 
 class PaymentController extends GetxController {
@@ -33,7 +35,7 @@ class PaymentController extends GetxController {
 
       var options = {
         'key': DbKeyConstant.razorpayKey,
-        'amount': 10000,
+        'amount': paymentData[DbKeyConstant.productTotalPrice],
         'name': 'SBazar',
         'currency': 'INR',
         'description': "",
@@ -44,7 +46,6 @@ class PaymentController extends GetxController {
           'wallets': ['paytm', 'phonepe', 'amazonpay'],
         }
       };
-
       _razorPay.open(options);
     } catch (ex) {
       UiHelper.customSnackbar(
@@ -62,11 +63,13 @@ class PaymentController extends GetxController {
         userAddress: userInfo[DbKeyConstant.userAddress],
       );
 
-      UiHelper.customSnackbar(
-        titleMsg: "Payment Successful",
+      UiHelper.customToast(
         msg: "Order Placed Successfully",
       );
-      Get.offAll(() => const BottomNavBar());
+      Get.offAll(() => OrderSuccessScreen(
+            paymentMode: "Online",
+            totalAmount: userInfo[DbKeyConstant.productTotalPrice],
+          ));
     } catch (ex) {
       UiHelper.customSnackbar(
         titleMsg: "Payment Successfull",

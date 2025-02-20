@@ -18,6 +18,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:s_bazar/presentation/view/user_panel/address/address_screen.dart';
 import 'package:s_bazar/presentation/view/user_panel/bottom_nav_bar/bottom_nav_bar.dart';
+import 'package:s_bazar/presentation/view/user_panel/order/order_success_screen.dart';
 import 'package:s_bazar/utils/Uihelper/ui_helper.dart';
 
 import '../../../../core/constant/app_const.dart';
@@ -550,11 +551,11 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                               userAddress: fullAddress,
                             );
                             EasyLoading.dismiss();
-                            UiHelper.customSnackbar(
-                              titleMsg: "Order Placed",
-                              msg: "Order Placed Successfully",
-                            );
-                            Get.offAll(() => const BottomNavBar());
+                            Get.offAll(() => OrderSuccessScreen(
+                                  paymentMode: "Cash",
+                                  totalAmount: cartController.totalAmount.value
+                                      .toString(),
+                                ));
                           } catch (ex) {
                             EasyLoading.dismiss();
                             UiHelper.customSnackbar(

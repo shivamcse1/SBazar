@@ -31,7 +31,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
     return Scaffold(
         body: bodyList.isNotEmpty && currentIndex < bodyList.length
             ? bodyList[currentIndex]
-            :  Center(child: const CircularProgressIndicator()),
+            : const Center(child: CircularProgressIndicator()),
         bottomNavigationBar: NavigationBar(
           backgroundColor: Colors.transparent,
           selectedIndex: currentIndex,

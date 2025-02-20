@@ -26,6 +26,7 @@ class DbKeyConstant {
   static const String paymentType = 'paymentType';
   static const String rs = 'Rs.';
   static const String ruppeeSign = '₹';
+  static const String orderId = 'orderId';
 
 
   // category dataBaseKey
