@@ -1,11 +1,10 @@
 // ignore_for_file: prefer_interpolation_to_compose_strings, prefer_adjacent_string_concatenation, unnecessary_brace_in_string_interps, avoid_print
 
-import 'dart:math';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:s_bazar/controllers/auth_controller.dart';
 import 'package:s_bazar/core/error/exception/firebase_exception_handler.dart';
 
 import '../core/constant/database_key_const.dart';
@@ -13,18 +12,18 @@ import '../data/model/order_model.dart';
 import '../utils/Uihelper/ui_helper.dart';
 
 class OrderController extends GetxController {
+  final AuthController authController = Get.put(AuthController());
   // placeing order method
   Future<void> placeOrder({
-    required BuildContext context,
     required String userName,
     required String userPhone,
     required String userAddress,
-    required String userDeviceToken,
   }) async {
     User? user = FirebaseAuth.instance.currentUser;
-
+    String userDeviceToken = await authController.getCustomerDeviceToken();
     if (user != null) {
       try {
+        
         QuerySnapshot snapshot = await FirebaseFirestore.instance
             .collection(DbKeyConstant.cartCollection)
             .doc(user.uid)
@@ -94,21 +93,15 @@ class OrderController extends GetxController {
             print("delete cart product :${orderModel.productId}");
           });
         }
-
         // UiHelper.customSnackbar(
         //     titleMsg: "Order Confirmed!",
         //     msg: "Thank you for shopping! Have a nice day");
-     
+
         // Get.offAll(() => const UserHomeScreen());
       } on FirebaseException catch (ex) {
-        
         FirebaseExceptionHelper.exceptionHandler(ex);
         print("error Ocurred:$ex");
       }
     }
- 
   }
-
- 
-
 }

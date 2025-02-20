@@ -23,7 +23,10 @@ class DbKeyConstant {
   // common databaseKey
   static const String createdAt = 'createdAt';
   static const String updatedAt = 'updatedAt';
+  static const String paymentType = 'paymentType';
   static const String rs = 'Rs.';
+  static const String ruppeeSign = '₹';
+
 
   // category dataBaseKey
   static const String categoryName = 'categoryName';

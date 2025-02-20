@@ -14,7 +14,8 @@ import '../../../../core/constant/color_const.dart';
 import 'add_new_address_screen.dart';
 
 class AddressScreen extends StatefulWidget {
-  const AddressScreen({super.key});
+  final bool isCheckoutPage;
+  const AddressScreen({super.key, this.isCheckoutPage = false});
 
   @override
   State<AddressScreen> createState() => _AddressScreenState();
@@ -124,7 +125,7 @@ class _AddressScreenState extends State<AddressScreen> {
                           );
 
                           String fullAddress =
-                              "${addressModel.userStreet}${addressModel.userNearbyShop.isEmpty ? "" : ", ${addressModel.userNearbyShop}"}, ${addressModel.userCity}, ${addressModel.userState} - ${addressModel.userPincode}";
+                              "${addressModel.userStreet}${addressModel.userNearbyShop.isEmpty ? "" : ", Near by ${addressModel.userNearbyShop}"}, ${addressModel.userCity}, ${addressModel.userState} - ${addressModel.userPincode}";
 
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 10),
@@ -135,85 +136,107 @@ class _AddressScreenState extends State<AddressScreen> {
                                   decoration: BoxDecoration(
                                       color: Colors.white,
                                       border: Border.all(width: .01)),
-                                  padding: const EdgeInsets.only(
-                                      left: 10, right: 5, bottom: 10),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 10),
+                                  child: Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
-                                      SizedBox(
-                                        height: 40,
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              addressModel.userName[0]
-                                                      .toUpperCase() +
-                                                  addressModel.userName
-                                                      .substring(1),
-                                              style: const TextStyle(
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.w400),
-                                            ),
-                                            PopupMenuButton<String>(
-                                              padding: EdgeInsets.zero,
-                                              constraints:
-                                                  const BoxConstraints(),
-                                              color: ColorConstant.whiteColor,
-                                              shape:
-                                                  const RoundedRectangleBorder(),
-                                              onSelected:
-                                                  (selectedValue) async {
-                                                if (selectedValue == "Remove") {
-                                                  await addressController
-                                                      .removeUserAddress(
-                                                    addressModel: addressModel,
-                                                  );
-                                                  await addressController
-                                                      .fetchUserAddresses();
-                                                } else if (selectedValue ==
-                                                    "Edit") {
-                                                  Get.to(
-                                                      () => AddNewAddressScreen(
-                                                            addressModel:
-                                                                addressModel,
-                                                            isEdit: true,
-                                                          ));
+                                      widget.isCheckoutPage == true
+                                          ? Radio(
+                                              activeColor: Colors.green,
+                                              // visualDensity:
+                                              //     VisualDensity.compact,
+                                              // materialTapTargetSize:
+                                              //     MaterialTapTargetSize
+                                              //         .shrinkWrap,
+                                              value: addressModel.addressId,
+                                              groupValue:
+                                                  addressController.groupValue,
+                                              onChanged: (value) {
+                                                print(value);
+                                                addressController.selectAddress(
+                                                    currentIndexValue: value!);
+
+                                                if (widget.isCheckoutPage ==
+                                                    true) {
+                                                  Get.back();
+                                                  addressController
+                                                      .fetchUserAddresses(
+                                                          addressId:
+                                                              addressModel
+                                                                  .addressId);
                                                 }
-                                              },
-                                              itemBuilder: (context) {
-                                                return [
-                                                  const PopupMenuItem(
-                                                      value: "Edit",
-                                                      child: Text("Edit")),
-                                                  const PopupMenuItem(
-                                                      value: "Remove",
-                                                      child: Text("Remove"))
-                                                ];
-                                              },
+                                              })
+                                          : const SizedBox(
+                                              width: 10,
                                             ),
-                                          ],
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 330,
-                                        child: Text(
-                                          fullAddress,
-                                          style: const TextStyle(
-                                            fontSize: 16,
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            addressModel.userName[0]
+                                                    .toUpperCase() +
+                                                addressModel.userName
+                                                    .substring(1),
+                                            style: const TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w400),
                                           ),
-                                        ),
+                                          const SizedBox(
+                                            height: 5,
+                                          ),
+                                          SizedBox(
+                                            width: 300,
+                                            child: Text(
+                                              fullAddress,
+                                              style: const TextStyle(
+                                                fontSize: 16,
+                                              ),
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            height: 5,
+                                          ),
+                                          Text(
+                                            "Ph: ${addressModel.userPhone}",
+                                            style: const TextStyle(
+                                              fontSize: 16,
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                      const SizedBox(
-                                        height: 8,
-                                      ),
-                                      Text(
-                                        "Ph: ${addressModel.userPhone}",
-                                        style: const TextStyle(
-                                          fontSize: 16,
-                                        ),
+                                      const Spacer(),
+                                      PopupMenuButton<String>(
+                                        padding: EdgeInsets.zero,
+                                        constraints: const BoxConstraints(),
+                                        color: ColorConstant.whiteColor,
+                                        shape: const RoundedRectangleBorder(),
+                                        onSelected: (selectedValue) async {
+                                          if (selectedValue == "Remove") {
+                                            await addressController
+                                                .removeUserAddress(
+                                              addressModel: addressModel,
+                                            );
+                                            await addressController
+                                                .fetchUserAddresses();
+                                          } else if (selectedValue == "Edit") {
+                                            Get.to(() => AddNewAddressScreen(
+                                                  addressModel: addressModel,
+                                                  isEdit: true,
+                                                ));
+                                          }
+                                        },
+                                        itemBuilder: (context) {
+                                          return [
+                                            const PopupMenuItem(
+                                                value: "Edit",
+                                                child: Text("Edit")),
+                                            const PopupMenuItem(
+                                                value: "Remove",
+                                                child: Text("Remove"))
+                                          ];
+                                        },
                                       ),
                                     ],
                                   )),

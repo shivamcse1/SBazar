@@ -9,6 +9,7 @@ import '../../../../core/constant/database_key_const.dart';
 import '../../../../core/constant/textstyle_const.dart';
 import '../../../../data/model/category_model.dart';
 import '../../../widget/cart_icon_widget.dart';
+import '../../../widget/custom_image.dart';
 import '../../../widget/product_shimmer.dart';
 
 class AllCategoryScreen extends StatefulWidget {
@@ -87,7 +88,7 @@ class AllCategoryScreenState extends State<AllCategoryScreen> {
                         padding: const EdgeInsets.only(top: 5.0),
                         child: InkWell(
                           onTap: () {
-                            Get.to(AllCategoryProductScreen(
+                            Get.to(()=>AllCategoryProductScreen(
                               categoryId: categoryModel.categoryId,
                             ));
                           },
@@ -103,14 +104,12 @@ class AllCategoryScreenState extends State<AllCategoryScreen> {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  child: Image.network(
-                                    categoryModel.categoryImg,
-                                    height: Get.height / 6,
-                                    width: Get.width / 2.0,
-                                    fit: BoxFit.cover,
-                                  ),
+                                CustomImage(
+                                  borderRadius: BorderRadius.circular(10),
+                                  image: categoryModel.categoryImg,
+                                  height: Get.height / 6.0,
+                                  width: Get.width / 2.0,
+                                  imageFit: BoxFit.cover,
                                 ),
                                 const SizedBox(
                                   height: 8.0,

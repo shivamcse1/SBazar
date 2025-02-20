@@ -13,6 +13,7 @@ class CustomImage extends StatelessWidget {
   final Color? backgroundColor;
   final BoxFit imageFit;
   final BoxShape shape;
+  final BorderRadiusGeometry borderRadius;
 
   const CustomImage({
     super.key,
@@ -23,6 +24,7 @@ class CustomImage extends StatelessWidget {
     this.shape = BoxShape.rectangle,
     this.backgroundColor,
     this.errorImage,
+    this.borderRadius = BorderRadius.zero,
   });
 
   @override
@@ -31,38 +33,9 @@ class CustomImage extends StatelessWidget {
     return uri.hasScheme
         ? shape == BoxShape.circle
             ? ClipOval(
-                child: CachedNetworkImage(
-                  height: height,
-                  width: height,
-                  imageUrl: image,
-                  fit: imageFit,
-                  // Placeholder while the image is loading
-                  placeholder: (context, imgUrl) {
-                    return Container(
-                      color: Colors.white,
-                      child: const Center(
-                        child: CupertinoActivityIndicator(),
-                      ),
-                    );
-                  },
-                  //when any error occur
-                  errorWidget: (context, url, error) {
-                    return Container(
-                        decoration: BoxDecoration(
-                      color: backgroundColor ?? Colors.grey.shade300,
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                        image: AssetImage(
-                          errorImage ?? ImageConstant.previewImg,
-                        ),
-                      ),
-                    ));
-                  },
-                ),
-              )
-            : CachedNetworkImage(
+              child: CachedNetworkImage(
                 height: height,
-                width: width,
+                width: height,
                 imageUrl: image,
                 fit: imageFit,
                 // Placeholder while the image is loading
@@ -74,11 +47,47 @@ class CustomImage extends StatelessWidget {
                     ),
                   );
                 },
+                //when any error occur
                 errorWidget: (context, url, error) {
-                  return Image.asset(
-                    errorImage ?? ImageConstant.previewImg,
-                  );
+                  return Container(
+                      decoration: BoxDecoration(
+                    borderRadius: shape != BoxShape.circle ? borderRadius : null,
+                    color: backgroundColor ?? Colors.grey.shade300,
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                      image: AssetImage(
+                        errorImage ?? ImageConstant.previewImg,
+                      ),
+                    ),
+                  ));
                 },
+              ),
+            )
+            : ClipRRect(
+                borderRadius: borderRadius,
+                child: CachedNetworkImage(
+                  height: height,
+                  width: width,
+                  imageUrl: image,
+                  fit: imageFit,
+                  // Placeholder while the image is loading
+                  placeholder: (context, imgUrl) {
+                    return Container(
+                      color: Colors.white,
+                      child: const Center(
+                        child: CupertinoActivityIndicator(),
+                      ),
+                    );
+                  },
+                  errorWidget: (context, url, error) {
+                    return ClipRRect(
+                      borderRadius: borderRadius,
+                      child: Image.asset(
+                        errorImage ?? ImageConstant.previewImg,
+                      ),
+                    );
+                  },
+                ),
               )
         : (image.endsWith(".jpg") ||
                 image.endsWith(".png") ||
@@ -92,6 +101,7 @@ class CustomImage extends StatelessWidget {
                       (shape == BoxShape.circle
                           ? Colors.grey.shade300
                           : Colors.transparent),
+                  borderRadius: shape != BoxShape.circle ? borderRadius : null,
                   shape: shape,
                   image: DecorationImage(
                     fit: imageFit,
@@ -106,6 +116,7 @@ class CustomImage extends StatelessWidget {
                     width: shape == BoxShape.circle ? height : width,
                     decoration: BoxDecoration(
                       shape: shape,
+                      borderRadius: shape != BoxShape.circle ? borderRadius : null,
                       color: backgroundColor ??
                           (shape == BoxShape.circle
                               ? Colors.grey.shade300
@@ -128,6 +139,7 @@ class CustomImage extends StatelessWidget {
                     height: height,
                     width: shape == BoxShape.circle ? height : width,
                     decoration: BoxDecoration(
+                      borderRadius: shape != BoxShape.circle ? borderRadius : null,
                       shape: shape,
                       color: backgroundColor ??
                           (shape == BoxShape.circle

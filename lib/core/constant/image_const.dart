@@ -7,8 +7,11 @@ class ImageConstant {
   // images
   static const String splashImg = 'assets/images/splash_img.json';
   static const String previewImg = 'assets/images/preview_img.png';
+  static const String userImg = 'assets/images/user_img.jpg';
   static const String noProductFoundImg =
       'assets/images/no_product_found_img.png';
   static const String noProductFound2Img =
       'assets/images/no_product_found2_img.png';
+  static const String shoppingBagImg =
+      'assets/images/shopping_bag_img.png';
 }

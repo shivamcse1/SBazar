@@ -1,7 +1,8 @@
-// ignore_for_file: unused_element, unnecessary_overrides
+// ignore_for_file: unused_element, unnecessary_overrides, avoid_print
 
 import 'package:get/get.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
+import 'package:s_bazar/controllers/auth_controller.dart';
 import 'package:s_bazar/controllers/order_controller.dart';
 import 'package:s_bazar/core/constant/database_key_const.dart';
 import 'package:s_bazar/presentation/view/user_panel/bottom_nav_bar/bottom_nav_bar.dart';
@@ -26,18 +27,18 @@ class PaymentController extends GetxController {
     super.onClose();
   }
 
-  Future<void> getPayment({Map<String, dynamic>? userData}) async {
+  Future<void> getPayment({Map<String, dynamic>? paymentData}) async {
     try {
-      userInfo = userData!;
+      userInfo = paymentData!;
+
       var options = {
         'key': DbKeyConstant.razorpayKey,
         'amount': 10000,
         'name': 'SBazar',
         'currency': 'INR',
-        'description': '',
+        'description': "",
         'prefill': {
-          'contact': userData[DbKeyConstant.userPhone],
-          'email': userData[DbKeyConstant.userEmail],
+          'contact': paymentData[DbKeyConstant.userPhone],
         },
         'external': {
           'wallets': ['paytm', 'phonepe', 'amazonpay'],
@@ -54,18 +55,25 @@ class PaymentController extends GetxController {
   }
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
-    orderController.placeOrder(
-        context: userInfo[DbKeyConstant.context],
+    try {
+      orderController.placeOrder(
         userName: userInfo[DbKeyConstant.userName],
         userPhone: userInfo[DbKeyConstant.userPhone],
         userAddress: userInfo[DbKeyConstant.userAddress],
-        userDeviceToken: userInfo[DbKeyConstant.userDeviceToken]);
+      );
 
-    UiHelper.customSnackbar(
-      titleMsg: "Payment Successful",
-      msg: "Order Successful Placed",
-    );
-    Get.offAll(() => const BottomNavBar());
+      UiHelper.customSnackbar(
+        titleMsg: "Payment Successful",
+        msg: "Order Placed Successfully",
+      );
+      Get.offAll(() => const BottomNavBar());
+    } catch (ex) {
+      UiHelper.customSnackbar(
+        titleMsg: "Payment Successfull",
+        msg: "Order Place Failed!",
+      );
+      print(ex);
+    }
   }
 
   void _handlePaymentError(PaymentFailureResponse response) {

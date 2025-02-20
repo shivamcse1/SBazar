@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_unnecessary_containers
+// ignore_for_file: avoid_unnecessary_containers, avoid_print
 import 'package:s_bazar/controllers/auth_controller.dart';
 import 'package:s_bazar/controllers/get_user_data_controller.dart';
 import 'package:s_bazar/core/constant/app_const.dart';
@@ -21,14 +21,12 @@ import '../../../widget/custom_image.dart';
 import 'update_profile_screen.dart';
 
 class AccountScreen extends StatefulWidget {
-  final String userEmail;
-  final String userName;
-  final String userImg;
+
   const AccountScreen(
-      {super.key,
-      this.userEmail = 'user@gmail.com',
-      this.userName = '@Shivam Kumar',
-      this.userImg = ImageConstant.profileIc});
+      {
+        super.key,
+      
+      });
 
   @override
   State<AccountScreen> createState() => _AccountScreenState();
@@ -40,31 +38,33 @@ class _AccountScreenState extends State<AccountScreen> {
   final AuthController authController = Get.put(AuthController());
   User? user = FirebaseAuth.instance.currentUser;
 
-  String userEmail = 'user@gmail.com';
-  String userName = '@Shivam Kumar';
-  String userImg = ImageConstant.profileIc;
+
 
   @override
   void initState() {
-    getUserDataController.getUserData(user!.uid);
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async{ 
+    await getUserDataController.getUserData(user!.uid);
     var data = getUserDataController.userDataList[0];
-    UserModel userModel = UserModel(
-      userUid: data[DbKeyConstant.userUid],
-      userName: data[DbKeyConstant.userName],
-      userEmail: data[DbKeyConstant.userEmail],
-      userPhone: data[DbKeyConstant.userPhone],
-      userImg: data[DbKeyConstant.userImg],
-      userDeviceToken: data[DbKeyConstant.userDeviceToken],
-      userCountry: data[DbKeyConstant.userCountry],
-      userStreet: data[DbKeyConstant.userStreet],
-      isAdmin: data[DbKeyConstant.isAdmin],
-      isActive: data[DbKeyConstant.isActive],
-      createdAt: data[DbKeyConstant.createdAt],
-      userCity: data[DbKeyConstant.userCity],
-      userState: data[DbKeyConstant.userState],
-    );
 
-    authController.assignDataToController(userModel: userModel);
+      UserModel userModel = UserModel(
+        userUid: data[DbKeyConstant.userUid],
+        userName: data[DbKeyConstant.userName],
+        userEmail: data[DbKeyConstant.userEmail],
+        userPhone: data[DbKeyConstant.userPhone],
+        userImg: data[DbKeyConstant.userImg],
+        userDeviceToken: data[DbKeyConstant.userDeviceToken],
+        userCountry: data[DbKeyConstant.userCountry],
+        userStreet: data[DbKeyConstant.userStreet],
+        isAdmin: data[DbKeyConstant.isAdmin],
+        isActive: data[DbKeyConstant.isActive],
+        createdAt: data[DbKeyConstant.createdAt],
+        userCity: data[DbKeyConstant.userCity],
+        userState: data[DbKeyConstant.userState],
+      );
+
+      authController.assignDataToController(userModel: userModel);
+
+    });
     super.initState();
   }
 
@@ -132,14 +132,19 @@ class _AccountScreenState extends State<AccountScreen> {
             ),
             Obx(
               () => Text(
-                getUserDataController.userDataList[0][DbKeyConstant.userName],
+                getUserDataController.userDataList.isNotEmpty ?
+                getUserDataController.userDataList[0][DbKeyConstant.userName]
+
+                : "@User Name",
                 style: const TextStyle(
                     fontSize: 18.0, fontWeight: FontWeight.bold),
               ),
             ),
             Obx(
               () => Text(
-                getUserDataController.userDataList[0][DbKeyConstant.userEmail],
+                 getUserDataController.userDataList.isNotEmpty ?
+                getUserDataController.userDataList[0][DbKeyConstant.userEmail] :
+                "@User Email",
                 style: const TextStyle(
                   fontSize: 16.0,
                 ),

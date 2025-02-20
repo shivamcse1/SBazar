@@ -11,7 +11,9 @@ import '../data/model/cart_model.dart';
 
 class CartController extends GetxController {
   RxDouble totalProductPrice = 0.0.obs;
+  RxDouble totalAmount = 0.0.obs;
   RxInt totalCartItem = 0.obs;
+  RxList<Map<String,dynamic>> cartItemList = <Map<String,dynamic>>[].obs ;
   User? user = FirebaseAuth.instance.currentUser;
 
   Future<void> incrementCartProductQuantity({
@@ -186,6 +188,21 @@ class CartController extends GetxController {
     }
   }
 
+  Future<void> fetchCartItem() async{
+    try{
+     QuerySnapshot snapshot = await  FirebaseFirestore.instance
+                      .collection(DbKeyConstant.cartCollection)
+                      .doc(user!.uid)
+                      .collection(DbKeyConstant.cartProductCollection)
+                      .get();
+      cartItemList.value = snapshot.docs.map((doc){
+              return doc.data() as Map<String,dynamic>;
+      }).toList();   
+    }on FirebaseException catch(ex){
+      FirebaseExceptionHelper.exceptionHandler(ex);
+
+    }
+  }
   @override
   void onClose() {
     CartController().dispose();

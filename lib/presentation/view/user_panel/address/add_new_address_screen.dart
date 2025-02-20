@@ -186,11 +186,8 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
                           editAddressModel: widget.addressModel);
                       await addressController.fetchUserAddresses();
                     } else {
-                      await addressController
-                          .addNewAddress()
-                          .then((value) async {
-                        await addressController.fetchUserAddresses();
-                      });
+                      await addressController.addNewAddress();
+                      
                     }
                   } else {
                     UiHelper.customToast(

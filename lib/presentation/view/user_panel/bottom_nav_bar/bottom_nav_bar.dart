@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:s_bazar/core/constant/color_const.dart';
 
 import 'package:s_bazar/presentation/view/user_panel/cart/cart_screen.dart';
-import 'package:s_bazar/presentation/view/user_panel/category/all_category_screen.dart';
 import 'package:s_bazar/presentation/view/user_panel/home/user_home_screen.dart';
 import 'package:s_bazar/presentation/widget/cart_icon_widget.dart';
 
 import '../account/account_screen.dart';
+import '../category/category_screen.dart';
 
 class BottomNavBar extends StatefulWidget {
   const BottomNavBar({super.key});
@@ -19,17 +19,19 @@ class BottomNavBar extends StatefulWidget {
 class _BottomNavBarState extends State<BottomNavBar> {
   int currentIndex = 0;
 
-  List<Widget> bodyList = const [
-    UserHomeScreen(),
-    AllCategoryScreen(),
-    CartScreen(),
-    AccountScreen(),
+  List<Widget> bodyList = [
+    const UserHomeScreen(),
+    const CategoryScreen(),
+    const CartScreen(),
+    const AccountScreen(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: bodyList[currentIndex],
+        body: bodyList.isNotEmpty && currentIndex < bodyList.length
+            ? bodyList[currentIndex]
+            :  Center(child: const CircularProgressIndicator()),
         bottomNavigationBar: NavigationBar(
           backgroundColor: Colors.transparent,
           selectedIndex: currentIndex,

@@ -13,6 +13,7 @@ import '../../../../core/constant/database_key_const.dart';
 import '../../../../core/constant/textstyle_const.dart';
 import '../../../../data/model/product_model.dart';
 import '../../../widget/cart_icon_widget.dart';
+import '../../../widget/custom_image.dart';
 import '../../../widget/product_shimmer.dart';
 import '../cart/cart_screen.dart';
 import '../details/details_screen.dart';
@@ -118,14 +119,15 @@ class AllFlashSaleProductScreenState extends State<AllFlashSaleProductScreen> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               mainAxisSize: MainAxisSize.max,
                               children: [
-                                ClipRRect(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    child: CachedNetworkImage(
-                                      height: Get.height / 6.4,
-                                      width: Get.width / 2.0,
-                                      fit: BoxFit.cover,
-                                      imageUrl: productModel.productImgList[0],
-                                    )),
+                                CustomImage(
+                                  borderRadius: const BorderRadius.only(
+                                      topLeft: Radius.circular(10),
+                                      topRight: Radius.circular(10)),
+                                  image: productModel.productImgList[0],
+                                  height: Get.height / 6.4,
+                                  width: Get.width / 2.0,
+                                  imageFit: BoxFit.cover,
+                                ),
                                 const SizedBox(
                                   height: 2.0,
                                 ),

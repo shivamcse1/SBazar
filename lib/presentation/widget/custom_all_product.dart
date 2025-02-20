@@ -9,6 +9,7 @@ import 'package:s_bazar/presentation/view/user_panel/details/details_screen.dart
 import 'package:flutter/cupertino.dart';
 
 import 'package:get/get.dart';
+import 'package:s_bazar/presentation/widget/custom_image.dart';
 import 'package:s_bazar/presentation/widget/product_shimmer.dart';
 
 class CustomAllProduct extends StatelessWidget {
@@ -71,14 +72,15 @@ class CustomAllProduct extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         mainAxisSize: MainAxisSize.max,
                         children: [
-                          ClipRRect(
-                              borderRadius: BorderRadius.circular(10.0),
-                              child: CachedNetworkImage(
-                                height: Get.height / 6.4,
-                                width: Get.width / 2.0,
-                                fit: BoxFit.cover,
-                                imageUrl: productModel.productImgList[0],
-                              )),
+                          CustomImage(
+                            borderRadius: const BorderRadius.only(
+                                topLeft: Radius.circular(10),
+                                topRight: Radius.circular(10)),
+                            image: productModel.productImgList[0],
+                            height: Get.height / 6.4,
+                            width: Get.width / 2.0,
+                            imageFit: BoxFit.cover,
+                          ),
                           const SizedBox(
                             height: 2.0,
                           ),

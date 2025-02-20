@@ -10,6 +10,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:s_bazar/presentation/widget/custom_image.dart';
 
 import '../view/user_panel/details/details_screen.dart';
 import 'product_shimmer.dart';
@@ -72,14 +73,13 @@ class CustomFlashSale extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.start,
                             mainAxisSize: MainAxisSize.max,
                             children: [
-                              ClipRRect(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  child: CachedNetworkImage(
-                                    height: Get.height / 9.2,
-                                    width: Get.width / 4.0,
-                                    fit: BoxFit.cover,
-                                    imageUrl: productModel.productImgList[0],
-                                  )),
+                              CustomImage(
+                                borderRadius: BorderRadius.circular(10.0),
+                                image: productModel.productImgList[0],
+                                height: Get.height / 9.2,
+                                width: Get.width / 4.0,
+                                imageFit: BoxFit.cover,
+                              ),
                               const SizedBox(
                                 height: 2.0,
                               ),
