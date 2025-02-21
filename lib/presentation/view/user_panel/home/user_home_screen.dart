@@ -11,6 +11,7 @@ import 'package:s_bazar/presentation/view/user_panel/flash_sale/all_flash_sale_p
 import 'package:s_bazar/presentation/widget/custom_heading.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../../controllers/internet_controller.dart';
 import '../../../../core/constant/app_const.dart';
 import '../../../widget/cart_icon_widget.dart';
 import '../../../widget/custom_all_product.dart';
@@ -31,6 +32,8 @@ class UserHomeScreenState extends State<UserHomeScreen> {
       Get.put(GetUserDataController());
   final HomeController homeController = Get.put(HomeController());
   final CartController cartController = Get.put(CartController());
+  final InternetController internetController =
+      Get.put(InternetController(), permanent: true);
 
   var userData;
   User? user = FirebaseAuth.instance.currentUser;

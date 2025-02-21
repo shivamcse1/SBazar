@@ -9,9 +9,10 @@ class CustomElevatedButton extends StatelessWidget {
   final double? radius;
   final Color? buttonColor;
   final Color? borderColor;
+  final Color? loderColor;
   final TextStyle? buttonTextStyle;
   final bool? isTextFieldEmpty;
-  final bool? isLoading;
+  final bool isLoading;
   final EdgeInsetsGeometry? margin;
 
   const CustomElevatedButton(
@@ -22,6 +23,7 @@ class CustomElevatedButton extends StatelessWidget {
       this.width = double.infinity,
       this.radius,
       this.buttonColor,
+      this.loderColor = Colors.white,
       this.buttonTextStyle,
       this.isTextFieldEmpty = true,
       this.margin,
@@ -46,15 +48,16 @@ class CustomElevatedButton extends StatelessWidget {
                       color: borderColor ?? Colors.red),
                   borderRadius: BorderRadius.circular(radius ?? 10))),
           onPressed: onTap,
-          child: (isLoading != null && isLoading != false)
+          child: (isLoading == true)
               ? Visibility(
-                  visible: isLoading!,
+                  visible: isLoading,
                   child: Container(
-                    width: 25,
+                    width: height! / 1.5,
+                    height: height! / 1.18,
                     padding: const EdgeInsets.symmetric(vertical: 5),
-                    child: const CircularProgressIndicator(
-                      color: Colors.red,
-                      backgroundColor: Colors.red,
+                    child: CircularProgressIndicator(
+                      color: loderColor,
+                      // backgroundColor: Colors.whi,
                     ),
                   ))
               : Text(buttonText,

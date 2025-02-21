@@ -9,48 +9,13 @@ import 'package:get/get.dart';
 import 'package:s_bazar/core/constant/color_const.dart';
 
 import '../../core/constant/app_const.dart';
-import '../../core/constant/image_const.dart';
 
 class UiHelper {
-
-  static Widget noProductFound({
-    String heading = "No Product Found",
-    String subHeading =
-        "It seems like there is not any product in this category so please go to another category products!",
-    String image = ImageConstant.noProductFound2Img,
-  }) {
-    return Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image.asset(
-            image,
-            height: 150,
-          ),
-          Text(
-            heading,
-            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-          ),
-          Text(
-            subHeading,
-            style: const TextStyle(
-              fontSize: 14,
-            ),
-            textAlign: TextAlign.center,
-          )
-        ],
-      ),
-    );
-  }
-
   static void customSnackbar({required String titleMsg, required String msg}) {
     Get.snackbar(titleMsg, msg,
         backgroundColor: AppConstant.appSecondaryColor,
         colorText: AppConstant.whiteColor,
-        snackPosition: SnackPosition.BOTTOM)
-        ;
+        snackPosition: SnackPosition.BOTTOM);
   }
 
   static void customToast({
@@ -62,9 +27,9 @@ class UiHelper {
     Fluttertoast.showToast(
         msg: msg,
         toastLength: Toast.LENGTH_SHORT,
-        gravity: toastGravity ?? ToastGravity.CENTER,
+        gravity: toastGravity ?? ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,
-        backgroundColor:bgColor ?? ColorConstant.primaryColor,
+        backgroundColor: bgColor ?? ColorConstant.primaryColor,
         textColor: textColor ?? ColorConstant.whiteColor,
         fontSize: 16.0);
   }
@@ -93,15 +58,13 @@ class UiHelper {
     }
   }
 
-   // generate unique id
-  static String generateUniqueId({
-    String? idType
-  }) {
+  // generate unique id
+  static String generateUniqueId({String? idType}) {
     DateTime now = DateTime.now();
     int randomNumber = Random().nextInt(10000);
-    String orderId = idType == null 
-                      ? "OD" + "${now.millisecondsSinceEpoch}" + "${randomNumber}"
-                      : idType + "${now.millisecondsSinceEpoch}" + "${randomNumber}";
+    String orderId = idType == null
+        ? "OD" + "${now.millisecondsSinceEpoch}" + "${randomNumber}"
+        : idType + "${now.millisecondsSinceEpoch}" + "${randomNumber}";
     return orderId;
   }
 }

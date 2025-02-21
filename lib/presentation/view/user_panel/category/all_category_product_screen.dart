@@ -13,6 +13,7 @@ import '../../../../core/constant/database_key_const.dart';
 import '../../../../core/constant/textstyle_const.dart';
 import '../../../widget/cart_icon_widget.dart';
 import '../../../widget/custom_image.dart';
+import '../../../widget/no_product_found_widget.dart';
 import '../../../widget/product_shimmer.dart';
 import '../details/details_screen.dart';
 
@@ -65,7 +66,7 @@ class AllCategoryProductScreenState extends State<AllCategoryProductScreen> {
               }
 
               if (snapshot.data!.docs.isEmpty) {
-                return UiHelper.noProductFound();
+                return const NoProductFoundWidget();
               }
 
               if (snapshot.data != null) {

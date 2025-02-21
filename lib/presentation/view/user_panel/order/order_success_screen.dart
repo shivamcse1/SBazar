@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:lottie/lottie.dart';
 import 'package:s_bazar/controllers/cart_controller.dart';
 import 'package:s_bazar/core/constant/app_const.dart';
@@ -40,9 +39,7 @@ class _OrderSuccessScreenState extends State<OrderSuccessScreen> {
             height: 50,
           ),
           Container(
-            child: Lottie.asset(
-              ImageConstant.successImg,
-            ),
+            child: Lottie.asset(ImageConstant.successImg),
           ),
           const Text(
             "Thank You For Shopping",

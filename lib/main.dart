@@ -1,6 +1,7 @@
+// ignore_for_file: avoid_print
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 
@@ -8,16 +9,12 @@ import 'core/routes/app_routes.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-    statusBarColor: Colors.red, // Default system status bar
-    statusBarIconBrightness: Brightness.dark, // Light/Dark icons based on theme
-  ));
   try {
     await Firebase.initializeApp();
   } catch (e) {
     print("Firebase Error: $e");
   }
-
+  
   runApp(const MyApp());
 }
 

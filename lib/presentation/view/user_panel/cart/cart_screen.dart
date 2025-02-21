@@ -1,8 +1,8 @@
 // ignore_for_file: prefer_interpolation_to_compose_strings, avoid_print
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:s_bazar/controllers/cart_controller.dart';
+import 'package:s_bazar/controllers/permission_handler_controller.dart';
 import 'package:s_bazar/core/constant/database_key_const.dart';
 import 'package:s_bazar/core/constant/image_const.dart';
 import 'package:s_bazar/core/constant/textstyle_const.dart';
@@ -15,7 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
-import 'package:s_bazar/utils/Uihelper/ui_helper.dart';
+import 'package:s_bazar/presentation/widget/no_product_found_widget.dart';
 
 import '../../../../core/constant/app_const.dart';
 import '../../../../core/constant/color_const.dart';
@@ -33,10 +33,13 @@ class _CartScreenState extends State<CartScreen> {
   double h = Get.height;
   double w = Get.width;
   final CartController cartController = Get.put(CartController());
+  final PermissionHandlerController permissionController =
+      Get.put(PermissionHandlerController());
 
   @override
   void initState() {
     cartController.calculateTotalProductPrice(user: user);
+    permissionController.cameraPermissionHandler();
     super.initState();
   }
 
@@ -85,7 +88,7 @@ class _CartScreenState extends State<CartScreen> {
 
                       if (snapshot.data!.docs.isNotEmpty) {
                         final docData = snapshot.data!.docs;
-                        
+
                         print(docData.length);
                         return ListView.builder(
                             itemCount: docData.length,
@@ -250,7 +253,7 @@ class _CartScreenState extends State<CartScreen> {
                       } else {
                         EasyLoading.dismiss();
 
-                        return Center(child: UiHelper.noProductFound());
+                        return const Center(child: NoProductFoundWidget());
                       }
                     } else {
                       EasyLoading.dismiss();

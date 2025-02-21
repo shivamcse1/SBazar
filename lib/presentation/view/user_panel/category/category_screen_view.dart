@@ -10,6 +10,7 @@ import '../../../../core/constant/textstyle_const.dart';
 import '../../../../data/model/product_model.dart';
 import '../../../../utils/Uihelper/ui_helper.dart';
 import '../../../widget/custom_image.dart';
+import '../../../widget/no_product_found_widget.dart';
 import '../../../widget/product_shimmer.dart';
 import '../details/details_screen.dart';
 
@@ -51,7 +52,7 @@ class _CategoryScreenViewState extends State<CategoryScreenView> {
           }
 
           if (snapshot.data!.docs.isEmpty) {
-            return UiHelper.noProductFound();
+            return const NoProductFoundWidget();
           }
 
           if (snapshot.data != null) {
