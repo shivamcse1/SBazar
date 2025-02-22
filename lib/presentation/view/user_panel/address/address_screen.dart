@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:s_bazar/controllers/address_controller.dart';
@@ -140,6 +141,8 @@ class _AddressScreenState extends State<AddressScreen> {
                                       const EdgeInsets.symmetric(vertical: 10),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       widget.isCheckoutPage == true
                                           ? Radio(
@@ -220,7 +223,8 @@ class _AddressScreenState extends State<AddressScreen> {
                                             );
                                             await addressController
                                                 .fetchUserAddresses();
-                                          } else if (selectedValue == "Edit") {
+                                          } else if (selectedValue ==
+                                              "Edit") {
                                             Get.to(() => AddNewAddressScreen(
                                                   addressModel: addressModel,
                                                   isEdit: true,

@@ -61,10 +61,10 @@ class _NoInternetConnectionWidgetState
               height: 20,
             ),
             const SizedBox(
-              width: 300,
+              width: 200,
               child: Text(
-                "Please Check Your Internet Connection And Try Again",
-                style: TextStyle(fontSize: 16),
+                "The server is temporarily unavailable. Please try again.",
+                style: TextStyle(fontSize: 15),
                 textAlign: TextAlign.center,
               ),
             ),
