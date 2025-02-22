@@ -5,12 +5,9 @@ import 'package:s_bazar/core/constant/color_const.dart';
 import 'package:s_bazar/presentation/view/user_panel/cart/cart_screen.dart';
 import 'package:s_bazar/presentation/view/user_panel/home/user_home_screen.dart';
 import 'package:s_bazar/presentation/widget/cart_icon_widget.dart';
-import 'package:s_bazar/presentation/widget/no_internet_connection_widget.dart';
-import 'package:s_bazar/presentation/widget/no_product_found_widget.dart';
 
 import '../account/account_screen.dart';
 import '../category/category_screen.dart';
-import '../order/order_success_screen.dart';
 
 class BottomNavBar extends StatefulWidget {
   const BottomNavBar({super.key});
@@ -43,7 +40,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
               currentIndex = value;
             });
           },
-          height: 60,
+          height: 55,
           destinations: [
             NavigationDestination(
                 icon: Icon(

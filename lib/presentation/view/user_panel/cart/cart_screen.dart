@@ -33,13 +33,12 @@ class _CartScreenState extends State<CartScreen> {
   double h = Get.height;
   double w = Get.width;
   final CartController cartController = Get.put(CartController());
-  final PermissionHandlerController permissionController =
-      Get.put(PermissionHandlerController());
+
 
   @override
   void initState() {
     cartController.calculateTotalProductPrice(user: user);
-    permissionController.cameraPermissionHandler();
+   
     super.initState();
   }
 

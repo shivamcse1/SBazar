@@ -29,7 +29,7 @@ class CustomFlashSale extends StatelessWidget {
             margin: const EdgeInsets.symmetric(vertical: 10.0),
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
             alignment: Alignment.centerLeft,
-            height: Get.height / 6,
+            height: Get.height / 5.5,
             child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 shrinkWrap: true,
@@ -51,65 +51,71 @@ class CustomFlashSale extends StatelessWidget {
                       createdAt: productData[DbKeyConstant.createdAt],
                       updatedAt: productData[DbKeyConstant.updatedAt]);
 
-                  return Row(
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          Get.to(() => DetailsScreen(
-                                productModel: productModel,
-                              ));
-                        },
-                        child: Container(
-                          margin: const EdgeInsets.only(right: 10.0),
-                          padding: const EdgeInsets.all(1.0),
-                          decoration: BoxDecoration(
-                              border:
-                                  Border.all(color: ColorConstant.pinkColor),
-                              color: ColorConstant.yellowColor,
-                              borderRadius: BorderRadius.circular(10)),
-                          width: Get.width / 4,
-                          height: Get.height / 6,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              CustomImage(
-                                borderRadius: BorderRadius.circular(10.0),
-                                image: productModel.productImgList[0],
-                                height: Get.height / 9.2,
-                                width: Get.width / 4.0,
-                                imageFit: BoxFit.cover,
-                              ),
-                              const SizedBox(
-                                height: 2.0,
-                              ),
-                              Container(
-                                  width: Get.width,
-                                  child: Text(
-                                    productModel.productName,
-                                    style: TextStyleConstant.bold14Style,
-                                    textAlign: TextAlign.center,
-                                    overflow: TextOverflow.ellipsis,
-                                  )),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
+                  return GestureDetector(
+                    onTap: () {
+                      Get.to(() => DetailsScreen(
+                            productModel: productModel,
+                          ));
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.only(right: 10.0),
+                      padding: const EdgeInsets.all(1.0),
+                      decoration: BoxDecoration(
+                          border: Border.all(color: ColorConstant.pinkColor),
+                          color: ColorConstant.yellowColor,
+                          borderRadius: BorderRadius.circular(10)),
+                      width: Get.width / 3,
+                      height: 20,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          CustomImage(
+                            borderRadius: BorderRadius.circular(10.0),
+                            image: productModel.productImgList[0],
+                            height: Get.height / 9.2,
+                            width: double.infinity,
+                            imageFit: BoxFit.cover,
+                          ),
+                          const SizedBox(
+                            height: 2.0,
+                          ),
+                          Container(
+                              width: Get.width,
+                              child: Text(
+                                productModel.productName,
+                                style: TextStyleConstant.bold14Style,
+                                textAlign: TextAlign.center,
+                                overflow: TextOverflow.ellipsis,
+                              )),
+                          Expanded(
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  Text("Rs." + productModel.salePrice),
+                                  Text(
+                                    "Rs." + productModel.salePrice,
+                                    style: const TextStyle(fontSize: 13),
+                                  ),
+                                  const SizedBox(
+                                    width: 8,
+                                  ),
                                   Text(
                                     productModel.fullPrice,
                                     style: TextStyle(
+                                        fontSize: 13,
                                         color: ColorConstant.secondaryColor
                                             .withOpacity(.7),
                                         decoration: TextDecoration.lineThrough),
                                   ),
                                 ],
-                              )
-                            ],
+                              ),
+                            ),
                           ),
-                        ),
+                        ],
                       ),
-                    ],
+                    ),
                   );
                 }),
           )

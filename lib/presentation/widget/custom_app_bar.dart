@@ -5,7 +5,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final VoidCallback? onBackBtn;
   final List<Widget>? actions;
   final TextStyle? titleStyle;
-  final double? appBarheight;
+  final double appBarheight;
   final Color? appBarColor;
   final Color? backIconColor;
   final bool isTitleCentered;
@@ -21,14 +21,14 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.actions,
     this.appBarcolorTransparency = false,
     this.titleStyle,
-    this.appBarheight,
+    this.appBarheight = 56,
     this.appBarColor,
     this.backIconColor,
     this.isTitleCentered = false,
     this.onBackBtn,
     this.leading,
     this.titleWidget,
-    this.isBackBtnVisible = false,
+    this.isBackBtnVisible = true,
     this.leadingPadding,
   });
 
@@ -37,7 +37,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
         forceMaterialTransparency: appBarcolorTransparency,
         toolbarHeight: appBarheight,
-        leading: isBackBtnVisible == true
+        leading: leading== null && isBackBtnVisible == true 
             ? GestureDetector(
                 onTap: onBackBtn ??
                     () {
@@ -61,5 +61,5 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => Size(double.maxFinite, appBarheight ?? 56);
+  Size get preferredSize => Size(double.maxFinite, appBarheight);
 }

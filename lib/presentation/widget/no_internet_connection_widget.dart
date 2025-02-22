@@ -19,18 +19,19 @@ class NoInternetConnectionWidget extends StatefulWidget {
 
 class _NoInternetConnectionWidgetState
     extends State<NoInternetConnectionWidget> {
-  final InternetController internetController = Get.put(InternetController(),permanent: true);
+  final InternetController internetController =
+      Get.put(InternetController(), permanent: true);
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
         body: Padding(
-          padding: const EdgeInsets.all(30),
+          padding: const EdgeInsets.all(20),
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
             const SizedBox(
-              height: 80,
+              height: 50,
             ),
             SizedBox(
               height: 350,
@@ -42,7 +43,7 @@ class _NoInternetConnectionWidgetState
               "Whoops!",
               style: TextStyle(
                   color: Colors.redAccent,
-                  fontSize: 25,
+                  fontSize: 20,
                   fontWeight: FontWeight.bold),
             ),
             const SizedBox(
@@ -51,7 +52,7 @@ class _NoInternetConnectionWidgetState
             Text(
               "No Internet Connection Available!",
               style: TextStyle(
-                fontSize: 20,
+                fontSize: 18,
                 fontWeight: FontWeight.bold,
                 color: Colors.red[400],
               ),

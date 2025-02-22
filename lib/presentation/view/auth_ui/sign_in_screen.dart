@@ -134,7 +134,7 @@ class SignInScreenState extends State<SignInScreen> {
 
                       if (email.isEmpty || password.isEmpty) {
                         UiHelper.customSnackbar(
-                            titleMsg: "Error Occured",
+                            titleMsg: "Email or Password Can't Be Empty",
                             msg: "Please Enter All Details");
                       } else {
                         UserCredential? userCredential =

@@ -31,7 +31,7 @@ class CustomTextField extends StatelessWidget {
 
   const CustomTextField({
     super.key,
-    this.height = 63,
+    this.height = 50,
     this.width = double.infinity,
     this.labelText,
     this.prefix,
@@ -78,7 +78,7 @@ class CustomTextField extends StatelessWidget {
         textAlignVertical: TextAlignVertical.center,
         textAlign: contentAlign ?? TextAlign.start,
         readOnly: readOnly ?? false,
-        style: contentStyle ?? const TextStyle(fontSize: 16),
+        style: contentStyle ,
         onChanged: onChanged,
         inputFormatters: [LengthLimitingTextInputFormatter(maxDigitLength)],
         autofocus: focus ?? false,
@@ -95,7 +95,7 @@ class CustomTextField extends StatelessWidget {
           suffixIcon: suffix,
           prefixIcon: prefix,
           labelText: labelText,
-          labelStyle: labelStyle ?? const TextStyle(fontSize: 14),
+          labelStyle: labelStyle,
           isDense: false,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10.0),

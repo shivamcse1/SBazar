@@ -86,7 +86,7 @@ class UpdateProfileScreenState extends State<UpdateProfileScreen> {
                             child: const Icon(
                               Icons.photo_camera,
                               color: Colors.pink,
-                              size: 20,
+                              size: 15,
                             ),
                           ),
                         ),
@@ -98,52 +98,52 @@ class UpdateProfileScreenState extends State<UpdateProfileScreen> {
                   ),
                   CustomTextField(
                     controller: authController.nameController,
-                    height: 50,
+                    height: 45,
                     hintText: "Name",
                     prefix: const Icon(Icons.person),
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 15,
                   ),
                   CustomTextField(
                     controller: authController.phoneController,
-                    height: 50,
+                    height: 45,
                     hintText: "Phone",
                     prefix: const Icon(Icons.phone_android),
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 15,
                   ),
                   CustomTextField(
                     controller: authController.emailController,
-                    height: 50,
+                    height: 45,
                     hintText: "Email",
                     prefix: const Icon(Icons.email),
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 15,
                   ),
                   CustomTextField(
                     controller: authController.streetController,
-                    height: 50,
+                    height: 45,
                     hintText: "House number, Colony, Street .etc",
                     prefix: const Icon(Icons.home),
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 15,
                   ),
                   CustomTextField(
                     controller: authController.cityController,
-                    height: 50,
+                    height: 45,
                     hintText: "City",
                     prefix: const Icon(Icons.location_pin),
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 15,
                   ),
                   CustomTextField(
                     controller: authController.stateController,
-                    height: 50,
+                    height: 45,
                     hintText: "State",
                     prefix: const Icon(Icons.maps_home_work),
                   ),

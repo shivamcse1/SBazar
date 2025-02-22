@@ -9,7 +9,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:s_bazar/presentation/view/user_panel/bottom_nav_bar/bottom_nav_bar.dart';
-import 'package:s_bazar/utils/Uihelper/ui_helper.dart';
 
 import '../core/constant/app_const.dart';
 import '../core/constant/database_key_const.dart';
@@ -198,8 +197,6 @@ class AuthController extends GetxController {
 
         return deviceToken.value;
       } else {
-        UiHelper.customSnackbar(
-            titleMsg: "Error Ocuured", msg: "Device Token Null");
         throw Exception("Error occured");
       }
     } on FirebaseException catch (ex) {
