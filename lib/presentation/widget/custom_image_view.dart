@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:s_bazar/core/constant/app_const.dart';
-import 'package:s_bazar/core/constant/color_const.dart';
 import 'package:s_bazar/presentation/widget/custom_app_bar.dart';
 
 import '../../core/constant/image_const.dart';
@@ -60,7 +59,7 @@ class CustomImageView extends StatelessWidget {
                       //when any error occur
                       errorWidget: (context, url, error) {
                         return Image.asset(
-                          errorImage ?? ImageConstant.previewImg,
+                          errorImage ?? ImageConstant.previewIc,
                         );
                       },
                     )
@@ -73,7 +72,7 @@ class CustomImageView extends StatelessWidget {
                           fit: imageFit,
                           errorBuilder: (context, image, error) {
                             return Image.asset(
-                              errorImage ?? ImageConstant.previewImg,
+                              errorImage ?? ImageConstant.previewIc,
                             );
                           },
                         )
@@ -90,7 +89,7 @@ class CustomImageView extends StatelessWidget {
                                 );
                               },
                             )
-                          : Image.asset(ImageConstant.previewImg)),
+                          : Image.asset(ImageConstant.previewIc)),
         ),
       ),
     );

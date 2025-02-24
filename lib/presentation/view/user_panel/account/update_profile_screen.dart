@@ -6,22 +6,20 @@ import 'package:s_bazar/core/constant/color_const.dart';
 import 'package:s_bazar/core/constant/database_key_const.dart';
 import 'package:s_bazar/core/error/exception/firebase_exception_handler.dart';
 import 'package:s_bazar/data/model/user_model.dart';
-import 'package:s_bazar/presentation/view/auth_ui/sign_in_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:get/get.dart';
-import 'package:s_bazar/presentation/view/user_panel/account/account_screen.dart';
 import 'package:s_bazar/presentation/widget/custom_button.dart';
 import 'package:s_bazar/presentation/widget/custom_textfield.dart';
 import 'package:s_bazar/utils/Uihelper/ui_helper.dart';
 import '../../../../controllers/auth_controller.dart';
 import '../../../../core/constant/app_const.dart';
 import '../../../../core/constant/textstyle_const.dart';
-import '../../../widget/custom_image.dart';
 
 class UpdateProfileScreen extends StatefulWidget {
-  const UpdateProfileScreen({super.key});
+  final String? userImage;
+  const UpdateProfileScreen({super.key, this.userImage});
 
   @override
   State<UpdateProfileScreen> createState() => UpdateProfileScreenState();
@@ -51,50 +49,7 @@ class UpdateProfileScreenState extends State<UpdateProfileScreen> {
               child: Column(
                 children: [
                   const SizedBox(
-                    height: 5,
-                  ),
-                  Stack(
-                    children: [
-                      const Hero(
-                        tag: "profile",
-                        child: CustomImage(
-                          height: 130,
-                          shape: BoxShape.circle,
-                          imageFit: BoxFit.fill,
-                          image:
-                              "https://plus.unsplash.com/premium_photo-1664474619075-644dd191935f?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8aW1hZ2V8ZW58MHx8MHx8fDA%3D",
-                        ),
-                      ),
-                      Positioned(
-                        right: -10,
-                        bottom: -8,
-                        child: GestureDetector(
-                          onTap: () {},
-                          child: Container(
-                            margin: const EdgeInsets.symmetric(
-                                horizontal: 10.0, vertical: 10.0),
-                            width: 30.0,
-                            height: 30.0,
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: ColorConstant.pinkColor,
-                                width: .3,
-                              ),
-                              color: ColorConstant.whiteColor,
-                              shape: BoxShape.circle,
-                            ),
-                            child: const Icon(
-                              Icons.photo_camera,
-                              color: Colors.pink,
-                              size: 15,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: Get.height / 25,
+                    height: 20,
                   ),
                   CustomTextField(
                     controller: authController.nameController,
@@ -103,7 +58,7 @@ class UpdateProfileScreenState extends State<UpdateProfileScreen> {
                     prefix: const Icon(Icons.person),
                   ),
                   const SizedBox(
-                    height: 15,
+                    height: 20,
                   ),
                   CustomTextField(
                     controller: authController.phoneController,
@@ -112,7 +67,7 @@ class UpdateProfileScreenState extends State<UpdateProfileScreen> {
                     prefix: const Icon(Icons.phone_android),
                   ),
                   const SizedBox(
-                    height: 15,
+                    height: 20,
                   ),
                   CustomTextField(
                     controller: authController.emailController,
@@ -121,7 +76,7 @@ class UpdateProfileScreenState extends State<UpdateProfileScreen> {
                     prefix: const Icon(Icons.email),
                   ),
                   const SizedBox(
-                    height: 15,
+                    height: 20,
                   ),
                   CustomTextField(
                     controller: authController.streetController,
@@ -130,7 +85,7 @@ class UpdateProfileScreenState extends State<UpdateProfileScreen> {
                     prefix: const Icon(Icons.home),
                   ),
                   const SizedBox(
-                    height: 15,
+                    height: 20,
                   ),
                   CustomTextField(
                     controller: authController.cityController,
@@ -139,7 +94,7 @@ class UpdateProfileScreenState extends State<UpdateProfileScreen> {
                     prefix: const Icon(Icons.location_pin),
                   ),
                   const SizedBox(
-                    height: 15,
+                    height: 20,
                   ),
                   CustomTextField(
                     controller: authController.stateController,

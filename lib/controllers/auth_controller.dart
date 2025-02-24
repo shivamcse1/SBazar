@@ -8,6 +8,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:s_bazar/presentation/view/user_panel/bottom_nav_bar/bottom_nav_bar.dart';
 
 import '../core/constant/app_const.dart';
@@ -28,6 +29,9 @@ class AuthController extends GetxController {
   RxString deviceToken = ''.obs;
   final FirebaseAuth auth = FirebaseAuth.instance;
   final RxBool isPasswordVisible = true.obs;
+  final RxnString profileImagePath = RxnString();
+  XFile? profileImage;
+
 
   @override
   void onInit() {

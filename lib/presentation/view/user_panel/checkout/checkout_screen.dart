@@ -147,7 +147,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                       // it execute when any error occured loaidng in image
                                       errorWidget: (context, url, error) {
                                         return Image.asset(
-                                            ImageConstant.previewImg);
+                                            ImageConstant.previewIc);
                                       },
                                     ),
                                   )),

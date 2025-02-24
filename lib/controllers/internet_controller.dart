@@ -29,14 +29,8 @@ class InternetController extends GetxController {
     await Future.delayed(const Duration(seconds: 1));
     List<ConnectivityResult> result = await connecivity.checkConnectivity();
     if (result.contains(ConnectivityResult.mobile)) {
-      UiHelper.customToast(
-          msg: "Connected to Mobile Data", toastGravity: ToastGravity.BOTTOM);
     } else if (result.contains(ConnectivityResult.wifi)) {
-      UiHelper.customToast(
-          msg: "Connected to WiFi", toastGravity: ToastGravity.BOTTOM);
     } else if (result.contains(ConnectivityResult.ethernet)) {
-      UiHelper.customToast(
-          msg: "Connected Via Ethernet", toastGravity: ToastGravity.BOTTOM);
     } else if (result.isEmpty || result.contains(ConnectivityResult.none)) {
       UiHelper.customToast(
           msg: "No Internet Connection", toastGravity: ToastGravity.BOTTOM);

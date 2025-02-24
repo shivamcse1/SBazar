@@ -161,7 +161,7 @@ class _OrderScreenState extends State<OrderScreen> {
                                                 errorWidget:
                                                     (context, url, error) {
                                                   return Image.asset(
-                                                      ImageConstant.previewImg);
+                                                      ImageConstant.previewIc);
                                                 },
                                               ),
                                             )),

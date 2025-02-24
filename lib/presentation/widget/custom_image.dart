@@ -33,36 +33,37 @@ class CustomImage extends StatelessWidget {
     return uri.hasScheme
         ? shape == BoxShape.circle
             ? ClipOval(
-              child: CachedNetworkImage(
-                height: height,
-                width: height,
-                imageUrl: image,
-                fit: imageFit,
-                // Placeholder while the image is loading
-                placeholder: (context, imgUrl) {
-                  return Container(
-                    color: Colors.white,
-                    child: const Center(
-                      child: CupertinoActivityIndicator(),
-                    ),
-                  );
-                },
-                //when any error occur
-                errorWidget: (context, url, error) {
-                  return Container(
-                      decoration: BoxDecoration(
-                    borderRadius: shape != BoxShape.circle ? borderRadius : null,
-                    color: backgroundColor ?? Colors.grey.shade300,
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                      image: AssetImage(
-                        errorImage ?? ImageConstant.previewImg,
+                child: CachedNetworkImage(
+                  height: height,
+                  width: height,
+                  imageUrl: image,
+                  fit: imageFit,
+                  // Placeholder while the image is loading
+                  placeholder: (context, imgUrl) {
+                    return Container(
+                      color: Colors.white,
+                      child: const Center(
+                        child: CupertinoActivityIndicator(),
                       ),
-                    ),
-                  ));
-                },
-              ),
-            )
+                    );
+                  },
+                  //when any error occur
+                  errorWidget: (context, url, error) {
+                    return Container(
+                        decoration: BoxDecoration(
+                      borderRadius:
+                          shape != BoxShape.circle ? borderRadius : null,
+                      color: backgroundColor ?? Colors.grey.shade300,
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                        image: AssetImage(
+                          errorImage ?? ImageConstant.previewIc,
+                        ),
+                      ),
+                    ));
+                  },
+                ),
+              )
             : ClipRRect(
                 borderRadius: borderRadius,
                 child: CachedNetworkImage(
@@ -83,7 +84,7 @@ class CustomImage extends StatelessWidget {
                     return ClipRRect(
                       borderRadius: borderRadius,
                       child: Image.asset(
-                        errorImage ?? ImageConstant.previewImg,
+                        errorImage ?? ImageConstant.previewIc,
                       ),
                     );
                   },
@@ -116,7 +117,8 @@ class CustomImage extends StatelessWidget {
                     width: shape == BoxShape.circle ? height : width,
                     decoration: BoxDecoration(
                       shape: shape,
-                      borderRadius: shape != BoxShape.circle ? borderRadius : null,
+                      borderRadius:
+                          shape != BoxShape.circle ? borderRadius : null,
                       color: backgroundColor ??
                           (shape == BoxShape.circle
                               ? Colors.grey.shade300
@@ -139,7 +141,8 @@ class CustomImage extends StatelessWidget {
                     height: height,
                     width: shape == BoxShape.circle ? height : width,
                     decoration: BoxDecoration(
-                      borderRadius: shape != BoxShape.circle ? borderRadius : null,
+                      borderRadius:
+                          shape != BoxShape.circle ? borderRadius : null,
                       shape: shape,
                       color: backgroundColor ??
                           (shape == BoxShape.circle
@@ -147,7 +150,7 @@ class CustomImage extends StatelessWidget {
                               : Colors.transparent),
                       image: DecorationImage(
                         fit: imageFit,
-                        image: const AssetImage(ImageConstant.previewImg),
+                        image: const AssetImage(ImageConstant.previewIc),
                       ),
                     ),
                   );

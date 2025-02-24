@@ -34,11 +34,10 @@ class _CartScreenState extends State<CartScreen> {
   double w = Get.width;
   final CartController cartController = Get.put(CartController());
 
-
   @override
   void initState() {
     cartController.calculateTotalProductPrice(user: user);
-   
+
     super.initState();
   }
 
@@ -191,7 +190,7 @@ class _CartScreenState extends State<CartScreen> {
                                                 errorWidget:
                                                     (context, url, error) {
                                                   return Image.asset(
-                                                      ImageConstant.previewImg);
+                                                      ImageConstant.previewIc);
                                                 },
                                               ),
                                             )),

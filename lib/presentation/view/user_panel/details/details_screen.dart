@@ -96,7 +96,7 @@ class DetailsScreenState extends State<DetailsScreen> {
                               );
                             },
                             errorWidget: (context, url, error) {
-                              return Image.asset(ImageConstant.previewImg);
+                              return Image.asset(ImageConstant.previewIc);
                             },
                           )),
                     );
