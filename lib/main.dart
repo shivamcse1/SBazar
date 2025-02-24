@@ -7,6 +7,8 @@ import 'package:get/get.dart';
 
 import 'core/routes/app_routes.dart';
 
+final RouteObserver<ModalRoute> routeObserver = RouteObserver<ModalRoute>();
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   try {
@@ -27,6 +29,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
+      navigatorObservers: [routeObserver],
       theme: ThemeData(
         
         splashColor: Colors.transparent,

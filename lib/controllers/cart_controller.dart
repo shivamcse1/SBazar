@@ -1,6 +1,8 @@
-// ignore_for_file: unnecessary_null_comparison
+// ignore_for_file: unnecessary_null_comparison, avoid_print
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:s_bazar/core/constant/database_key_const.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
@@ -13,7 +15,9 @@ class CartController extends GetxController {
   RxDouble totalProductPrice = 0.0.obs;
   RxDouble totalAmount = 0.0.obs;
   RxInt totalCartItem = 0.obs;
-  RxList<Map<String,dynamic>> cartItemList = <Map<String,dynamic>>[].obs ;
+
+  RxBool itemExistInCart = false.obs;
+  RxList<Map<String, dynamic>> cartItemList = <Map<String, dynamic>>[].obs;
   User? user = FirebaseAuth.instance.currentUser;
 
   Future<void> incrementCartProductQuantity({
@@ -113,32 +117,13 @@ class CartController extends GetxController {
     int quantityIncrement = 1,
     required ProductModel productModel,
   }) async {
-    // it is use so we can not write again again code
-    DocumentReference documentReference = FirebaseFirestore.instance
-        .collection(DbKeyConstant.cartCollection)
-        .doc(uId)
-        .collection(DbKeyConstant.cartProductCollection)
-        .doc(productModel.productId);
+    try {
+      DocumentReference documentReference = FirebaseFirestore.instance
+          .collection(DbKeyConstant.cartCollection)
+          .doc(uId)
+          .collection(DbKeyConstant.cartProductCollection)
+          .doc(productModel.productId);
 
-    DocumentSnapshot docSnapshot = await documentReference.get();
-
-    if (docSnapshot.exists) {
-      // find out quantity and price
-      int currentQuantity = docSnapshot[DbKeyConstant.productQuantity];
-      int updatedQuantity = currentQuantity + quantityIncrement;
-      double totalPrice = double.parse(productModel.isSale
-              ? productModel.salePrice
-              : productModel.fullPrice) *
-          updatedQuantity;
-
-      //product exist so only update qunatity and price
-      await documentReference.update({
-        "productQuantity": updatedQuantity,
-        "productTotalPrice": totalPrice
-      });
-
-      print("Already added");
-    } else {
       // it is use for accessing subCollection
       FirebaseFirestore.instance
           .collection(DbKeyConstant.cartCollection)
@@ -164,15 +149,18 @@ class CartController extends GetxController {
 
       await documentReference.set(cartmodel.toMap());
       print("first time added");
-    }
+      Fluttertoast.showToast(msg: "Add to cart successfully");
 
-    // for total cart product quantity calc
-    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-        .collection(DbKeyConstant.cartCollection)
-        .doc(uId)
-        .collection(DbKeyConstant.cartProductCollection)
-        .get();
-    totalCartItem.value = querySnapshot.docs.length;
+      // for total cart product quantity calc
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+          .collection(DbKeyConstant.cartCollection)
+          .doc(uId)
+          .collection(DbKeyConstant.cartProductCollection)
+          .get();
+      totalCartItem.value = querySnapshot.docs.length;
+    } on FirebaseException catch (ex) {
+      FirebaseExceptionHelper.exceptionHandler(ex);
+    }
   }
 
   Future<void> calculateTotalCartItem() async {
@@ -188,21 +176,37 @@ class CartController extends GetxController {
     }
   }
 
-  Future<void> fetchCartItem() async{
-    try{
-     QuerySnapshot snapshot = await  FirebaseFirestore.instance
-                      .collection(DbKeyConstant.cartCollection)
-                      .doc(user!.uid)
-                      .collection(DbKeyConstant.cartProductCollection)
-                      .get();
-      cartItemList.value = snapshot.docs.map((doc){
-              return doc.data() as Map<String,dynamic>;
-      }).toList();   
-    }on FirebaseException catch(ex){
+  Future<void> fetchCartItem({String? productId}) async {
+    try {
+      if (productId == null) {
+        // for all cart item fetching
+        QuerySnapshot snapshot = await FirebaseFirestore.instance
+            .collection(DbKeyConstant.cartCollection)
+            .doc(user!.uid)
+            .collection(DbKeyConstant.cartProductCollection)
+            .get();
+        cartItemList.value = snapshot.docs.map((doc) {
+          return doc.data() as Map<String, dynamic>;
+        }).toList();
+      } else {
+        // for only one cart item existance checking
+        QuerySnapshot snapshot = await FirebaseFirestore.instance
+            .collection(DbKeyConstant.cartCollection)
+            .doc(user!.uid)
+            .collection(DbKeyConstant.cartProductCollection)
+            .where(DbKeyConstant.productId, isEqualTo: productId)
+            .get();
+        if (snapshot.docs.isNotEmpty) {
+          itemExistInCart.value = true;
+        } else {
+          itemExistInCart.value = false;
+        }
+      }
+    } on FirebaseException catch (ex) {
       FirebaseExceptionHelper.exceptionHandler(ex);
-
     }
   }
+
   @override
   void onClose() {
     CartController().dispose();

@@ -137,3 +137,79 @@ class CustomQuantityButton extends StatelessWidget {
         ));
   }
 }
+
+class CustomTextButton extends StatelessWidget {
+  final String buttonText;
+  final VoidCallback onTap;
+  final double? height;
+  final double? width;
+  final double? buttonElevation;
+  final Size? minimumSize;
+  final double? borderWidth;
+  final double? radius;
+  final Color? buttonColor;
+  final Color? borderColor;
+  final Color? loderColor;
+  final Color? foregroundColor;
+  final MaterialTapTargetSize? tapTargetSize;
+  final TextStyle? buttonTextStyle;
+  final bool isLoading;
+  final OutlinedBorder? buttonShape;
+  final EdgeInsetsGeometry? margin;
+  final EdgeInsetsGeometry? padding;
+
+  const CustomTextButton({
+    super.key,
+    required this.buttonText,
+    required this.onTap,
+    this.height,
+    this.width,
+    this.radius,
+    this.buttonColor = Colors.transparent,
+    this.loderColor = Colors.white,
+    this.buttonTextStyle,
+    this.margin,
+    this.isLoading = false,
+    this.borderWidth,
+    this.borderColor,
+    this.buttonShape,
+    this.padding,
+    this.minimumSize,
+    this.tapTargetSize,
+    this.buttonElevation,
+    this.foregroundColor,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        margin: margin,
+        height: height,
+        width: width,
+        child: TextButton(
+          style: TextButton.styleFrom(
+              foregroundColor: foregroundColor,
+              splashFactory: InkRipple.splashFactory,
+              padding: padding,
+              elevation: buttonElevation,
+              minimumSize: minimumSize,
+              backgroundColor: buttonColor,
+              tapTargetSize: tapTargetSize,
+              shape: buttonShape),
+          onPressed: onTap,
+          child: (isLoading == true)
+              ? Visibility(
+                  visible: isLoading,
+                  child: Container(
+                    width: height! / 1.5,
+                    height: height! / 1.18,
+                    padding: const EdgeInsets.symmetric(vertical: 5),
+                    child: CircularProgressIndicator(
+                      color: loderColor,
+                      // backgroundColor: Colors.whi,
+                    ),
+                  ))
+              : Text(buttonText, style: buttonTextStyle),
+        ));
+  }
+}

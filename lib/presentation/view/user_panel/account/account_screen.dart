@@ -233,7 +233,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                     height: 10,
                                   ),
                                   Image.asset(
-                                    height: 60,
+                                    height: 55,
                                     ImageConstant.warningIc,
                                   ),
                                   const SizedBox(
@@ -242,7 +242,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                   const Text(
                                     "Are you sure you want to logout?",
                                     style: TextStyle(
-                                        fontSize: 16,
+                                        fontSize: 15,
                                         fontWeight: FontWeight.w500),
                                   ),
                                   const SizedBox(

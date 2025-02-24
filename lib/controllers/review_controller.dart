@@ -19,6 +19,7 @@ class ReviewController extends GetxController {
   User? user = FirebaseAuth.instance.currentUser;
   RxDouble totalAvgRating = 0.0.obs;
   RxInt totalPeople = 0.obs;
+  RxBool isLoading = false.obs;
 
   Future<void> submitReview({
     OrderModel? orderModel,
@@ -61,33 +62,46 @@ class ReviewController extends GetxController {
   Future<void> calculateRating({
     ProductModel? productModel,
   }) async {
-    DocumentReference docref = FirebaseFirestore.instance
-        .collection(DbKeyConstant.productCollection)
-        .doc(productModel!.productId);
+    try {
+      isLoading.value = true;
+      DocumentReference docref = FirebaseFirestore.instance
+          .collection(DbKeyConstant.productCollection)
+          .doc(productModel!.productId);
 
-    QuerySnapshot querySnapshot =
-        await docref.collection(DbKeyConstant.reviewCollection).get();
-    totalPeople.value = querySnapshot.docs.length;
+      QuerySnapshot querySnapshot =
+          await docref.collection(DbKeyConstant.reviewCollection).get();
+      totalPeople.value = querySnapshot.docs.length;
 
-    if (querySnapshot.docs.isNotEmpty) {
-      for (var doc in querySnapshot.docs) {
-        Map<String, dynamic> docData = doc.data() as Map<String, dynamic>;
+      if (querySnapshot.docs.isNotEmpty) {
+        for (var doc in querySnapshot.docs) {
+          Map<String, dynamic> docData = doc.data() as Map<String, dynamic>;
 
-        print(docData[DbKeyConstant.userRating]);
-        totalAvgRating.value += double.parse(docData[DbKeyConstant.userRating]);
+          print(docData[DbKeyConstant.userRating]);
+          totalAvgRating.value +=
+              double.parse(docData[DbKeyConstant.userRating]);
 
-        print("avg rating $totalAvgRating.value");
+          print("avg rating $totalAvgRating.value");
+        }
+        totalAvgRating.value = totalAvgRating.value / querySnapshot.docs.length;
       }
-      totalAvgRating.value = totalAvgRating.value / querySnapshot.docs.length;
-    }
 
-    double decimalValue = totalAvgRating.value - totalAvgRating.value.floor();
-    if (decimalValue >= .01 && decimalValue <= .49) {
-      totalAvgRating.value = totalAvgRating.value.floor() + .5;
-    } else if (decimalValue >= .51 && decimalValue <= .99) {
-      totalAvgRating.value = totalAvgRating.value.ceil() * 1.0;
+      double decimalValue = totalAvgRating.value - totalAvgRating.value.floor();
+      if (decimalValue >= .01 && decimalValue <= .49) {
+        totalAvgRating.value = totalAvgRating.value.floor() + .5;
+      } else if (decimalValue >= .51 && decimalValue <= .99) {
+        totalAvgRating.value = totalAvgRating.value.ceil() * 1.0;
+      }
+
+      await Future.delayed(const Duration(seconds: 1), () {
+        isLoading.value = false;
+      });
+
+      print("avg rating ${totalAvgRating.value}");
+    } on FirebaseException catch (ex) {
+      await Future.delayed(const Duration(seconds: 1), () {
+        isLoading.value = false;
+      });
+      FirebaseExceptionHelper.exceptionHandler(ex);
     }
-    print("avg rating ${totalAvgRating.value}");
   }
-
 }
