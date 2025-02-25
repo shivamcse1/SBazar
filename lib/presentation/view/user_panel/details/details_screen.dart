@@ -12,6 +12,7 @@ import 'package:s_bazar/core/constant/textstyle_const.dart';
 import 'package:s_bazar/data/model/cart_model.dart';
 import 'package:s_bazar/data/model/product_model.dart';
 import 'package:s_bazar/main.dart';
+import 'package:s_bazar/presentation/view/user_panel/checkout/checkout_screen.dart';
 import 'package:s_bazar/presentation/widget/custom_button.dart';
 import 'package:s_bazar/utils/date_time_converter.dart';
 
@@ -576,7 +577,6 @@ class DetailsScreenState extends State<DetailsScreen> with RouteAware {
                             uId: user!.uid, productModel: widget.productModel!);
                         await cartController.fetchCartItem(
                             productId: widget.productModel!.productId);
-                        
                       }),
           ),
         ),
@@ -588,7 +588,11 @@ class DetailsScreenState extends State<DetailsScreen> with RouteAware {
               buttonTextStyle:
                   TextStyleConstant.bold16Style.copyWith(color: Colors.white),
               buttonText: "Buy Now",
-              onTap: () {}),
+              onTap: () {
+                Get.to(() => CheckOutScreen(
+                      productModel: widget.productModel,
+                    ));
+              }),
         ),
       ],
     );

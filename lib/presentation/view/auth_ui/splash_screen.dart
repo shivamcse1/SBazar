@@ -1,7 +1,5 @@
 // ignore_for_file: avoid_unnecessary_containers
 import 'dart:async';
-import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:s_bazar/controllers/internet_controller.dart';
 import 'package:s_bazar/core/constant/image_const.dart';
 import 'package:s_bazar/presentation/view/admin_panel/admin_home_screen.dart';
 import 'package:s_bazar/presentation/view/auth_ui/welcome_screen.dart';

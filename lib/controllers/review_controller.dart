@@ -92,15 +92,16 @@ class ReviewController extends GetxController {
         totalAvgRating.value = totalAvgRating.value.ceil() * 1.0;
       }
 
-      await Future.delayed(const Duration(seconds: 1), () {
+      Future.delayed(const Duration(seconds: 2), () {
         isLoading.value = false;
       });
 
       print("avg rating ${totalAvgRating.value}");
     } on FirebaseException catch (ex) {
-      await Future.delayed(const Duration(seconds: 1), () {
+      Future.delayed(const Duration(seconds: 2), () {
         isLoading.value = false;
       });
+
       FirebaseExceptionHelper.exceptionHandler(ex);
     }
   }
