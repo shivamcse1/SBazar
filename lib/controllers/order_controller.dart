@@ -15,6 +15,7 @@ import '../utils/Uihelper/ui_helper.dart';
 class OrderController extends GetxController {
   final AuthController authController = Get.put(AuthController());
   // placeing order method
+  
   Future<void> placeOrder(
       {required String userName,
       required String userPhone,
@@ -70,7 +71,9 @@ class OrderController extends GetxController {
               .collection(DbKeyConstant.confirmedOrderCollection)
               .doc(orderId)
               .set(orderModel.toMap());
-        } else {
+
+
+        }  else {
           QuerySnapshot snapshot = await FirebaseFirestore.instance
               .collection(DbKeyConstant.cartCollection)
               .doc(user.uid)
@@ -78,7 +81,11 @@ class OrderController extends GetxController {
               .get();
 
           List<QueryDocumentSnapshot> documentList = snapshot.docs;
-
+         
+          for (var singleDoc in documentList) {
+            Map<String, dynamic> docData =
+                singleDoc.data() as Map<String, dynamic>;
+            String orderId = UiHelper.generateUniqueId();
           for (var singleDoc in documentList) {
             Map<String, dynamic> docData =
                 singleDoc.data() as Map<String, dynamic>;
@@ -120,6 +127,7 @@ class OrderController extends GetxController {
               "orderStatus": false,
               "createdAt": DateTime.now()
             });
+            
 
             // set All order details
             await FirebaseFirestore.instance
@@ -128,6 +136,7 @@ class OrderController extends GetxController {
                 .collection(DbKeyConstant.confirmedOrderCollection)
                 .doc(orderId)
                 .set(orderModel.toMap());
+         
 
             // delete cart product after successfull order
             await FirebaseFirestore.instance
@@ -141,6 +150,9 @@ class OrderController extends GetxController {
             });
           }
         }
+           
+          }
+        
       } on FirebaseException catch (ex) {
         FirebaseExceptionHelper.exceptionHandler(ex);
         print("error Ocurred:$ex");
