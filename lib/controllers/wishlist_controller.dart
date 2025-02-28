@@ -9,9 +9,11 @@ class WishlistController extends GetxController {
   RxList<Map<String, dynamic>> productWishList = <Map<String, dynamic>>[].obs;
   User? user = FirebaseAuth.instance.currentUser;
   RxBool isFavProduct = false.obs;
+  RxBool isLoading = false.obs;
 
   Future<void> fetchWishlistProduct() async {
     try {
+      isLoading.value = true;
       QuerySnapshot querySnapshot = await FirebaseFirestore.instance
           .collection(DbKeyConstant.wishlistCollection)
           .doc(user!.uid)
@@ -20,11 +22,14 @@ class WishlistController extends GetxController {
           .get();
 
       Future.delayed(const Duration(milliseconds: 500), () {
+        isLoading.value = false;
         productWishList.value = querySnapshot.docs.map((doc) {
           return doc.data() as Map<String, dynamic>;
         }).toList();
       });
     } on FirebaseException catch (ex) {
+      isLoading.value = false;
+
       FirebaseExceptionHelper.exceptionHandler(ex);
     }
   }

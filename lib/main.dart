@@ -1,9 +1,11 @@
 // ignore_for_file: avoid_print
 
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:s_bazar/data/services/firebase_notification_service.dart';
 
 import 'core/routes/app_routes.dart';
 
@@ -16,7 +18,8 @@ void main() async {
   } catch (e) {
     print("Firebase Error: $e");
   }
-  
+
+  await FirebaseNotificationService.initializeNotification();
   runApp(const MyApp());
 }
 
@@ -31,7 +34,6 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       navigatorObservers: [routeObserver],
       theme: ThemeData(
-        
         splashColor: Colors.transparent,
         highlightColor: Colors.transparent,
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),

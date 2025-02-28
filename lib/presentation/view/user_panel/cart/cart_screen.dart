@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_interpolation_to_compose_strings, avoid_print
+// ignore_for_file: prefer_interpolation_to_compose_strings, avoid_print, prefer_typing_uninitialized_variables
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:s_bazar/controllers/cart_controller.dart';
@@ -32,6 +32,7 @@ class _CartScreenState extends State<CartScreen> {
   User? user = FirebaseAuth.instance.currentUser;
   double h = Get.height;
   double w = Get.width;
+
   final CartController cartController = Get.put(CartController());
 
   @override
@@ -251,12 +252,20 @@ class _CartScreenState extends State<CartScreen> {
                       } else {
                         EasyLoading.dismiss();
 
-                        return const Center(child: NoProductFoundWidget());
+                        return const Center(
+                            child: NoProductFoundWidget(
+                          heading: "No Product Found",
+                          subHeading: "There is not any product added in cart",
+                        ));
                       }
                     } else {
                       EasyLoading.dismiss();
 
-                      return const Center(child: Text("No data Found"));
+                      return const Center(
+                          child: NoProductFoundWidget(
+                        heading: "No Product Found",
+                        subHeading: "There is not any product added in cart",
+                      ));
                     }
                   }),
             ),

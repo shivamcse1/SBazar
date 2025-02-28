@@ -9,6 +9,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:s_bazar/data/services/firebase_notification_service.dart';
 import 'package:s_bazar/presentation/view/user_panel/bottom_nav_bar/bottom_nav_bar.dart';
 
 import '../core/constant/app_const.dart';
@@ -26,18 +27,10 @@ class AuthController extends GetxController {
   final TextEditingController streetController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
 
-  RxString deviceToken = ''.obs;
   final FirebaseAuth auth = FirebaseAuth.instance;
   final RxBool isPasswordVisible = true.obs;
   final RxnString profileImagePath = RxnString();
   XFile? profileImage;
-
-
-  @override
-  void onInit() {
-    getCustomerDeviceToken();
-    super.onInit();
-  }
 
   Future<UserCredential?> signInWithEmailAndPassword({
     required String userEmail,
@@ -89,6 +82,7 @@ class AuthController extends GetxController {
       final UserCredential userCredential =
           await FirebaseAuth.instance.signInWithCredential(userInfoCredential);
 
+      String deviceToken = await FirebaseNotificationService.getDeviceToken();
       final User? user = userCredential.user;
 
       if (user != null) {
@@ -98,7 +92,7 @@ class AuthController extends GetxController {
           userEmail: user.email.toString(),
           userPhone: user.phoneNumber.toString(),
           userImg: user.photoURL.toString(),
-          userDeviceToken: deviceToken.value,
+          userDeviceToken: deviceToken,
           userCountry: '',
           userStreet: '',
           isAdmin: false,
@@ -150,7 +144,7 @@ class AuthController extends GetxController {
         userEmail: userEmail,
         userPhone: userPhone,
         userImg: '',
-        userDeviceToken: deviceToken.value,
+        userDeviceToken: userDeviceToken,
         userCountry: 'IN',
         userStreet: userStreet,
         isAdmin: false,
@@ -190,22 +184,6 @@ class AuthController extends GetxController {
     } on FirebaseException catch (ex) {
       EasyLoading.dismiss();
       FirebaseExceptionHelper.exceptionHandler(ex);
-    }
-  }
-
-  Future<String> getCustomerDeviceToken() async {
-    try {
-      String? token = await FirebaseMessaging.instance.getToken();
-      if (token != null) {
-        deviceToken.value = token;
-
-        return deviceToken.value;
-      } else {
-        throw Exception("Error occured");
-      }
-    } on FirebaseException catch (ex) {
-      FirebaseExceptionHelper.exceptionHandler(ex);
-      throw Exception("Error occured : $ex");
     }
   }
 

@@ -74,7 +74,7 @@ class _AddressScreenState extends State<AddressScreen> {
                         child: Text(
                           "+  Add a new address",
                           style: TextStyle(
-                            fontSize: 18,
+                            fontSize: 16,
                             color: AppConstant.appPrimaryColor,
                             fontWeight: FontWeight.bold,
                           ),
@@ -223,8 +223,7 @@ class _AddressScreenState extends State<AddressScreen> {
                                             );
                                             await addressController
                                                 .fetchUserAddresses();
-                                          } else if (selectedValue ==
-                                              "Edit") {
+                                          } else if (selectedValue == "Edit") {
                                             Get.to(() => AddNewAddressScreen(
                                                   addressModel: addressModel,
                                                   isEdit: true,

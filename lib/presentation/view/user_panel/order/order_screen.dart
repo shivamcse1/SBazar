@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:s_bazar/presentation/widget/custom_shimmer_container.dart';
+import 'package:s_bazar/presentation/widget/no_product_found_widget.dart';
 
 import '../../../../core/constant/app_const.dart';
 import '../../../../core/constant/color_const.dart';
@@ -56,6 +57,7 @@ class _OrderScreenState extends State<OrderScreen> {
                         .collection(DbKeyConstant.orderCollection)
                         .doc(user!.uid)
                         .collection(DbKeyConstant.confirmedOrderCollection)
+                        .orderBy(DbKeyConstant.createdAt, descending: true)
                         .get(),
                   ),
                   builder: (context, snapshot) {
@@ -77,34 +79,37 @@ class _OrderScreenState extends State<OrderScreen> {
                             itemBuilder: (context, index) {
                               final docData = snapshot.data!.docs[index];
                               OrderModel orderModel = OrderModel(
-                                productId: docData[DbKeyConstant.productId],
-                                categoryId: docData[DbKeyConstant.categoryId],
-                                productName: docData[DbKeyConstant.productName],
-                                categoryName:
-                                    docData[DbKeyConstant.categoryName],
-                                salePrice: docData[DbKeyConstant.salePrice],
-                                fullPrice: docData[DbKeyConstant.fullPrice],
-                                productImgList:
-                                    docData[DbKeyConstant.productImgList],
-                                deliveryTime:
-                                    docData[DbKeyConstant.deliveryTime],
-                                isSale: docData[DbKeyConstant.isSale],
-                                productDescription:
-                                    docData[DbKeyConstant.productDescription],
-                                createdAt: docData[DbKeyConstant.createdAt],
-                                updatedAt: docData[DbKeyConstant.updatedAt],
-                                productQuantity:
-                                    docData[DbKeyConstant.productQuantity],
-                                productTotalPrice:
-                                    docData[DbKeyConstant.productTotalPrice],
-                                userName: docData[DbKeyConstant.userName],
-                                userPhone: docData[DbKeyConstant.userPhone],
-                                userUid: docData[DbKeyConstant.userUid],
-                                userAddress: docData[DbKeyConstant.userAddress],
-                                userDeviceToken:
-                                    docData[DbKeyConstant.userDeviceToken],
-                                orderStatus: docData[DbKeyConstant.orderStatus],
-                              );
+                                  productId: docData[DbKeyConstant.productId],
+                                  categoryId: docData[DbKeyConstant.categoryId],
+                                  productName:
+                                      docData[DbKeyConstant.productName],
+                                  categoryName:
+                                      docData[DbKeyConstant.categoryName],
+                                  salePrice: docData[DbKeyConstant.salePrice],
+                                  fullPrice: docData[DbKeyConstant.fullPrice],
+                                  productImgList:
+                                      docData[DbKeyConstant.productImgList],
+                                  deliveryTime:
+                                      docData[DbKeyConstant.deliveryTime],
+                                  isSale: docData[DbKeyConstant.isSale],
+                                  productDescription:
+                                      docData[DbKeyConstant.productDescription],
+                                  createdAt: docData[DbKeyConstant.createdAt],
+                                  updatedAt: docData[DbKeyConstant.updatedAt],
+                                  productQuantity:
+                                      docData[DbKeyConstant.productQuantity],
+                                  productTotalPrice:
+                                      docData[DbKeyConstant.productTotalPrice],
+                                  userName: docData[DbKeyConstant.userName],
+                                  userPhone: docData[DbKeyConstant.userPhone],
+                                  userUid: docData[DbKeyConstant.userUid],
+                                  userAddress:
+                                      docData[DbKeyConstant.userAddress],
+                                  userDeviceToken:
+                                      docData[DbKeyConstant.userDeviceToken],
+                                  orderStatus:
+                                      docData[DbKeyConstant.orderStatus],
+                                  orderId: docData[DbKeyConstant.orderId]);
 
                               return Container(
                                 margin: const EdgeInsets.symmetric(
@@ -121,7 +126,7 @@ class _OrderScreenState extends State<OrderScreen> {
                                     Padding(
                                       padding: const EdgeInsets.symmetric(
                                           vertical: 8.0),
-                                      child: Text("ODI1234567890",
+                                      child: Text(orderModel.orderId,
                                           style: TextStyleConstant.normal12Style
                                               .copyWith(
                                                   fontSize: 10,
@@ -181,8 +186,11 @@ class _OrderScreenState extends State<OrderScreen> {
                                                     .normal14Style,
                                               ),
                                               Text(
-                                                DbKeyConstant.rs +
-                                                    orderModel.fullPrice,
+                                                orderModel.isSale
+                                                    ? DbKeyConstant.rs +
+                                                        orderModel.salePrice
+                                                    : DbKeyConstant.rs +
+                                                        orderModel.fullPrice,
                                                 style: TextStyleConstant
                                                     .normal14Style,
                                               ),
@@ -251,12 +259,20 @@ class _OrderScreenState extends State<OrderScreen> {
                       } else {
                         EasyLoading.dismiss();
 
-                        return const Center(child: Text("No data Found"));
+                        return const NoProductFoundWidget(
+                          subHeading:
+                              "It seems there is not any confirmed Orders",
+                          heading: "No Orders Found",
+                        );
                       }
                     } else {
                       EasyLoading.dismiss();
 
-                      return const Center(child: Text("No data Found"));
+                      return const NoProductFoundWidget(
+                        subHeading:
+                            "It seems there is not any confirmed Orders",
+                        heading: "No Orders Found",
+                      );
                     }
                   }),
             ),

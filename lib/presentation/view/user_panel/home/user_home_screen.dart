@@ -1,11 +1,13 @@
 // ignore_for_file: prefer_typing_uninitialized_variables, invalid_use_of_protected_member
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/services.dart';
-
 import 'package:s_bazar/controllers/cart_controller.dart';
 import 'package:s_bazar/controllers/get_user_data_controller.dart';
 import 'package:s_bazar/controllers/home_controller.dart';
+import 'package:s_bazar/core/constant/database_key_const.dart';
+import 'package:s_bazar/data/services/firebase_notification_service.dart';
+import 'package:s_bazar/data/services/get_server_key_service.dart';
+import 'package:s_bazar/data/services/send_notification_service.dart';
 import 'package:s_bazar/presentation/view/user_panel/category/all_category_screen.dart';
 import 'package:s_bazar/presentation/view/user_panel/flash_sale/all_flash_sale_product_screen.dart';
 import 'package:s_bazar/presentation/widget/custom_heading.dart';
@@ -46,6 +48,8 @@ class UserHomeScreenState extends State<UserHomeScreen> {
     homeController.fetchCategory();
     homeController.fetchFlashSaleProduct();
     homeController.fetchAllProduct();
+
+    FirebaseNotificationService.requestNotificationPermission();
   }
 
   @override
@@ -73,8 +77,16 @@ class UserHomeScreenState extends State<UserHomeScreen> {
                 autoScroll: true,
               ),
               CustomHeading(
-                onTap: () {
-                  Get.to(() => const AllCategoryScreen());
+                onTap: () async {
+                  String deviceToken =
+                      await FirebaseNotificationService.getDeviceToken();
+
+                  await SendNotificationService.sendNotification(
+                      deviceToken: deviceToken,
+                      body: "Mera desh Mahan hai ",
+                      title: "india hai",
+                      data: {DbKeyConstant.screen: "homescreen", "ringtone": "Meri jaan"});
+                  // Get.to(() => const AllCategoryScreen());
                 },
                 categoryTitle: "Categories",
                 categorySubTitle: "According to your budget",

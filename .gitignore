@@ -41,3 +41,8 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+#ignored file which can not stage or commit 
+get_server_key_service.dart
+debug.log
+.env

@@ -60,11 +60,13 @@ class UiHelper {
 
   // generate unique id
   static String generateUniqueId({String? idType}) {
-    DateTime now = DateTime.now();
-    int randomNumber = Random().nextInt(10000);
+    // DateTime now = DateTime.now();
+    int randomNumber1 = Random().nextInt(1000) + 900;
+    int randomNumber2 = Random().nextInt(2000) + 7000;
+
     String orderId = idType == null
-        ? "OD" + "${now.millisecondsSinceEpoch}" + "${randomNumber}"
-        : idType + "${now.millisecondsSinceEpoch}" + "${randomNumber}";
+        ? "OD" + "${randomNumber1}" + "${randomNumber2}"
+        : idType + "${randomNumber1}" + "${randomNumber2}";
     return orderId;
   }
 }

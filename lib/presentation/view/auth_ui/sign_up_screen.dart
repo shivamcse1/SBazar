@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_unnecessary_containers
 
 import 'package:s_bazar/core/constant/color_const.dart';
+import 'package:s_bazar/data/services/firebase_notification_service.dart';
 import 'package:s_bazar/presentation/view/auth_ui/sign_in_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -159,7 +160,9 @@ class SignUpScreenState extends State<SignUpScreen> {
                               authController.stateController.text.trim();
                           String userStreet =
                               authController.streetController.text.trim();
-                          String userDeviceToken = '';
+                          String userDeviceToken =
+                              await FirebaseNotificationService
+                                  .getDeviceToken();
 
                           if (userName.isEmpty ||
                               userEmail.isEmpty ||
