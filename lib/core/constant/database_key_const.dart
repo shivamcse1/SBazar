@@ -3,6 +3,8 @@ class DbKeyConstant {
 
   static const String razorpayKey = "rzp_test_wVNWAiD1uQ14Ru";
   static const String userCollection = "users";
+  static const String notificationsCollection = "notifications";
+  static const String savedNotificationsCollection = "savedNotifications";
   static const String addressCollection = "address";
   static const String wishlistCollection = "wishlist";
   static const String wishlistProductCollection = "wishlistProduct";
@@ -28,6 +30,19 @@ class DbKeyConstant {
   static const String ruppeeSign = '₹';
   static const String orderId = 'orderId';
   static const String screen = 'screen';
+  static const String docId = 'docId';
+  static const String isSeen = 'isSeen';
+
+   
+   // notification databaseKey
+
+   static const String notificationTitle = "notificationTitle";
+   static const String notificationBody = "notificationBody";
+   static const String notificationData = "notificationData";
+   static const String notificationImg = "notificationImg";
+
+
+
 
 
   // category dataBaseKey

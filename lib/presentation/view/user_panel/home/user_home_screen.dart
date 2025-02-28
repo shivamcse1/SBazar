@@ -10,6 +10,7 @@ import 'package:s_bazar/data/services/get_server_key_service.dart';
 import 'package:s_bazar/data/services/send_notification_service.dart';
 import 'package:s_bazar/presentation/view/user_panel/category/all_category_screen.dart';
 import 'package:s_bazar/presentation/view/user_panel/flash_sale/all_flash_sale_product_screen.dart';
+import 'package:s_bazar/presentation/view/user_panel/notification/notification_screen.dart';
 import 'package:s_bazar/presentation/widget/custom_heading.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -20,6 +21,7 @@ import '../../../widget/custom_all_product.dart';
 import '../../../widget/custom_category_item.dart';
 import '../../../widget/custom_flash_sale.dart';
 import '../../../widget/custom_slider.dart';
+import '../../../widget/notification_icon_widget.dart';
 import '../product/all_product_screen.dart';
 
 class UserHomeScreen extends StatefulWidget {
@@ -50,6 +52,7 @@ class UserHomeScreenState extends State<UserHomeScreen> {
     homeController.fetchAllProduct();
 
     FirebaseNotificationService.requestNotificationPermission();
+    FirebaseNotificationService.getDeviceToken();
   }
 
   @override
@@ -64,6 +67,7 @@ class UserHomeScreenState extends State<UserHomeScreen> {
         ),
         centerTitle: true,
         actions: const [
+          NotificationIconWidget(),
           CartIconWidget(),
         ],
       ),
@@ -78,15 +82,7 @@ class UserHomeScreenState extends State<UserHomeScreen> {
               ),
               CustomHeading(
                 onTap: () async {
-                  String deviceToken =
-                      await FirebaseNotificationService.getDeviceToken();
-
-                  await SendNotificationService.sendNotification(
-                      deviceToken: deviceToken,
-                      body: "Mera desh Mahan hai ",
-                      title: "india hai",
-                      data: {DbKeyConstant.screen: "homescreen", "ringtone": "Meri jaan"});
-                  // Get.to(() => const AllCategoryScreen());
+                  Get.to(() => const AllCategoryScreen());
                 },
                 categoryTitle: "Categories",
                 categorySubTitle: "According to your budget",

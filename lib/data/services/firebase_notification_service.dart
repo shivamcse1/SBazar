@@ -1,14 +1,13 @@
 // ignore_for_file: avoid_print, unused_local_variable
 
 import 'dart:io';
-import 'dart:ui';
-
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:s_bazar/presentation/view/user_panel/bottom_nav_bar/bottom_nav_bar.dart';
-import 'package:s_bazar/presentation/view/user_panel/cart/cart_screen.dart';
+import 'package:s_bazar/presentation/view/user_panel/home/user_home_screen.dart';
+import 'package:s_bazar/presentation/view/user_panel/notification/notification_screen.dart';
 import 'package:s_bazar/utils/Uihelper/ui_helper.dart';
 
 class FirebaseNotificationService {
@@ -183,7 +182,7 @@ class FirebaseNotificationService {
 
   // only for navigation based on notification
   static Future<void> onNotificationTap(RemoteMessage message) async {
-    Get.to(() => const CartScreen());
+    Get.to(() => const NotificationScreen());
   }
 
   static Future<void> initializeNotification() async {

@@ -35,7 +35,7 @@ class SendNotificationService {
       if (response.statusCode == 200) {
         print("Notification send sucessfully");
       } else {
-        print("Notification ssend failed ${response.body}");
+        print("Notification send failed ${response.body}");
       }
     } catch (ex) {
       throw Exception(ex);

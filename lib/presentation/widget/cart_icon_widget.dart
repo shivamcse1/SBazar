@@ -50,7 +50,8 @@ class CartIconWidgetState extends State<CartIconWidget> {
                 ),
               )),
           cartController.totalCartItem.value > 0
-              ? Positioned(
+              ?
+               Positioned(
                   top: 1,
                   right: 5,
                   child: Container(
@@ -72,6 +73,8 @@ class CartIconWidgetState extends State<CartIconWidget> {
                     ),
                   ),
                 )
+            
+            
               : const SizedBox()
         ],
       ),
