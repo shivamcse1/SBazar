@@ -9,6 +9,9 @@ class ImageConstant {
   static const String camera2Ic = 'assets/icons/camera2_ic.png';
   static const String galleryIc = 'assets/icons/gallery_ic.png';
   static const String gallery2Ic = 'assets/icons/gallery2_ic.png';
+  static const String notificationIc = 'assets/icons/notification_ic.png';
+  static const String notification2Ic = 'assets/icons/notification1_ic.png';
+  static const String notification3Ic = 'assets/icons/notification2_ic.png';
   static const String appleGalleryIc = 'assets/icons/apple_gallery_ic.png';
   static const String appleCameraIc = 'assets/icons/apple_camera_ic.png';
 

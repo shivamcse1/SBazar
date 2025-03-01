@@ -3,15 +3,13 @@ import 'package:s_bazar/core/constant/database_key_const.dart';
 import 'package:get/get.dart';
 
 class GetUserDataController extends GetxController {
-   var userDataList = [].obs;
+   
 
   Future<List<QueryDocumentSnapshot<Object?>>> getUserData(String uId) async {
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection(DbKeyConstant.userCollection)
         .where(DbKeyConstant.userUid, isEqualTo: uId)
         .get();
-        
-    userDataList.value = querySnapshot.docs;
     return querySnapshot.docs;
   }
 }

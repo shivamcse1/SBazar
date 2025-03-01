@@ -111,7 +111,7 @@ class AddressController extends GetxController {
 
   Future<void> removeUserAddress({AddressModel? addressModel}) async {
     try {
-      EasyLoading.show(status: "Please Wait");
+      EasyLoading.show(status: "Please Wait",maskType: EasyLoadingMaskType.black);
       await FirebaseFirestore.instance
           .collection(DbKeyConstant.addressCollection)
           .doc(user!.uid)

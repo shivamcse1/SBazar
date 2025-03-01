@@ -42,29 +42,29 @@ class _NotificationIconWidgetState extends State<NotificationIconWidget> {
             size: 27,
           ),
         ),
-        Positioned(
-          top: 3,
-          right: 1,
-          child: Container(
-            height: 15,
-            width: 15,
-            decoration: const BoxDecoration(
-              shape: BoxShape.circle,
-              color: Colors.pink,
-            ),
-            child: Center(
-                child: totalUnseenNotification != 0
-                    ? Text(
-                        totalUnseenNotification.toString(),
-                        style: const TextStyle(
-                          fontSize: 10,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      )
-                    : const SizedBox()),
-          ),
-        )
+        totalUnseenNotification != 0
+            ? Positioned(
+                top: 3,
+                right: 1,
+                child: Container(
+                  height: 15,
+                  width: 15,
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.pink,
+                  ),
+                  child: Center(
+                      child: Text(
+                    totalUnseenNotification.toString(),
+                    style: const TextStyle(
+                      fontSize: 10,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  )),
+                ),
+              )
+            : const SizedBox()
       ]),
     );
   }

@@ -10,6 +10,7 @@ import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:s_bazar/data/services/firebase_notification_service.dart';
+import 'package:s_bazar/main.dart';
 import 'package:s_bazar/presentation/view/user_panel/bottom_nav_bar/bottom_nav_bar.dart';
 
 import '../core/constant/app_const.dart';
@@ -37,7 +38,7 @@ class AuthController extends GetxController {
     required String userPassword,
   }) async {
     try {
-      EasyLoading.show(status: "Please wait...");
+      EasyLoading.show(status: "Please wait...",maskType: EasyLoadingMaskType.black);
 
       UserCredential userCredential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: userEmail, password: userPassword);
@@ -55,6 +56,7 @@ class AuthController extends GetxController {
     try {
       EasyLoading.show(
         status: "Please wait...",
+        maskType: EasyLoadingMaskType.black
       );
       // it object use to authenticate and fetch details to google server
       final GoogleSignIn googleSignIn = GoogleSignIn();
@@ -85,6 +87,7 @@ class AuthController extends GetxController {
       String deviceToken = await FirebaseNotificationService.getDeviceToken();
       final User? user = userCredential.user;
 
+      print("device token :=> $deviceToken");
       if (user != null) {
         UserModel userModel = UserModel(
           userUid: user.uid,
@@ -101,6 +104,16 @@ class AuthController extends GetxController {
           userCity: '',
           userState: "",
         );
+
+        // save personal data in localDatabase
+        localDataBaseHelper.setUserData(
+            name: user.displayName.toString(),
+            phone: user.phoneNumber.toString(),
+            city: "",
+            state: "",
+            deviceToken: deviceToken,
+            email: user.email.toString(),
+            street: "");
 
         await FirebaseFirestore.instance
             .collection(DbKeyConstant.userCollection)
@@ -129,7 +142,7 @@ class AuthController extends GetxController {
     required String userDeviceToken,
   }) async {
     try {
-      EasyLoading.show(status: 'Please wait...');
+      EasyLoading.show(status: 'Please wait...',maskType: EasyLoadingMaskType.black);
       // sign up or create user In using email
 
       UserCredential userCredential = await auth.createUserWithEmailAndPassword(
@@ -171,7 +184,7 @@ class AuthController extends GetxController {
 
   Future<void> forgotPassword({required String userEmail}) async {
     try {
-      EasyLoading.show(status: "Please Wait...");
+      EasyLoading.show(status: "Please Wait...",maskType: EasyLoadingMaskType.black);
       await FirebaseAuth.instance.sendPasswordResetEmail(email: userEmail);
 
       Get.snackbar("Reset Request Sent Successfully",
@@ -187,12 +200,19 @@ class AuthController extends GetxController {
     }
   }
 
-  void assignDataToController({required UserModel userModel}) {
-    nameController.text = userModel.userName;
-    phoneController.text = userModel.userPhone;
-    emailController.text = userModel.userEmail;
-    streetController.text = userModel.userStreet;
-    cityController.text = userModel.userCity;
-    stateController.text = userModel.userState;
+  void assignDataToController({
+    required String userName,
+    required String userPhone,
+    required String userEmail,
+    required String userStreet,
+    required String userCity,
+    required String userState,
+  }) {
+    nameController.text = userName;
+    phoneController.text = userPhone;
+    emailController.text = userEmail;
+    streetController.text = userStreet;
+    cityController.text = userCity;
+    stateController.text = userState;
   }
 }

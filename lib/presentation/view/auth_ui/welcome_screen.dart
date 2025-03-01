@@ -1,6 +1,8 @@
 // ignore_for_file: avoid_unnecessary_containers
 
+import 'package:s_bazar/core/constant/database_key_const.dart';
 import 'package:s_bazar/core/constant/image_const.dart';
+import 'package:s_bazar/main.dart';
 import 'package:s_bazar/presentation/view/auth_ui/sign_in_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -61,6 +63,7 @@ class WelcomeScreenState extends State<WelcomeScreen> {
                   borderRadius: BorderRadius.circular(20.0)),
               child: TextButton.icon(
                 onPressed: () async {
+                  localDataBaseHelper.sharedPref.setBool(DbKeyConstant.isChecked, false);
                   await authController.signInWithGoogleAccount();
                 },
                 icon: Image.asset(ImageConstant.googleIc),

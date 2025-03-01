@@ -8,6 +8,7 @@ import 'package:s_bazar/core/constant/database_key_const.dart';
 import 'package:s_bazar/data/services/firebase_notification_service.dart';
 import 'package:s_bazar/data/services/get_server_key_service.dart';
 import 'package:s_bazar/data/services/send_notification_service.dart';
+import 'package:s_bazar/main.dart';
 import 'package:s_bazar/presentation/view/user_panel/category/all_category_screen.dart';
 import 'package:s_bazar/presentation/view/user_panel/flash_sale/all_flash_sale_product_screen.dart';
 import 'package:s_bazar/presentation/view/user_panel/notification/notification_screen.dart';
@@ -50,9 +51,11 @@ class UserHomeScreenState extends State<UserHomeScreen> {
     homeController.fetchCategory();
     homeController.fetchFlashSaleProduct();
     homeController.fetchAllProduct();
-
-    FirebaseNotificationService.requestNotificationPermission();
-    FirebaseNotificationService.getDeviceToken();
+    
+    if(localDataBaseHelper.sharedPref.getBool(DbKeyConstant.isChecked)==false){
+         FirebaseNotificationService.requestNotificationPermission();
+    }
+    
   }
 
   @override
@@ -91,7 +94,7 @@ class UserHomeScreenState extends State<UserHomeScreen> {
                 categoryList: homeController.categoryList.value,
               ),
               CustomHeading(
-                onTap: () {
+                onTap: () async {
                   Get.to(() => const AllFlashSaleProductScreen());
                 },
                 categoryTitle: "Flash Sale",

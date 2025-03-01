@@ -1,15 +1,17 @@
-// ignore_for_file: avoid_unnecessary_containers
+// ignore_for_file: avoid_unnecessary_containers, unused_local_variable
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:s_bazar/core/constant/color_const.dart';
 import 'package:s_bazar/core/constant/database_key_const.dart';
 import 'package:s_bazar/core/error/exception/firebase_exception_handler.dart';
+import 'package:s_bazar/data/local_database/local_database_helper.dart';
 import 'package:s_bazar/data/model/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:get/get.dart';
+import 'package:s_bazar/main.dart';
 import 'package:s_bazar/presentation/widget/custom_button.dart';
 import 'package:s_bazar/presentation/widget/custom_textfield.dart';
 import 'package:s_bazar/utils/Uihelper/ui_helper.dart';
@@ -153,7 +155,17 @@ class UpdateProfileScreenState extends State<UpdateProfileScreen> {
                             snackPosition: SnackPosition.BOTTOM);
                       } else {
                         try {
-                          EasyLoading.show(status: "Please wait");
+                          EasyLoading.show(status: "Please wait",maskType: EasyLoadingMaskType.black);
+
+                         await localDataBaseHelper.setUserData(
+                            name: userName,
+                            phone: userPhone,
+                            city: userCity,
+                            state: userState,
+                            email: userEmail,
+                            street: userStreet,
+                          );
+
                           FirebaseFirestore.instance
                               .collection(DbKeyConstant.userCollection)
                               .doc(user!.uid)
@@ -166,7 +178,12 @@ class UpdateProfileScreenState extends State<UpdateProfileScreen> {
                             DbKeyConstant.userState: userState,
                           }).then((value) {
                             authController.assignDataToController(
-                                userModel: userModel);
+                                userCity: userCity,
+                                userPhone: userPhone,
+                                userEmail: userEmail,
+                                userName: userName,
+                                userState: userState,
+                                userStreet: userStreet);
 
                             Future.delayed(const Duration(seconds: 1), () {
                               EasyLoading.dismiss();

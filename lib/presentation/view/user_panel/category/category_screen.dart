@@ -24,6 +24,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
+        isBackBtnVisible: false,
         appBarColor: AppConstant.appPrimaryColor,
         title: "Category",
         isTitleCentered: true,

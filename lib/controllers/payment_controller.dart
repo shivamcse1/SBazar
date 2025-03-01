@@ -12,6 +12,7 @@ class PaymentController extends GetxController {
   final Razorpay _razorPay = Razorpay();
   Map<String, dynamic> userInfo = {};
   ProductModel? productModel;
+  RxBool isProcessing = false.obs;
 
   final OrderController orderController = Get.put(OrderController());
   @override
@@ -31,6 +32,7 @@ class PaymentController extends GetxController {
   Future<void> getPayment(
       {Map<String, dynamic>? paymentData, ProductModel? model}) async {
     try {
+      isProcessing.value = true;
       userInfo = paymentData!;
       productModel = model;
 
@@ -49,6 +51,7 @@ class PaymentController extends GetxController {
       };
       _razorPay.open(options);
     } catch (ex) {
+      isProcessing.value = false;
       UiHelper.customSnackbar(
         titleMsg: "Error Occured",
         msg: ex.toString(),
@@ -58,6 +61,7 @@ class PaymentController extends GetxController {
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
     try {
+      isProcessing.value = false;
       if (productModel != null) {
         orderController.placeOrder(
             userName: userInfo[DbKeyConstant.userName],
@@ -81,6 +85,7 @@ class PaymentController extends GetxController {
                 ((userInfo[DbKeyConstant.productTotalPrice]) / 100).toString(),
           ));
     } catch (ex) {
+      isProcessing.value = false;
       UiHelper.customSnackbar(
         titleMsg: "Payment Successfull",
         msg: "Order Place Failed!",
@@ -90,6 +95,7 @@ class PaymentController extends GetxController {
   }
 
   void _handlePaymentError(PaymentFailureResponse response) {
+    isProcessing.value = false;
     UiHelper.customSnackbar(
       titleMsg: "Payment Failed",
       msg: "Order Place Failed Try Again",
@@ -97,6 +103,7 @@ class PaymentController extends GetxController {
   }
 
   void _handleExternalWallet(ExternalWalletResponse response) {
+    isProcessing.value = false;
     UiHelper.customSnackbar(
       titleMsg: "External Wallet",
       msg: "Order Placed With ${response.walletName} Wallet",

@@ -30,6 +30,7 @@
               android:resource="@style/NormalTheme"
               />
 
+ 
 
          <!--  disabled firebase analytics (optional)-->
            <meta-data

@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:s_bazar/data/model/user_model.dart';
+import 'package:s_bazar/main.dart';
 import 'package:s_bazar/presentation/widget/custom_button.dart';
 import 'package:s_bazar/presentation/widget/custom_image_view.dart';
 import '../../../../core/constant/textstyle_const.dart';
@@ -18,7 +19,6 @@ import '../../auth_ui/welcome_screen.dart';
 import '../address/address_screen.dart';
 import '../order/order_screen.dart';
 import '../wishlist/wishlist_screen.dart';
-import '../../../widget/custom_image.dart';
 import 'update_profile_screen.dart';
 
 class AccountScreen extends StatefulWidget {
@@ -35,36 +35,36 @@ class _AccountScreenState extends State<AccountScreen> {
       Get.put(GetUserDataController());
   final AuthController authController = Get.put(AuthController());
   User? user = FirebaseAuth.instance.currentUser;
+  String name = '';
+  String email = '';
 
-  @override
-  void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      await getUserDataController.getUserData(user!.uid);
-      var data = getUserDataController.userDataList[0];
+  void getUserData() {
+    name =
+        localDataBaseHelper.sharedPref.getString(DbKeyConstant.userName) ?? '';
+    email =
+        localDataBaseHelper.sharedPref.getString(DbKeyConstant.userEmail) ?? '';
+    String phone =
+        localDataBaseHelper.sharedPref.getString(DbKeyConstant.userPhone) ?? '';
+    String state =
+        localDataBaseHelper.sharedPref.getString(DbKeyConstant.userState) ?? '';
+    String city =
+        localDataBaseHelper.sharedPref.getString(DbKeyConstant.userCity) ?? '';
+    String street =
+        localDataBaseHelper.sharedPref.getString(DbKeyConstant.userStreet) ??
+            '';
 
-      UserModel userModel = UserModel(
-        userUid: data[DbKeyConstant.userUid],
-        userName: data[DbKeyConstant.userName],
-        userEmail: data[DbKeyConstant.userEmail],
-        userPhone: data[DbKeyConstant.userPhone],
-        userImg: data[DbKeyConstant.userImg],
-        userDeviceToken: data[DbKeyConstant.userDeviceToken],
-        userCountry: data[DbKeyConstant.userCountry],
-        userStreet: data[DbKeyConstant.userStreet],
-        isAdmin: data[DbKeyConstant.isAdmin],
-        isActive: data[DbKeyConstant.isActive],
-        createdAt: data[DbKeyConstant.createdAt],
-        userCity: data[DbKeyConstant.userCity],
-        userState: data[DbKeyConstant.userState],
-      );
-
-      authController.assignDataToController(userModel: userModel);
-    });
-    super.initState();
+    authController.assignDataToController(
+        userCity: city,
+        userEmail: email,
+        userName: name,
+        userPhone: phone,
+        userState: state,
+        userStreet: street);
   }
 
   @override
   Widget build(BuildContext context) {
+    getUserData();
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
@@ -75,10 +75,10 @@ class _AccountScreenState extends State<AccountScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const SizedBox(
-                  height: 70,
+                  height: 50,
                 ),
                 Container(
-                  height: 100,
+                  height: 80,
                   padding:
                       const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                   width: double.infinity,
@@ -90,25 +90,15 @@ class _AccountScreenState extends State<AccountScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Obx(
-                        () => Text(
-                          getUserDataController.userDataList.isNotEmpty
-                              ? getUserDataController.userDataList[0]
-                                  [DbKeyConstant.userName]
-                              : "@User Name",
-                          style: const TextStyle(
-                              fontSize: 18.0, fontWeight: FontWeight.bold),
-                        ),
+                      Text(
+                        name,
+                        style: const TextStyle(
+                            fontSize: 18.0, fontWeight: FontWeight.bold),
                       ),
-                      Obx(
-                        () => Text(
-                          getUserDataController.userDataList.isNotEmpty
-                              ? getUserDataController.userDataList[0]
-                                  [DbKeyConstant.userEmail]
-                              : "@User Email",
-                          style: const TextStyle(
-                            fontSize: 16.0,
-                          ),
+                      Text(
+                        email,
+                        style: const TextStyle(
+                          fontSize: 16.0,
                         ),
                       ),
                     ],
@@ -206,7 +196,7 @@ class _AccountScreenState extends State<AccountScreen> {
                       Text("1.0.0", style: TextStyleConstant.normal14Style),
                 ),
                 const SizedBox(
-                  height: 20.0,
+                  height: 15.0,
                 ),
                 TextButton(
                     style: TextButton.styleFrom(
@@ -257,7 +247,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                   children: [
                                     CustomElevatedButton(
                                       width: 110,
-                                      height: 45,
+                                      height: 40,
                                       buttonColor: Colors.red,
                                       buttonText: "Yes",
                                       buttonTextStyle: const TextStyle(
@@ -279,7 +269,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                     ),
                                     CustomElevatedButton(
                                       width: 110,
-                                      height: 45,
+                                      height: 40,
                                       borderColor: Colors.transparent,
                                       buttonColor: Colors.blueAccent,
                                       buttonTextStyle: const TextStyle(

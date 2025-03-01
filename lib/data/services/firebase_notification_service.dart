@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:s_bazar/core/constant/database_key_const.dart';
+import 'package:s_bazar/main.dart';
 import 'package:s_bazar/presentation/view/user_panel/home/user_home_screen.dart';
 import 'package:s_bazar/presentation/view/user_panel/notification/notification_screen.dart';
 import 'package:s_bazar/utils/Uihelper/ui_helper.dart';
@@ -14,7 +16,6 @@ class FirebaseNotificationService {
   static FirebaseMessaging messaging = FirebaseMessaging.instance;
   static FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
-
   static Future<String> getDeviceToken() async {
     try {
       String? deviceToken = await FirebaseMessaging.instance.getToken();
@@ -30,10 +31,13 @@ class FirebaseNotificationService {
       alert: true,
       carPlay: true,
       sound: true,
+      announcement: true,
       provisional: true,
       criticalAlert: true,
     );
-
+      
+      // for one time notification when user signup
+    localDataBaseHelper.sharedPref.setBool(DbKeyConstant.isChecked, true);
     // only for android 12+ device explicitly request necessary
     if (await Permission.notification.isDenied) {
       await Permission.notification.request();

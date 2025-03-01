@@ -118,6 +118,14 @@ class _NotificationScreenState extends State<NotificationScreen> {
               return const NoProductFoundWidget(
                 heading: "No Notificaiton Found",
                 subHeading: "Notification data empty",
+                headingStyle: TextStyle(
+                    color: Colors.red,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold),
+                subheadingStyle:
+                    TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                image: "assets/icons/notification2_ic.png",
+                imageHeight: 100,
               );
             }
           } else if (snapshot.hasError) {
@@ -130,7 +138,10 @@ class _NotificationScreenState extends State<NotificationScreen> {
           } else {
             return const NoProductFoundWidget(
               heading: "No Notificaiton Found",
+              headingStyle: TextStyle(color: Colors.red),
               subHeading: "Notification data empty",
+              image: "assets/icons/notification2_ic.png",
+              imageHeight: 100,
             );
           }
         }),

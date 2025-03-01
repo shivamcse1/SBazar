@@ -5,6 +5,9 @@ import '../../core/constant/image_const.dart';
 class NoProductFoundWidget extends StatelessWidget {
   final String heading;
   final String subHeading;
+  final double imageHeight;
+  final TextStyle? headingStyle;
+  final TextStyle? subheadingStyle;
   final String image;
   const NoProductFoundWidget({
     super.key,
@@ -12,6 +15,9 @@ class NoProductFoundWidget extends StatelessWidget {
     this.subHeading =
         "It seems like there is not any product in this category so please go to another category products!",
     this.image = ImageConstant.noProductFound2Img,
+    this.headingStyle,
+    this.subheadingStyle, 
+    this.imageHeight = 150,
   });
 
   @override
@@ -26,17 +32,22 @@ class NoProductFoundWidget extends StatelessWidget {
           children: [
             Image.asset(
               image,
-              height: 150,
+              height: imageHeight,
+            ),
+            const SizedBox(
+              height: 20,
             ),
             Text(
               heading,
-              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              style: headingStyle ??
+                  const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             Text(
               subHeading,
-              style: const TextStyle(
-                fontSize: 14,
-              ),
+              style: subheadingStyle ??
+                  const TextStyle(
+                    fontSize: 14,
+                  ),
               textAlign: TextAlign.center,
             )
           ],

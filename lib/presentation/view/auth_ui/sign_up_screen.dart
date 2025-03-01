@@ -2,6 +2,7 @@
 
 import 'package:s_bazar/core/constant/color_const.dart';
 import 'package:s_bazar/data/services/firebase_notification_service.dart';
+import 'package:s_bazar/main.dart';
 import 'package:s_bazar/presentation/view/auth_ui/sign_in_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -55,7 +56,7 @@ class SignUpScreenState extends State<SignUpScreen> {
                       ),
                     ),
                     SizedBox(
-                      height: Get.height / 25,
+                      height: Get.height / 30,
                     ),
                     CustomTextField(
                       keyboardType: TextInputType.name,
@@ -136,7 +137,7 @@ class SignUpScreenState extends State<SignUpScreen> {
                       ),
                     ),
                     SizedBox(
-                      height: Get.height / 15,
+                      height: Get.height / 20,
                     ),
                     Container(
                       height: Get.height / 18,
@@ -177,6 +178,15 @@ class SignUpScreenState extends State<SignUpScreen> {
                                 colorText: AppConstant.whiteColor,
                                 snackPosition: SnackPosition.BOTTOM);
                           } else {
+                            await localDataBaseHelper.setUserData(
+                              name: userName,
+                              phone: userPhone,
+                              city: userCity,
+                              state: userState,
+                              deviceToken: userDeviceToken,
+                              email: userEmail,
+                              street: userStreet,
+                            );
                             UserCredential? userCredential =
                                 await authController.emailSignUpUser(
                                     userName: userName,
@@ -195,7 +205,8 @@ class SignUpScreenState extends State<SignUpScreen> {
                                   backgroundColor:
                                       AppConstant.appSecondaryColor,
                                   colorText: AppConstant.whiteColor,
-                                  snackPosition: SnackPosition.BOTTOM);
+                                  snackPosition: SnackPosition.BOTTOM,
+                                  );
                               FirebaseAuth.instance.signOut();
                               Get.offAll(() => const SignInScreen());
                             }

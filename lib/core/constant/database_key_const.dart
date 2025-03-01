@@ -32,6 +32,7 @@ class DbKeyConstant {
   static const String screen = 'screen';
   static const String docId = 'docId';
   static const String isSeen = 'isSeen';
+  static const String isChecked = "isChecked";
 
    
    // notification databaseKey
@@ -64,6 +65,7 @@ class DbKeyConstant {
   static String productTotalPrice = 'productTotalPrice';
 
   // users dataBaseKey
+  static String userData = 'userData';
   static String userUid = 'userUid';
   static String userName = 'userName';
   static String userEmail = 'userEmail';

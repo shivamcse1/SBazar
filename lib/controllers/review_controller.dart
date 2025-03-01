@@ -25,7 +25,7 @@ class ReviewController extends GetxController {
     OrderModel? orderModel,
   }) async {
     try {
-      EasyLoading.show(status: "Please wait..");
+      EasyLoading.show(status: "Please wait..",maskType: EasyLoadingMaskType.black);
 
       ReviewModel reviewModel = ReviewModel(
         userName: orderModel!.userName,

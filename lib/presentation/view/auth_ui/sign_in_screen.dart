@@ -5,6 +5,7 @@ import 'package:s_bazar/core/constant/image_const.dart';
 import 'package:s_bazar/presentation/view/admin_panel/admin_home_screen.dart';
 import 'package:s_bazar/presentation/view/auth_ui/forgot_password_screen.dart';
 import 'package:s_bazar/presentation/view/auth_ui/sign_up_screen.dart';
+import 'package:s_bazar/presentation/view/user_panel/bottom_nav_bar/bottom_nav_bar.dart';
 import 'package:s_bazar/presentation/view/user_panel/home/user_home_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -152,7 +153,7 @@ class SignInScreenState extends State<SignInScreen> {
                                   titleMsg: "Congratulations! Admin",
                                   msg: "Sign In Successfull!");
                             } else {
-                              Get.offAll(() => const UserHomeScreen());
+                              Get.offAll(() => const BottomNavBar());
                               UiHelper.customSnackbar(
                                   titleMsg: "Congratulations! User",
                                   msg: "Sign In Successfull!");

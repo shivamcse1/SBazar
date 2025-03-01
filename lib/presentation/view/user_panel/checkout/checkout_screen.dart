@@ -18,6 +18,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:s_bazar/presentation/view/user_panel/address/address_screen.dart';
 import 'package:s_bazar/presentation/view/user_panel/order/order_success_screen.dart';
+import 'package:s_bazar/presentation/widget/custom_button.dart';
 import 'package:s_bazar/utils/Uihelper/ui_helper.dart';
 
 import '../../../../core/constant/app_const.dart';
@@ -627,13 +628,16 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                   ),
                 ),
                 const Spacer(),
-                ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: ColorConstant.primaryColor,
-                        fixedSize: Size(w / 2, h / 18),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15))),
-                    onPressed: () async {
+                Obx(() => CustomElevatedButton(
+                    buttonText: "Place Order",
+                    radius: 15,
+                    isLoading: paymentController.isProcessing.value,
+                    width: w / 2,
+                    height: h / 18,
+                    buttonColor: AppConstant.appPrimaryColor,
+                    buttonTextStyle: TextStyleConstant.bold16Style
+                        .copyWith(color: ColorConstant.whiteColor),
+                    onTap: () async {
                       if (paymentType.isNotEmpty &&
                           addressController.userAddressList.isNotEmpty) {
                         // online payment method
@@ -707,12 +711,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                         UiHelper.customToast(
                             msg: "Address or Payment Not Selected");
                       }
-                    },
-                    child: Text(
-                      "Place Order",
-                      style: TextStyleConstant.bold16Style
-                          .copyWith(color: ColorConstant.whiteColor),
-                    ))
+                    }))
               ],
             ),
           ),
