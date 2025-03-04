@@ -16,7 +16,7 @@ class NoProductFoundWidget extends StatelessWidget {
         "It seems like there is not any product in this category so please go to another category products!",
     this.image = ImageConstant.noProductFound2Img,
     this.headingStyle,
-    this.subheadingStyle, 
+    this.subheadingStyle,
     this.imageHeight = 150,
   });
 
@@ -35,7 +35,7 @@ class NoProductFoundWidget extends StatelessWidget {
               height: imageHeight,
             ),
             const SizedBox(
-              height: 20,
+              height: 10,
             ),
             Text(
               heading,

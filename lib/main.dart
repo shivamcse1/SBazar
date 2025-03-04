@@ -1,13 +1,11 @@
 // ignore_for_file: avoid_print
 
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:s_bazar/data/local_database/local_database_helper.dart';
 import 'package:s_bazar/data/services/firebase_notification_service.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'core/routes/app_routes.dart';
 
